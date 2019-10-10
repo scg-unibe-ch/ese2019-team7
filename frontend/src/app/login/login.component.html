@@ -1,9 +1,10 @@
 <h3>Login</h3>
 <form>
-  Username: <input type="text" /><br />
-  Password: <input type="password" /><br />
-  <input type="submit" value="Log in" />
+  Username: <input type="text" id="text" required/><br />
+  Password: <input type="password" id="password" required/><br />
+  <input type="submit" value="Log in" <!--(click)="login()"-->/>
 </form><br />
-
-<button>Forgot Password</button>
-<button>Register</button>
+<!--
+<button (click)="forgotPassword()">Forgot Password</button>
+<button (click)="openRegisterComponent()">Register</button>
+-->

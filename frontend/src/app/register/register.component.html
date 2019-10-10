@@ -1,10 +1,75 @@
-<h3>Register</h3>
-<form>
-  Username: <input type="text" /><br />
-  Password: <input type="password" /><br />
-  Repeat Password: <input type="password" /><br />
-  e-mail: <input type="email" /><br />
-  tel. <input type="tel" /><br />
-  address <input type="text" /><br />
-  <input type="submit" value="Log in" />
-</form>
+<div class="container">
+  <div [hidden]="submitted">
+    <h1>Register</h1>
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username" [(ngModel)]="model.username" username="username" #username="ngModel" required/>
+        <div [hidden]="username.valid || username.pristine" class="alert alert-danger">
+          Username is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password1">Password</label>
+        <input type="password" class="form-control" id="password1" [(ngModel)]="model.password1" password1="pwassword1" #password1="ngModel" required/>
+        <div [hidden]="password1.valid || password1.pristine" class="alert alert-danger">
+          Password is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password2">Repeat Password</label>
+        <input type="password" class="form-control" id="password2" [(ngModel)]="model.password2" password2="password2" #password2="ngModel" required/>
+        <div [hidden]="password2.valid || password2.pristine" class="alert alert-danger">
+          Please repeat your password
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">e-mail address</label>
+        <input type="email" class="form-control" id="email" [(ngModel)]="model.email" email="email" #email="ngModel" required/>
+        <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
+          e-mail address is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="tel">telephone number</label>
+        <input type="tel" class="form-control" id="tel" [(ngModel)]="model.tel" tel="tel" required/>
+      </div>
+      <div class="form-group">
+        <label for="address">address</label>
+        <input type="tel" class="form-control" id="address" [(ngModel)]="model.address" address="address" required/>
+      </div>
+      <button type="submit" class="btw btn-success" [disabled]="!registerForm.form.valid">Submit</button>
+      <button type="button" class="btn btn-default" (click)="newRegistrationUser(); registrationForm.reset()">New User</button>
+    </form>
+  </div>
+
+  <div [hidden]="!submitted">
+    <h2>You submitted the following:</h2>
+    <div class="row">
+      <div class="col-xs-3">Username</div>
+      <div class="col-xs-9">{{ model.username }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">password</div>
+      <div class="col-xs-9">{{ model.password1 }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">password x2</div>
+      <div class="col-xs-9">{{ model.password2 }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">email</div>
+      <div class="col-xs-9">{{ model.email }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">tel</div>
+      <div class="col-xs-9">{{ model.tel }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">address</div>
+      <div class="col-xs-9">{{ model.address }}</div>
+    </div>
+    <br />
+    <button class="btn btn-primary" (click)="submitted=false">Edit</button>
+  </div>
+</div>
