@@ -1,9 +1,42 @@
-<h3>Login</h3>
-<form>
-  Username: <input type="text" id="text" required/><br />
-  Password: <input type="password" id="password" required/><br />
-  <input type="submit" value="Log in" <!--(click)="login()"-->/>
-</form><br />
+<div class="container">
+  <div [hidden]="submitted">
+    <h1>Register</h1>
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username" [(ngModel)]="model.username" username="username" #username="ngModel" required/>
+        <div [hidden]="username.valid || username.pristine" class="alert alert-danger">
+          Username is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" [(ngModel)]="model.password" password="pwassword" #password="ngModel" required/>
+        <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
+          Password is required
+        </div>
+      </div>
+      <button type="submit" class="btw btn-success" [disabled]="!loginForm.form.valid">Submit</button>
+      <button type="button" class="btn btn-default" (click)="newLoginUser(); loginForm.reset() (ngModelChange)="onSave()">New User</button>
+    </form>
+  </div>
+
+  <div [hidden]="!submitted">
+    <h2>You submitted the following:</h2>
+    <div class="row">
+      <div class="col-xs-3">Username</div>
+      <div class="col-xs-9">{{ model.username }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">password</div>
+      <div class="col-xs-9">{{ model.password }}</div>
+    </div>
+    <br />
+    <button class="btn btn-primary" (click)="submitted=false">Edit</button>
+  </div>
+</div>
+
+
 <!--
 <button (click)="forgotPassword()">Forgot Password</button>
 <button (click)="openRegisterComponent()">Register</button>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {LoginUser} from '../login-user';
 import {HttpClient} from '@angular/common/http';
+import {RegistrationUser} from '../registration-user';
 
 @Component({
   selector: 'app-login',
@@ -8,16 +10,25 @@ import {HttpClient} from '@angular/common/http';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private httpClient: HttpClient
+  ) { }
 
-  /*login() {
-    this.login.post('http://localhost:3000/login', {
-      name: this.login.name,
-      password: this.login.password
-    });
-  }*/
+  model = new LoginUser('foo', 'bar');
 
+
+  submitted = false;
+
+  onSubmit() {this.submitted = true;}
+
+  newLoginUser() {
+    this.model = new LoginUser('', '');
+  }
 
   ngOnInit() {}
+
+  onSave() {
+    this.httpClient.put('http://localhost:3000/login/' + this.model.username, this.model).subscribe();
+  }
 
 }

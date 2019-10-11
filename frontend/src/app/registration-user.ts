@@ -1,7 +1,6 @@
 export class RegistrationUser {
 
   constructor(
-    public id: number,
     public username: string,
     public password1: string,
     public password2: string,

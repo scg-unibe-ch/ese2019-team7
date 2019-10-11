@@ -39,7 +39,7 @@
         <input type="tel" class="form-control" id="address" [(ngModel)]="model.address" address="address" required/>
       </div>
       <button type="submit" class="btw btn-success" [disabled]="!registerForm.form.valid">Submit</button>
-      <button type="button" class="btn btn-default" (click)="newRegistrationUser(); registrationForm.reset()">New User</button>
+      <button type="button" class="btn btn-default" (click)="newRegistrationUser(); registrationForm.reset() (ngModelChange)="onSave()">New User</button>
     </form>
   </div>
 
