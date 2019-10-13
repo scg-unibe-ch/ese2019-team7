@@ -18,7 +18,7 @@ export class RegisterComponent implements OnInit {
 
   submitted = false;
 
-  onSubmit() {this.submitted = true;}
+  onSubmit() {this.submitted = true; }
 
   newRegistrationUser() {
     this.model = new RegistrationUser('', '', '', '', 0, '');
