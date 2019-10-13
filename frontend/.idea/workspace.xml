@@ -40,11 +40,20 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="npm.Angular CLI Server">
+  <component name="RunManager" selected="Karma.login-user.spec.ts">
     <configuration name="Tests (app)" type="JavaScriptTestRunnerKarma">
       <config-file value="$PROJECT_DIR$/karma.conf.js" />
       <node-interpreter value="project" />
       <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="login-user.spec.ts" type="JavaScriptTestRunnerKarma" temporary="true" nameIsGenerated="true">
+      <config-file value="$PROJECT_DIR$/karma.conf.js" />
+      <karma-package-dir value="$PROJECT_DIR$/node_modules/@angular/cli" />
+      <node-interpreter value="project" />
+      <envs />
+      <scope-kind value="TEST_FILE" />
+      <test-file-path value="$PROJECT_DIR$/src/app/login-user.spec.ts" />
       <method v="2" />
     </configuration>
     <configuration name="E2E Tests (app)" type="JavaScriptTestRunnerProtractor">
@@ -68,6 +77,11 @@
       <envs />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Karma.login-user.spec.ts" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -80,7 +94,7 @@
       <option name="presentableId" value="Default" />
       <updated>1570287817963</updated>
       <workItem from="1570287819211" duration="5475000" />
-      <workItem from="1570630197285" duration="12545000" />
+      <workItem from="1570630197285" duration="13148000" />
     </task>
     <servers />
   </component>
