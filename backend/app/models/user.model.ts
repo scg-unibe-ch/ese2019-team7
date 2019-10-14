@@ -1,19 +1,13 @@
 import {Table, Column, Model, HasMany, BelongsTo, ForeignKey} from 'sequelize-typescript';
 import {TodoList} from './todolist.model';
-import {Sequelize} from 'sequelize';
+import {DataTypes, Sequelize} from 'sequelize';
+import * as sequelize from 'sequelize';
 
 @Table
 export class User extends Model<User> {
 
     @Column
     name!: string;
-        /*{
-
-        type: string,
-        unique: true,
-        allowNull: false};
-
-         */
 
     @Column
     password!: string;
@@ -41,7 +35,7 @@ export class User extends Model<User> {
     }
 
     fromSimplification(simplification: any): void {
-        this.name = simplification['name'];
+        this.name = simplification['username'];
         this.tel = simplification['tel'];
         this.eMail = simplification['eMail'];
         this.address = simplification['address'];
@@ -49,3 +43,24 @@ export class User extends Model<User> {
     }
 
 }
+/*
+User.init({
+  name: {
+    type: new DataTypes.STRING(128),
+    unique: true
+  },
+  tel: {
+  type: new DataTypes.INTEGER
+},
+  email: {
+    type: new DataTypes.STRING(128)
+  },
+  address: {
+    type: new DataTypes.STRING(128)
+  },
+
+},{
+  tableName: 'users',
+    sequelize : sequelize, // this bit is important
+});
+*/
