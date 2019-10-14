@@ -460,7 +460,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<h3>Login</h3>\n<form>\n  Username: <input type=\"text\" id=\"text\" required/><br />\n  Password: <input type=\"password\" id=\"password\" required/><br />\n  <input type=\"submit\" value=\"Log in\" <!--(click)=\"login()\"-->/>\n</form><br />\n<!--\n<button (click)=\"forgotPassword()\">Forgot Password</button>\n<button (click)=\"openRegisterComponent()\">Register</button>\n-->\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\n  <div [hidden]=\"submitted\">\n    <h1>Register</h1>\n    <form (ngSubmit)=\"onSubmit()\" #registerForm=\"ngForm\">\n      <div class=\"form-group\">\n        <label for=\"username\">Username</label>\n        <input type=\"text\" class=\"form-control\" id=\"username\" [(ngModel)]=\"model.username\" username=\"username\" #username=\"ngModel\" required/>\n        <div [hidden]=\"username.valid || username.pristine\" class=\"alert alert-danger\">\n          Username is required\n        </div>\n      </div>\n      <div class=\"form-group\">\n        <label for=\"password\">Password</label>\n        <input type=\"password\" class=\"form-control\" id=\"password\" [(ngModel)]=\"model.password\" password=\"pwassword\" #password=\"ngModel\" required/>\n        <div [hidden]=\"password.valid || password.pristine\" class=\"alert alert-danger\">\n          Password is required\n        </div>\n      </div>\n      <button type=\"submit\" class=\"btw btn-success\" [disabled]=\"!loginForm.form.valid\">Submit</button>\n      <button type=\"button\" class=\"btn btn-default\" (click)=\"newLoginUser(); loginForm.reset()\" (ngModelChange)=\"onSave()\">New User</button>\n    </form>\n  </div>\n\n  <div [hidden]=\"!submitted\">\n    <h2>You submitted the following:</h2>\n    <div class=\"row\">\n      <div class=\"col-xs-3\">Username</div>\n      <div class=\"col-xs-9\">{{ model.username }}</div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-xs-3\">password</div>\n      <div class=\"col-xs-9\">{{ model.password }}</div>\n    </div>\n    <br />\n    <button class=\"btn btn-primary\" (click)=\"submitted=false\">Edit</button>\n  </div>\n</div>\n\n\n<!--\n<button (click)=\"forgotPassword()\">Forgot Password</button>\n<button (click)=\"openRegisterComponent()\">Register</button>\n-->\n");
 
 /***/ }),
 
@@ -473,7 +473,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\n  <div [hidden]=\"submitted\">\n    <h1>Register</h1>\n    <form (ngSubmit)=\"onSubmit()\" #registerForm=\"ngForm\">\n      <div class=\"form-group\">\n        <label for=\"username\">Username</label>\n        <input type=\"text\" class=\"form-control\" id=\"username\" [(ngModel)]=\"model.username\" username=\"username\" #username=\"ngModel\" required/>\n        <div [hidden]=\"username.valid || username.pristine\" class=\"alert alert-danger\">\n          Username is required\n        </div>\n      </div>\n      <div class=\"form-group\">\n        <label for=\"password1\">Password</label>\n        <input type=\"password\" class=\"form-control\" id=\"password1\" [(ngModel)]=\"model.password1\" password1=\"pwassword1\" #password1=\"ngModel\" required/>\n        <div [hidden]=\"password1.valid || password1.pristine\" class=\"alert alert-danger\">\n          Password is required\n        </div>\n      </div>\n      <div class=\"form-group\">\n        <label for=\"password2\">Repeat Password</label>\n        <input type=\"password\" class=\"form-control\" id=\"password2\" [(ngModel)]=\"model.password2\" password2=\"password2\" #password2=\"ngModel\" required/>\n        <div [hidden]=\"password2.valid || password2.pristine\" class=\"alert alert-danger\">\n          Please repeat your password\n        </div>\n      </div>\n      <div class=\"form-group\">\n        <label for=\"email\">e-mail address</label>\n        <input type=\"email\" class=\"form-control\" id=\"email\" [(ngModel)]=\"model.email\" email=\"email\" #email=\"ngModel\" required/>\n        <div [hidden]=\"email.valid || email.pristine\" class=\"alert alert-danger\">\n          e-mail address is required\n        </div>\n      </div>\n      <div class=\"form-group\">\n        <label for=\"tel\">telephone number</label>\n        <input type=\"tel\" class=\"form-control\" id=\"tel\" [(ngModel)]=\"model.tel\" tel=\"tel\" required/>\n      </div>\n      <div class=\"form-group\">\n        <label for=\"address\">address</label>\n        <input type=\"tel\" class=\"form-control\" id=\"address\" [(ngModel)]=\"model.address\" address=\"address\" required/>\n      </div>\n      <button type=\"submit\" class=\"btw btn-success\" [disabled]=\"!registerForm.form.valid\">Submit</button>\n      <button type=\"button\" class=\"btn btn-default\" (click)=\"newRegistrationUser(); registrationForm.reset()\">New User</button>\n    </form>\n  </div>\n\n  <div [hidden]=\"!submitted\">\n    <h2>You submitted the following:</h2>\n    <div class=\"row\">\n      <div class=\"col-xs-3\">Username</div>\n      <div class=\"col-xs-9\">{{ model.username }}</div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-xs-3\">password</div>\n      <div class=\"col-xs-9\">{{ model.password1 }}</div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-xs-3\">password x2</div>\n      <div class=\"col-xs-9\">{{ model.password2 }}</div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-xs-3\">email</div>\n      <div class=\"col-xs-9\">{{ model.email }}</div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-xs-3\">tel</div>\n      <div class=\"col-xs-9\">{{ model.tel }}</div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-xs-3\">address</div>\n      <div class=\"col-xs-9\">{{ model.address }}</div>\n    </div>\n    <br />\n    <button class=\"btn btn-primary\" (click)=\"submitted=false\">Edit</button>\n  </div>\n</div>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\n  <div [hidden]=\"submitted\">\n    <h1>Register</h1>\n    <form (ngSubmit)=\"onSubmit()\" #registerForm=\"ngForm\">\n      <div class=\"form-group\">\n        <label for=\"username\">Username</label>\n        <input type=\"text\" class=\"form-control\" id=\"username\" [(ngModel)]=\"model.username\" username=\"username\" #username=\"ngModel\" required/>\n        <div [hidden]=\"username.valid || username.pristine\" class=\"alert alert-danger\">\n          Username is required\n        </div>\n      </div>\n      <div class=\"form-group\">\n        <label for=\"password1\">Password</label>\n        <input type=\"password\" class=\"form-control\" id=\"password1\" [(ngModel)]=\"model.password1\" password1=\"pwassword1\" #password1=\"ngModel\" required/>\n        <div [hidden]=\"password1.valid || password1.pristine\" class=\"alert alert-danger\">\n          Password is required\n        </div>\n      </div>\n      <div class=\"form-group\">\n        <label for=\"password2\">Repeat Password</label>\n        <input type=\"password\" class=\"form-control\" id=\"password2\" [(ngModel)]=\"model.password2\" password2=\"password2\" #password2=\"ngModel\" required/>\n        <div [hidden]=\"password2.valid || password2.pristine\" class=\"alert alert-danger\">\n          Please repeat your password\n        </div>\n        <div *ngIf=\"!(password2===password1)\" class=\"alert alert-danger\">\n          Your password is not identical\n        </div>\n      </div>\n      <div class=\"form-group\">\n        <label for=\"email\">e-mail address</label>\n        <input type=\"email\" class=\"form-control\" id=\"email\" [(ngModel)]=\"model.email\" email=\"email\" #email=\"ngModel\" required/>\n        <div [hidden]=\"email.valid || email.pristine\" class=\"alert alert-danger\">\n          e-mail address is required\n        </div>\n      </div>\n      <div class=\"form-group\">\n        <label for=\"tel\">telephone number</label>\n        <input type=\"tel\" class=\"form-control\" id=\"tel\" [(ngModel)]=\"model.tel\" tel=\"tel\" required/>\n      </div>\n      <div class=\"form-group\">\n        <label for=\"address\">address</label>\n        <input type=\"tel\" class=\"form-control\" id=\"address\" [(ngModel)]=\"model.address\" address=\"address\" required/>\n      </div>\n      <button type=\"submit\" class=\"btw btn-success\" [disabled]=\"!registerForm.form.valid\">Submit</button>\n      <button type=\"button\" class=\"btn btn-default\" (click)=\"newRegistrationUser(); registrationForm.reset()\" (ngModelChange)=\"onSave()\">New User</button>\n    </form>\n  </div>\n\n  <div [hidden]=\"!submitted\">\n    <h2>You submitted the following:</h2>\n    <div class=\"row\">\n      <div class=\"col-xs-3\">Username</div>\n      <div class=\"col-xs-9\">{{ model.username }}</div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-xs-3\">password</div>\n      <div class=\"col-xs-9\">{{ model.password1 }}</div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-xs-3\">password x2</div>\n      <div class=\"col-xs-9\">{{ model.password2 }}</div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-xs-3\">email</div>\n      <div class=\"col-xs-9\">{{ model.email }}</div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-xs-3\">tel</div>\n      <div class=\"col-xs-9\">{{ model.tel }}</div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-xs-3\">address</div>\n      <div class=\"col-xs-9\">{{ model.address }}</div>\n    </div>\n    <br />\n    <button class=\"btn btn-primary\" (click)=\"submitted=false\">Edit</button>\n  </div>\n</div>\n");
 
 /***/ }),
 
@@ -894,6 +894,28 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 
 /***/ }),
 
+/***/ "./src/app/login-user.ts":
+/*!*******************************!*\
+  !*** ./src/app/login-user.ts ***!
+  \*******************************/
+/*! exports provided: LoginUser */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginUser", function() { return LoginUser; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+
+class LoginUser {
+    constructor(username, password) {
+        this.username = username;
+        this.password = password;
+    }
+}
+
+
+/***/ }),
+
 /***/ "./src/app/login/login.component.scss":
 /*!********************************************!*\
   !*** ./src/app/login/login.component.scss ***!
@@ -919,25 +941,37 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginComponent", function() { return LoginComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _login_user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../login-user */ "./src/app/login-user.ts");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+
+
 
 
 let LoginComponent = class LoginComponent {
-    constructor() { }
-    /*login() {
-      this.login.post('http://localhost:3000/login', {
-        name: this.login.name,
-        password: this.login.password
-      });
-    }*/
+    constructor(httpClient) {
+        this.httpClient = httpClient;
+        this.model = new _login_user__WEBPACK_IMPORTED_MODULE_2__["LoginUser"]('foo', 'bar');
+        this.submitted = false;
+    }
+    onSubmit() { this.submitted = true; }
+    newLoginUser() {
+        this.model = new _login_user__WEBPACK_IMPORTED_MODULE_2__["LoginUser"]('', '');
+    }
     ngOnInit() { }
+    onSave() {
+        this.httpClient.put('http://localhost:3000/login/' + this.model.username, this.model).subscribe();
+    }
 };
+LoginComponent.ctorParameters = () => [
+    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"] }
+];
 LoginComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: 'app-login',
         template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! raw-loader!./login.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/login/login.component.html")).default,
         styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ./login.component.scss */ "./src/app/login/login.component.scss")).default]
     }),
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"]])
 ], LoginComponent);
 
 
@@ -970,27 +1004,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _registration_user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../registration-user */ "./src/app/registration-user.ts");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+
 
 
 
 let RegisterComponent = class RegisterComponent {
-    constructor() {
-        this.model = new _registration_user__WEBPACK_IMPORTED_MODULE_2__["RegistrationUser"](0, 'foo', 'bar', 'bar', 'foo@bar.com');
+    constructor(httpClient) {
+        this.httpClient = httpClient;
+        this.model = new _registration_user__WEBPACK_IMPORTED_MODULE_2__["RegistrationUser"]('foo', 'bar', 'bar', 'foo@bar.com');
         this.submitted = false;
     }
     onSubmit() { this.submitted = true; }
     newRegistrationUser() {
-        this.model = new _registration_user__WEBPACK_IMPORTED_MODULE_2__["RegistrationUser"](42, '', '', '', '', 0, '');
+        this.model = new _registration_user__WEBPACK_IMPORTED_MODULE_2__["RegistrationUser"]('', '', '', '', 0, '');
     }
     ngOnInit() { }
+    onSave() {
+        this.httpClient.put('http://localhost:3000/register/' + this.model.username, this.model).subscribe();
+    }
 };
+RegisterComponent.ctorParameters = () => [
+    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"] }
+];
 RegisterComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: 'app-register',
         template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! raw-loader!./register.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/register/register.component.html")).default,
         styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ./register.component.scss */ "./src/app/register/register.component.scss")).default]
     }),
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"]])
 ], RegisterComponent);
 
 
@@ -1010,8 +1053,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 
 class RegistrationUser {
-    constructor(id, username, password1, password2, email, tel, address) {
-        this.id = id;
+    constructor(username, password1, password2, email, tel, address) {
         this.username = username;
         this.password1 = password1;
         this.password2 = password2;

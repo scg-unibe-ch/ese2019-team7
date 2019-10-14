@@ -17,7 +17,7 @@
         </div>
       </div>
       <button type="submit" class="btw btn-success" [disabled]="!loginForm.form.valid">Submit</button>
-      <button type="button" class="btn btn-default" (click)="newLoginUser(); loginForm.reset() (ngModelChange)="onSave()">New User</button>
+      <button type="button" class="btn btn-default" (click)="newLoginUser(); loginForm.reset()" (ngModelChange)="onSave()">New User</button>
     </form>
   </div>
 
