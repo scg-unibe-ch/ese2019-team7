@@ -4,10 +4,14 @@ Frontend:
 Pretty css for login and register component
 Program opening of register component
 Handle failed login
-Program login
-Correct registering
+Fix login
+Fix registering
 Check password1 and password2 on login
-Hash and Salt Password before transmitting to backend
 remove hardcoded url
+convert to json before transmitting data
 
 Backend:
+
+Ask Assistant:
+Hash and Salt Password before transmitting to backend? (Security-related)
+what to add to .gitignore
