@@ -8,10 +8,11 @@ Fix login
 Fix registering
 Check password1 and password2 on login
 remove hardcoded url
-convert to json before transmitting data
+error for duplicate username?
 
 Backend:
 
 Ask Assistant:
 Hash and Salt Password before transmitting to backend? (Security-related)
 what to add to .gitignore
+do we need to convert to json before transmitting data?
