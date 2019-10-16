@@ -22,7 +22,7 @@
         <div [hidden]="password2.valid || password2.pristine" class="alert alert-danger">
           Please repeat your password
         </div>
-        <div *ngIf="!(password2===password1)" class="alert alert-danger">
+        <div [hidden]="password2.value==password1.value" class="alert alert-danger">
           Your password is not identical
         </div>
       </div>
