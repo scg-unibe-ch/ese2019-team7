@@ -14,12 +14,12 @@ export class LoginComponent implements OnInit {
     private httpClient: HttpClient
   ) { }
 
-  model = new LoginUser('foo', 'bar');
+  model = new LoginUser('', '');
 
 
   submitted = false;
 
-  onSubmit() {this.submitted = true;}
+  onSubmit() { this.submitted = true; }
 
   newLoginUser() {
     this.model = new LoginUser('', '');

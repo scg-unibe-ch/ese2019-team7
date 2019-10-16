@@ -14,7 +14,7 @@ export class RegisterComponent implements OnInit {
     private httpClient: HttpClient
   ) { }
 
-  model = new RegistrationUser('foo', 'bar', 'bar', 'foo@bar.com');
+  model = new RegistrationUser('', '', '', '');
 
   submitted = false;
 
