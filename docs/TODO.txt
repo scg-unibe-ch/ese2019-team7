@@ -11,7 +11,15 @@ error for duplicate username? (failed register)
 
 Backend:
 
+Add constraints to the database Table
+connection to frontend
+Login!
+
+
 Ask Assistant:
+
 Hash and Salt Password before transmitting to backend? (Security-related)
 what to add to .gitignore
 do we need to convert to json before transmitting data?
+ORM in javascript ?
+
