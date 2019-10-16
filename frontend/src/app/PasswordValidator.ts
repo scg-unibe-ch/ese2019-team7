@@ -1,12 +1,11 @@
 import { Directive } from '@angular/core';
 import { AbstractControl, FormGroup, NG_VALIDATORS, ValidationErrors, Validator, ValidatorFn } from '@angular/forms';
 
-/** A hero's name can't match the hero's alter ego */
 export const passwordValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
   const password1 = control.get('password1');
   const password2 = control.get('password2');
 
-  return password1 && password2 && (!password1.value === password2.value) ? { 'passwordValid': true } : null;
+  return password1 && password2 && (password1.value === password2.value) ? { 'passwordValid': true } : null;
 };
 
 @Directive({
