@@ -4,7 +4,7 @@ import {LoginController} from './controllers/login.controller';
 import {RegisterController} from './controllers/Register.controller';
 import express from 'express';
 
-const bodyParser = require('body-parser');
+
 const sequelize =  new Sequelize({
     database: 'development',
     dialect: 'sqlite',
@@ -19,7 +19,7 @@ sequelize.addModels([User]);
 const app: express.Application = express();
 app.use(express.json());
 app.use(express.static('app'))
-app.use(bodyParser.urlencoded());
+
 // define the port the express app will listen on
 var port: number = 3000;
 if (process.env.PORT !== undefined) {
@@ -33,8 +33,8 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use('/login.html', LoginController );
-app.use('/register2.html', RegisterController );
+app.use('/login', LoginController );
+app.use('/register.html', RegisterController );
 
 
 
