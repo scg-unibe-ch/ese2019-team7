@@ -4,11 +4,10 @@ Frontend:
 Pretty css for login and register component
 Program opening of register component
 Handle failed login
-Fix login
-Fix registering
+Save succesful login, somehow
 Check password1 and password2 on login
 remove hardcoded url
-error for duplicate username?
+error for duplicate username? (failed register)
 
 Backend:
 
