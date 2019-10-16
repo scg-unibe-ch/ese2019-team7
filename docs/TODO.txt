@@ -5,7 +5,7 @@ Pretty css for login and register component
 Program opening of register component
 Handle failed login
 Save succesful login, somehow
-Check password1 and password2 on login
+Check password1 and password2 on registering
 remove hardcoded url
 error for duplicate username? (failed register)
 
