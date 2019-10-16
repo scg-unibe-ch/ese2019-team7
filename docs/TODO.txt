@@ -4,22 +4,19 @@ Frontend:
 Pretty css for login and register component
 Program opening of register component
 Handle failed login
-Save succesful login, somehow
+Save succesful login (json webtoken, probabbly)
 Check password1 and password2 on registering
 remove hardcoded url
 error for duplicate username? (failed register)
+convert to json and send request to backend?
 
 Backend:
 
 Add constraints to the database Table
 connection to frontend
 Login!
+Hash and Salt Password
 
+General:
 
-Ask Assistant:
-
-Hash and Salt Password before transmitting to backend? (Security-related)
-what to add to .gitignore
-do we need to convert to json before transmitting data?
-ORM in javascript ?
-
+Reorder this list to Github's list
