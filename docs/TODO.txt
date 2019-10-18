@@ -8,7 +8,7 @@ Save succesful login (json webtoken, probabbly)
 Check password1 and password2 on registering
 remove hardcoded url
 error for duplicate username? (failed register)
-convert to json and send request to backend?
+test sending of information to backend
 
 Backend:
 
