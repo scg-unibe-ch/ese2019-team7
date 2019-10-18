@@ -27,7 +27,13 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {}
 
   onSave() {
-    this.httpClient.put('http://localhost:3000/register/' + this.model.username, this.model).subscribe();
+    this.httpClient.put('http://localhost:3000/login/' + this.model.username, {
+      username: this.model.username,
+      password: this.model.password1,
+      email: this.model.email,
+      tel: this.model.tel,
+      address: this.model.address
+    }).subscribe();
   }
 
 }

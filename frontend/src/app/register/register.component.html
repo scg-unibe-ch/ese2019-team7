@@ -1,7 +1,7 @@
 <div class="container">
   <div [hidden]="submitted">
     <h1>Register</h1>
-    <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm" appPasswordValid>
       <div class="form-group">
         <label for="username">Username</label>
         <input type="text" class="form-control" id="username" [(ngModel)]="model.username" name="username" #username="ngModel" required/>
@@ -9,21 +9,23 @@
           Username is required
         </div>
       </div>
-      <div class="form-group">
-        <label for="password1">Password</label>
-        <input type="password" class="form-control" id="password1" [(ngModel)]="model.password1" name="pwassword1" #password1="ngModel" required/>
-        <div [hidden]="password1.valid || password1.pristine" class="alert alert-danger">
-          Password is required
+      <div class="cross-validation" [class.cross-validation-error]="registerForm.errors?.passwordInvalid">
+        <div class="form-group">
+          <label for="password1">Password</label>
+          <input type="password" class="form-control" id="password1" [(ngModel)]="model.password1" name="pwassword1" #password1="ngModel" required/>
+          <div [hidden]="password1.valid || password1.pristine" class="alert alert-danger">
+            Password is required
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="password2">Repeat Password</label>
-        <input type="password" class="form-control" id="password2" [(ngModel)]="model.password2" name="password2" #password2="ngModel" required/>
-        <div [hidden]="password2.valid || password2.pristine" class="alert alert-danger">
-          Please repeat your password
-        </div>
-        <div [hidden]="password2.value==password1.value" class="alert alert-danger">
-          Your password is not identical
+        <div class="form-group">
+          <label for="password2">Repeat Password</label>
+          <input type="password" class="form-control" id="password2" [(ngModel)]="model.password2" name="password2" #password2="ngModel" required/>
+          <div [hidden]="password2.valid || password2.pristine" class="alert alert-danger">
+            Please repeat your password
+          </div>
+          <div *ngIf="(password1.touched || password1.dirty) && (password2.touched || password2.dirty) && registerForm.errors?.passwordInvalid" class="alert alert-danger">
+            Your password is not identical
+          </div>
         </div>
       </div>
       <div class="form-group">
