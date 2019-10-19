@@ -1,6 +1,7 @@
 import {Router, Request, Response} from 'express';
-import {User} from '../models/user.model';
+
 import {Sequelize} from 'sequelize-typescript';
+import {createModels} from '../models/index.model';
 
 
 const router: Router = Router();
@@ -17,14 +18,16 @@ router.get('/', async (req: Request, res: Response) => {
 
 
 router.post('/', async (req: Request, res: Response) => {
-    const instance = new User();
 
-    instance.fromSimplification(req.body);
-    await instance.save();
-    res.statusCode = 201;
-    console.log(req.body.username);
-   res.send(instance.toSimplification());
-
+  const instance = createModels();
+    await instance.User.create({
+      address: req.body.address,
+      phone: req.body.tel,
+      name: req.body.username,
+      password: req.body.password,
+      eMail: req.body.eMail} ).catch(err => res.status(500).json({ err: ['oops', err.name] }));
+      res.statusCode = 201;
+    console.log('register complete');
 });
 
 
