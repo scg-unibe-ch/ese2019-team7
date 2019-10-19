@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import { DbInterface } from '../typings/dbInterface';
+import { DbInterface } from '../dbtypings/dbInterface';
 import { UserFactory } from './user.model';
 
 export const createModels = (): DbInterface => {

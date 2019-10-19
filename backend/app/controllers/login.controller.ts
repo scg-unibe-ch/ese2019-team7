@@ -1,7 +1,7 @@
 import {Router, Request, Response} from 'express';
-import {User} from '../models/user.model';
 import {Sequelize} from 'sequelize-typescript';
-import {SimpleUser} from '../logic/SimpleUser';
+import {createModels} from '../models/index.model';
+import {UserFactory} from "../models/user.model";
 
 const session = require('express-session');
 
@@ -14,6 +14,7 @@ router.get('/', async (req: Request, res: Response) => {
 
 router.put('/', async (rawReq: any, res: Response) => {
     const req: Request & {session: any} = rawReq;
+    const User = createModels().User;
     const name = req.body.username;
     const pword = req.body.password;
     if (!name || !pword) res.sendStatus(400); // Bad Request
@@ -26,7 +27,7 @@ router.put('/', async (rawReq: any, res: Response) => {
     if (req.session.user != null)
       res.status(409).send('Conflict: Please first logout before trying to login.');
     req.session.user = user;
-    res.status(200).send(user.toSimplification());
+    res.status(200).send(user);
 });
 /*
 async function login(req: Request, res: Response) {
