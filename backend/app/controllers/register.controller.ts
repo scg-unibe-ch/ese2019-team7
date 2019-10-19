@@ -23,9 +23,10 @@ router.post('/', async (req: Request, res: Response) => {
     await instance.save();
     res.statusCode = 201;
     console.log(req.body.username);
-   // res.send(instance.toSimplification());
+   res.send(instance.toSimplification());
 
 });
+
 
 
 export const RegisterController: Router = router;

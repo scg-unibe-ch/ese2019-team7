@@ -1,8 +1,11 @@
 import {Sequelize} from 'sequelize-typescript';
 import {User} from './models/user.model';
 import {LoginController} from './controllers/login.controller';
-import {RegisterController} from './controllers/Register.controller';
+import {RegisterController} from './controllers/register.controller';
 import express from 'express';
+
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
 
 const sequelize =  new Sequelize({
@@ -33,6 +36,11 @@ app.use(function (req, res, next) {
     next();
 });
 
+// Session handling
+app.use(cookieParser());
+app.use(session({secret: 'lkdshfiohadfio'}));
+
+// Files declarations
 app.use('/login', LoginController );
 app.use('/register.html', RegisterController );
 
