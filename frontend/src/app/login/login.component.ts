@@ -28,7 +28,10 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
 
   onSave() {
-    this.httpClient.put('http://localhost:3000/login/' + this.model.username, this.model).subscribe();
+    this.httpClient.put('http://localhost:3000/login/' + this.model.username, {
+      username: this.model.username,
+      password: this.model.password
+    }).subscribe();
   }
 
 }

@@ -163,6 +163,9 @@ cmake-build-*/
 .idea/
 .frontend/idea/
 
+# www
+.frontend/www/
+
 # File-based project format
 *.iws
 
