@@ -12,23 +12,38 @@ router.get('/', async (req: Request, res: Response) => {
 });
 
 
-router.put('/', async (rawReq: any, res: Response) => {
-    const req: Request & {session: any} = rawReq;
-    const User = createModels().User;
-    const name = req.body.username;
-    const pword = req.body.password;
-    if (!name || !pword) res.sendStatus(400); // Bad Request
-    const user = await User.findOne({where: {name : name , password : pword }});
-    if (user == null) {
-      res.sendStatus(401); // Unauthorized
-      return;
-    }
-    if (req.session === undefined || req.session === null) res.status(500).send('Internal Server Error: sessions not working.');
-    if (req.session.user != null)
-      res.status(409).send('Conflict: Please first logout before trying to login.');
-    req.session.user = user;
-    res.status(200).send(user);
-});
+router.put('/', logindef);
+
+async function logindef(rawReq: any, rawRes: any) {
+  login(rawReq, rawRes, createModels().User);
+}
+
+export async function login(rawReq: any, rawRes: any, User: any) {
+  const req: Request & {session: any} = rawReq;
+  const res: Response = rawRes;
+  const name = req.body.username;
+  const pword = req.body.password;
+  if (!name || !pword) {
+    res.sendStatus(400); // Bad Request
+    return;
+  }
+  const user = await User.findOne({where: {name : name , password : pword }});
+  if (user == null) {
+    res.sendStatus(401); // Unauthorized
+    return;
+  }
+  if (req.session === undefined || req.session === null) {
+    res.status(500).send('Internal Server Error: sessions not working.');
+    return;
+  }
+  if (req.session.user != null) {
+    res.status(409).send('Conflict: Please first logout before trying to login.');
+    return;
+  }
+  req.session.user = user;
+  res.status(200).send(user);
+}
+
 /*
 async function login(req: Request, res: Response) {
   const name = req.body.name;
