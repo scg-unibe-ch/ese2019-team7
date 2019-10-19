@@ -18,6 +18,7 @@ router.get('/', async (req: Request, res: Response) => {
 
 
 router.post('/', async (req: Request, res: Response) => {
+
   const instance = createModels();
     await instance.User.create({
       address: req.body.address,
@@ -28,6 +29,7 @@ router.post('/', async (req: Request, res: Response) => {
       res.statusCode = 201;
     console.log('register complete');
 });
+
 
 
 export const RegisterController: Router = router;

@@ -1,6 +1,9 @@
 import {Router, Request, Response} from 'express';
 import {User} from '../models/user.model';
 import {Sequelize} from 'sequelize-typescript';
+import {SimpleUser} from '../logic/SimpleUser';
+
+const session = require('express-session');
 
 const router: Router = Router();
 router.get('/', async (req: Request, res: Response) => {
@@ -8,23 +11,34 @@ router.get('/', async (req: Request, res: Response) => {
     res.send('Welcome to Express');
 });
 
-router.put('/', async (req: Request, res: Response) => {
-    const names = req.body.Username;
-    const pword = req.body.Password;
-    const instance = await User.findOne({where: {name : names , password : pword }});
-    if (instance == null) {
-        res.statusCode = 404;
-        res.json({
-            'message': 'Not existing Password Username combination'
-        });
-        return;
+
+router.put('/', async (rawReq: any, res: Response) => {
+    const req: Request & {session: any} = rawReq;
+    const name = req.body.username;
+    const pword = req.body.password;
+    if (!name || !pword) res.sendStatus(400); // Bad Request
+    const user = await User.findOne({where: {name : name , password : pword }});
+    if (user == null) {
+      res.sendStatus(401); // Unauthorized
+      return;
     }
-
-
-    res.statusCode = 200;
-    res.send(instance.toSimplification());
-
+    if (req.session === undefined || req.session === null) res.status(500).send('Internal Server Error: sessions not working.');
+    if (req.session.user != null)
+      res.status(409).send('Conflict: Please first logout before trying to login.');
+    req.session.user = user;
+    res.status(200).send(user.toSimplification());
 });
+/*
+async function login(req: Request, res: Response) {
+  const name = req.body.name;
+  const pword = req.body.pword;
+  if (!name || !pword) res.sendStatus(400); // Bad Request
+  const user: SimpleUser = users.login(name, pword);
+  if (!user) res.sendStatus(401); // Unauthorized
+  req.session.user = user;
+  res.status(200).send(user);
+}
 
-
+*/
 export const LoginController: Router = router;
+

@@ -4,6 +4,9 @@ import {RegisterController} from './controllers/register.controller';
 import express from 'express';
 import { createModels } from './models/index.model';
 
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+
 
 /*const sequelize =  new Sequelize({
     database: 'development',
@@ -34,6 +37,11 @@ app.use(function (req, res, next) {
     next();
 });
 
+// Session handling
+app.use(cookieParser());
+app.use(session({secret: 'lkdshfiohadfio'}));
+
+// Files declarations
 app.use('/login', LoginController );
 app.use('/register.html', RegisterController );
 
