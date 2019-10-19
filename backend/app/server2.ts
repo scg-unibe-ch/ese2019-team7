@@ -1,19 +1,20 @@
 import {Sequelize} from 'sequelize-typescript';
-import {User} from './models/user.model';
 import {LoginController} from './controllers/login.controller';
-import {RegisterController} from './controllers/Register.controller';
+import {RegisterController} from './controllers/register.controller';
 import express from 'express';
+import { createModels } from './models/index.model';
 
 
-const sequelize =  new Sequelize({
+/*const sequelize =  new Sequelize({
     database: 'development',
     dialect: 'sqlite',
     username: 'root',
     password: '',
     storage: 'db3.sqlite'
 });
-sequelize.addModels([User]);
+ */
 
+const db = createModels();
 
 // create a new express application instance
 const app: express.Application = express();
@@ -39,7 +40,7 @@ app.use('/register.html', RegisterController );
 
 
 
-sequelize.sync().then(() => {
+db.sequelize.sync().then(() => {
 // start serving the application on the given port
     app.listen(port, () => {
         // success callback, log something to console as soon as the application has started
