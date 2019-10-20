@@ -7,7 +7,8 @@
   "main": "build/server.js",
   "scripts": {
     "tsc": "tsc",
-    "test": "mocha"
+    "test": "mocha",
+    "typedoc": "typedoc"
   },
   "keywords": [],
   "license": "ISC",
@@ -28,7 +29,8 @@
     "typescript": "^3.6.3"
   },
   "devDependencies": {
-    "tslint": "^5.20.0"
+    "tslint": "^5.20.0",
+    "typedoc": "^0.15.0"
   },
   "repository": {
     "type": "git",

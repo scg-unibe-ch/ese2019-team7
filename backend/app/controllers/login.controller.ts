@@ -19,6 +19,19 @@ async function logindef(rawReq: any, rawRes: any) {
   login(rawReq, rawRes, createModels().User);
 }
 
+/**
+ * Log in the user. Format of the body should be as follow:
+ * > { username: usr, password: pwd }
+ *
+ * Possible error codes:
+ * - **400:** Bad request format. Look above to see the correct format.
+ * - **401:** Unauthorized: wrong username password combination
+ * - **409:** Conflict: user already logged in
+ * - **200:** OK: login successful. Session cookie is updated. User information is returned.
+ * @param rawReq
+ * @param rawRes
+ * @param User User table of the database
+ */
 export async function login(rawReq: any, rawRes: any, User: any) {
   const req: Request & {session: any} = rawReq;
   const res: Response = rawRes;
