@@ -2,6 +2,7 @@ var indexModel = require('../build/models/index.model.js');
 
 var LoginController = require('../build/controllers/login.controller.js')
 var assert = require('assert');
+const bcrypt = require('bcrypt');
 describe('login.controller', loginControllerTests);
 var User;
 
@@ -22,7 +23,10 @@ function setupMockDatabase() {
   //Setup environment for the tests here
   User = {
     findOne: function() {
-      return {};
+      return {
+        name: 'hans',
+        password: bcrypt.hashSync('123', 10)
+      };
     }
   }
 }
@@ -33,7 +37,7 @@ async function setupMemoryDatabase() {
 
   const user = {
     name: 'hans',
-    password: '123',
+    password: bcrypt.hashSync('123', 10),
     eMail: 'example@example.com'
   };
   await db.User.create(user);
@@ -89,7 +93,7 @@ async function alreadyLogdinTest() {
   const req = {
     body: {
       username: "hans",
-      password: "qwertz"
+      password: "123"
     },
     session: {
       user: "alreadyLogdIn"

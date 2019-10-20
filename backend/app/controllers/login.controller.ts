@@ -4,6 +4,7 @@ import {createModels} from '../models/index.model';
 import {UserFactory} from "../models/user.model";
 
 const session = require('express-session');
+const bcrypt = require('bcrypt');
 
 const router: Router = Router();
 router.get('/', async (req: Request, res: Response) => {
@@ -27,8 +28,8 @@ export async function login(rawReq: any, rawRes: any, User: any) {
     res.sendStatus(400); // Bad Request
     return;
   }
-  const user = await User.findOne({where: {name : name , password : pword }});
-  if (user == null) {
+  const user = await User.findOne({where: {name : name }});
+  if (user == null || !bcrypt.compareSync(pword, user.password)) {
     res.sendStatus(401); // Unauthorized
     return;
   }
