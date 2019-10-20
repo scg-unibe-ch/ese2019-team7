@@ -46,10 +46,6 @@ export async function login(rawReq: any, rawRes: any, User: any) {
     res.sendStatus(401); // Unauthorized
     return;
   }
-  if (req.session === undefined || req.session === null) {
-    res.status(500).send('Internal Server Error: sessions not working.');
-    return;
-  }
   if (req.session.user != null) {
     res.status(409).send('Conflict: Please first logout before trying to login.');
     return;

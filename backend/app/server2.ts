@@ -1,6 +1,7 @@
 import {Sequelize} from 'sequelize-typescript';
 import {LoginController} from './controllers/login.controller';
 import {RegisterController} from './controllers/register.controller';
+import {AuthenticationController} from './controllers/authentication.controller';
 import express from 'express';
 import { createModels } from './models/index.model';
 
@@ -40,11 +41,22 @@ app.use(function (req, res, next) {
 // Session handling
 app.use(cookieParser());
 app.use(session({secret: 'lkdshfiohadfio'}));
+app.use(function (req: any, res, next) {
+  if (req.session === undefined || req.session === null) {
+    res.status(500).send('Internal Server Error: sessions not working.');
+    return;
+  }
+  next();
+});
 
 // Files declarations
 app.use('/login', LoginController );
-app.use('/register.html', RegisterController );
+app.use('/register', RegisterController );
 
+// Authentication Control
+app.use(AuthenticationController);
+
+// Files protected by Authentication
 
 
 

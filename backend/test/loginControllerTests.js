@@ -12,6 +12,9 @@ var User;
   To run manual tests with curl:
   curl -X PUT  -H 'Content-Type: application/json' -d '{"username": "mueller", "password": "1234", "phone": "079", \
     "email": "examples@example.com", "address": "Bern" }' "http://localhost:3000/login"
+
+  -b cookie => send cookie to server
+  -c file => save cookies to file
  */
 
 function loginControllerTests() {
