@@ -19,15 +19,18 @@ router.get('/', async (req: Request, res: Response) => {
 
 router.post('/', async (req: Request, res: Response) => {
 
+  const user = {
+    address: req.body.address,
+    phone: req.body.phone,
+    name: req.body.username,
+    password: req.body.password,
+    eMail: req.body.email
+  };
+
+  if (!(user.name && user.password && user.eMail)) res.sendStatus(400); // Bad Request
   const instance = createModels();
-    await instance.User.create({
-      address: req.body.address,
-      phone: req.body.tel,
-      name: req.body.username,
-      password: req.body.password,
-      eMail: req.body.eMail} ).catch(err => res.status(500).json({ err: ['oops', err.name] }));
-      res.statusCode = 201;
-    console.log('register complete');
+  await instance.User.create(user).catch(err => res.status(500).send({ err: ['oops', err.name] }));
+  res.status(201).send('register complete');
 });
 
 

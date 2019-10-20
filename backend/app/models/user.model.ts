@@ -24,15 +24,15 @@ export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize
   const attributes: SequelizeAttributes<UserAttributes> = {
     name: {
       type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
       validate: {
-        allowNull: false,
-        unique: true,
         notEmpty: true}
     },
     password: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
-        allowNull: false,
         notEmpty: true}
     },
    phone: {
@@ -40,8 +40,8 @@ export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize
     },
     eMail: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
-        allowNull: false,
         notEmpty: true
       }
     },
