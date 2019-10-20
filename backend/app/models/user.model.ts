@@ -1,66 +1,56 @@
-import {Table, Column, Model, HasMany, BelongsTo, ForeignKey} from 'sequelize-typescript';
-import {TodoList} from './todolist.model';
-import {DataTypes, Sequelize} from 'sequelize';
-import * as sequelize from 'sequelize';
+import * as Sequelize from 'sequelize';
 
-@Table
-export class User extends Model<User> {
+import { SequelizeAttributes } from '../dbtypings/sequelizeAttributes';
 
-    @Column
-    name!: string;
-
-    @Column
-    password!: string;
-
-    @Column
-    tel!: number;
-
-    @Column
-    eMail!: string;
-
-    @Column
-    address!: string;
-
-
-
-    toSimplification(): any {
-        return {
-            'id': this.id,
-            'name': this.name,
-            'tel': this.tel,
-            'eMail': this.eMail,
-            'address': this.address,
-            'password': this.password
-        };
+export interface UserAttributes {
+  id?: number;
+  name: string;
+  password: string;
+  phone: number;
+  eMail: string;
+  address: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+export interface UserInstance extends Sequelize.Instance<UserAttributes>, UserAttributes {
+  // At the moment, there's nothing more to add apart
+  // from the methods and attributes that the types
+  // `Sequelize.Instance<UserAttributes>` and
+  // `UserAttributes` give us. We'll add more here when
+  //  we get on to adding associations.
+};
+export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes)
+  : Sequelize.Model<UserInstance, UserAttributes> => {
+  const attributes: SequelizeAttributes<UserAttributes> = {
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        notEmpty: true}
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true}
+    },
+   phone: {
+      type: DataTypes.INTEGER,
+    },
+    eMail: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    address: {
+      type: DataTypes.STRING
     }
+  };
 
-    fromSimplification(simplification: any): void {
-        this.name = simplification['username'];
-        this.tel = simplification['tel'];
-        this.eMail = simplification['eMail'];
-        this.address = simplification['address'];
-        this.password = simplification['password'];
-    }
+  const User = sequelize.define<UserInstance, UserAttributes>('User', attributes);
 
-}
-/*
-User.init({
-  name: {
-    type: new DataTypes.STRING(128),
-    unique: true
-  },
-  tel: {
-  type: new DataTypes.INTEGER
-},
-  email: {
-    type: new DataTypes.STRING(128)
-  },
-  address: {
-    type: new DataTypes.STRING(128)
-  },
-
-},{
-  tableName: 'users',
-    sequelize : sequelize, // this bit is important
-});
-*/
+  return User;
+};

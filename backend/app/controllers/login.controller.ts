@@ -1,6 +1,10 @@
 import {Router, Request, Response} from 'express';
-import {User} from '../models/user.model';
 import {Sequelize} from 'sequelize-typescript';
+import {createModels} from '../models/index.model';
+import {UserFactory} from "../models/user.model";
+
+const session = require('express-session');
+const bcrypt = require('bcrypt');
 
 const router: Router = Router();
 router.get('/', async (req: Request, res: Response) => {
@@ -8,23 +12,59 @@ router.get('/', async (req: Request, res: Response) => {
     res.send('Welcome to Express');
 });
 
-router.put('/', async (req: Request, res: Response) => {
-    const names = req.body.Username;
-    const pword = req.body.Password;
-    const instance = await User.findOne({where: {name : names , password : pword }});
-    if (instance == null) {
-        res.statusCode = 404;
-        res.json({
-            'message': 'Not existing Password Username combination'
-        });
-        return;
-    }
 
+router.put('/', logindef);
 
-    res.statusCode = 200;
-    res.send(instance.toSimplification());
+async function logindef(rawReq: any, rawRes: any) {
+  login(rawReq, rawRes, createModels().User);
+}
 
-});
+/**
+ * Log in the user. Format of the body should be as follow:
+ * > { username: usr, password: pwd }
+ *
+ * Possible error codes:
+ * - **400:** Bad request format. Look above to see the correct format.
+ * - **401:** Unauthorized: wrong username password combination
+ * - **409:** Conflict: user already logged in
+ * - **200:** OK: login successful. Session cookie is updated. User information is returned.
+ * @param rawReq
+ * @param rawRes
+ * @param User User table of the database
+ */
+export async function login(rawReq: any, rawRes: any, User: any) {
+  const req: Request & {session: any} = rawReq;
+  const res: Response = rawRes;
+  const name = req.body.username;
+  const pword = req.body.password;
+  if (!name || !pword) {
+    res.sendStatus(400); // Bad Request
+    return;
+  }
+  const user = await User.findOne({where: {name : name }});
+  if (user == null || !bcrypt.compareSync(pword, user.password)) {
+    res.sendStatus(401); // Unauthorized
+    return;
+  }
+  if (req.session.user != null) {
+    res.status(409).send('Conflict: Please first logout before trying to login.');
+    return;
+  }
+  req.session.user = user;
+  res.status(200).send(user);
+}
 
+/*
+async function login(req: Request, res: Response) {
+  const name = req.body.name;
+  const pword = req.body.pword;
+  if (!name || !pword) res.sendStatus(400); // Bad Request
+  const user: SimpleUser = users.login(name, pword);
+  if (!user) res.sendStatus(401); // Unauthorized
+  req.session.user = user;
+  res.status(200).send(user);
+}
 
+*/
 export const LoginController: Router = router;
+

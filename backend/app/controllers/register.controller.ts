@@ -1,7 +1,8 @@
 import {Router, Request, Response} from 'express';
-import {User} from '../models/user.model';
-import {Sequelize} from 'sequelize-typescript';
 
+import {Sequelize} from 'sequelize-typescript';
+import {createModels} from '../models/index.model';
+const bcrypt = require('bcrypt');
 
 const router: Router = Router();
 
@@ -17,15 +18,20 @@ router.get('/', async (req: Request, res: Response) => {
 
 
 router.post('/', async (req: Request, res: Response) => {
-    const instance = new User();
 
-    instance.fromSimplification(req.body);
-    await instance.save();
-    res.statusCode = 201;
-    console.log(req.body.username);
-   // res.send(instance.toSimplification());
-
+  if (!(req.body.username && req.body.password && req.body.email)) res.sendStatus(400); // Bad Request
+  const user = {
+    address: req.body.address,
+    phone: req.body.phone,
+    name: req.body.username,
+    password: bcrypt.hashSync(req.body.password, 10),
+    eMail: req.body.email
+  };
+  const instance = createModels();
+  await instance.User.create(user).catch(err => res.status(500).send({ err: ['oops', err.name] }));
+  res.status(201).send('register complete');
 });
+
 
 
 export const RegisterController: Router = router;

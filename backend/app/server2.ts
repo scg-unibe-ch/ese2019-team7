@@ -1,19 +1,24 @@
 import {Sequelize} from 'sequelize-typescript';
-import {User} from './models/user.model';
 import {LoginController} from './controllers/login.controller';
-import {RegisterController} from './controllers/Register.controller';
+import {RegisterController} from './controllers/register.controller';
+import {AuthenticationController} from './controllers/authentication.controller';
 import express from 'express';
+import { createModels } from './models/index.model';
+
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
 
-const sequelize =  new Sequelize({
+/*const sequelize =  new Sequelize({
     database: 'development',
     dialect: 'sqlite',
     username: 'root',
     password: '',
     storage: 'db3.sqlite'
 });
-sequelize.addModels([User]);
+ */
 
+const db = createModels();
 
 // create a new express application instance
 const app: express.Application = express();
@@ -33,13 +38,29 @@ app.use(function (req, res, next) {
     next();
 });
 
+// Session handling
+app.use(cookieParser());
+app.use(session({secret: 'lkdshfiohadfio'}));
+app.use(function (req: any, res, next) {
+  if (req.session === undefined || req.session === null) {
+    res.status(500).send('Internal Server Error: sessions not working.');
+    return;
+  }
+  next();
+});
+
+// Files declarations
 app.use('/login', LoginController );
-app.use('/register.html', RegisterController );
+app.use('/register', RegisterController );
+
+// Authentication Control
+app.use(AuthenticationController);
+
+// Files protected by Authentication
 
 
 
-
-sequelize.sync().then(() => {
+db.sequelize.sync().then(() => {
 // start serving the application on the given port
     app.listen(port, () => {
         // success callback, log something to console as soon as the application has started
