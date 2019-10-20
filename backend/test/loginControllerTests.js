@@ -1,3 +1,5 @@
+var indexModel = require('../build/models/index.model.js');
+
 var LoginController = require('../build/controllers/login.controller.js')
 var assert = require('assert');
 describe('login.controller', loginControllerTests);
@@ -12,11 +14,11 @@ var User;
  */
 
 function loginControllerTests() {
-  before(setupExpress);
   describe('#login()', loginTests);
+  describe('Database #login()', databaseLoginTests);
 }
 
-function setupExpress() {
+function setupMockDatabase() {
   //Setup environment for the tests here
   User = {
     findOne: function() {
@@ -25,27 +27,62 @@ function setupExpress() {
   }
 }
 
+async function setupMemoryDatabase() {
+  const db = indexModel.createModels(':memory:');
+  await db.sequelize.sync();
+
+  const user = {
+    name: 'hans',
+    password: '123',
+    eMail: 'example@example.com'
+  };
+  await db.User.create(user);
+  User = db.User;
+}
+
+function getRes(expectedStatus) {
+  const res = {
+    status: (status) => {assert.equal(status, expectedStatus); return res;},
+    sendStatus: (status) => {assert.equal(status, expectedStatus);},
+    send: () => {}
+  };
+  return res;
+}
+
 function loginTests() {
   //Put the calls to all testfunctions here
+  beforeEach(setupMockDatabase);
   it('validLogin', validLoginTest);
   it('Error 409 already logd in', alreadyLogdinTest);
 }
 
-async function validLoginTest() {
-  const req = {
-      body: {
-        username: "hans",
-        password: "qwertz"
-      },
-      session: {}
+function databaseLoginTests() {
+  beforeEach(setupMemoryDatabase);
+  it('Database valid Login', validLoginTest);
+  it('Wrong password', wrongPasswordTest);
+}
 
+async function wrongPasswordTest() {
+  const req = {
+    body: {
+      username: "hans",
+      password: "1234"
+    },
+    session: {}
   };
-  const res = {
-    status: (status) => {assert.equal(status, 200); return res;},
-    sendStatus: (status) => {assert.equal(status, 200);},
-    send: () => {}
+  await LoginController.login(req, getRes(401), User); //Unauthorized
+}
+
+async function validLoginTest() {
+
+  const req = {
+    body: {
+      username: "hans",
+      password: "123"
+    },
+    session: {}
   };
-  await LoginController.login(req, res, User);
+  await LoginController.login(req, getRes(200), User);
 }
 
 async function alreadyLogdinTest() {
@@ -59,12 +96,7 @@ async function alreadyLogdinTest() {
     }
 
   };
-  const res = {
-    status: (status) => {assert.equal(status, 409); return res;},
-    sendStatus: (status) => {assert.equal(status, 409);},
-    send: () => {}
-  };
-  await LoginController.login(req, res, User);
+  await LoginController.login(req, getRes(409), User);
 }
 
 
