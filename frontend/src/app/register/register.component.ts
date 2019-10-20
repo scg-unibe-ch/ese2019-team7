@@ -18,6 +18,8 @@ export class RegisterComponent implements OnInit {
 
   submitted = false;
 
+  data;
+
   onSubmit() {this.submitted = true; }
 
   newRegistrationUser() {
@@ -33,7 +35,7 @@ export class RegisterComponent implements OnInit {
       email: this.model.email,
       tel: this.model.tel,
       address: this.model.address
-    }).subscribe();
+    }).subscribe((data: Component[]) => this.data = data, (err: any) => console.log(err));
   }
 
 }

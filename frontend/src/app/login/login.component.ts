@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {LoginUser} from '../login-user';
 import {HttpClient} from '@angular/common/http';
-import {RegistrationUser} from '../registration-user';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +18,8 @@ export class LoginComponent implements OnInit {
 
   submitted = false;
 
+  data;
+
   onSubmit() { this.submitted = true; }
 
   newLoginUser() {
@@ -31,7 +32,7 @@ export class LoginComponent implements OnInit {
     this.httpClient.put('http://localhost:3000/login/' + this.model.username, {
       username: this.model.username,
       password: this.model.password
-    }).subscribe();
+    }).subscribe((data: Component[]) => this.data = data, (err: any) => console.log(err));
   }
 
 }
