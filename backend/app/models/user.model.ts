@@ -1,6 +1,6 @@
 import * as Sequelize from 'sequelize';
 
-import { SequelizeAttributes } from '../typings/sequelizeAttributes';
+import { SequelizeAttributes } from '../dbtypings/sequelizeAttributes';
 
 export interface UserAttributes {
   id?: number;
