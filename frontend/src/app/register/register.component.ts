@@ -22,14 +22,10 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {this.submitted = true; }
 
-  newRegistrationUser() {
-    this.model = new RegistrationUser('', '', '', '', 0, '');
-  }
-
   ngOnInit() {}
 
   onSave() {
-    this.httpClient.put('http://localhost:3000/login/' + this.model.username, {
+    this.httpClient.post('http://localhost:3000/register', {
       username: this.model.username,
       password: this.model.password1,
       email: this.model.email,

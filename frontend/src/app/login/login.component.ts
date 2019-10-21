@@ -22,14 +22,10 @@ export class LoginComponent implements OnInit {
 
   onSubmit() { this.submitted = true; }
 
-  newLoginUser() {
-    this.model = new LoginUser('', '');
-  }
-
   ngOnInit() {}
 
   onSave() {
-    this.httpClient.put('http://localhost:3000/login/' + this.model.username, {
+    this.httpClient.put('http://localhost:3000/login', {
       username: this.model.username,
       password: this.model.password
     }).subscribe((data: Component[]) => this.data = data, (err: any) => console.log(err));

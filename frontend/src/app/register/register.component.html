@@ -12,7 +12,7 @@
       <div class="cross-validation" [class.cross-validation-error]="registerForm.errors?.passwordInvalid">
         <div class="form-group">
           <label for="password1">Password</label>
-          <input type="password" class="form-control" id="password1" [(ngModel)]="model.password1" name="pwassword1" #password1="ngModel" required/>
+          <input type="password" class="form-control" id="password1" [(ngModel)]="model.password1" name="password1" #password1="ngModel" required/>
           <div [hidden]="password1.valid || password1.pristine" class="alert alert-danger">
             Password is required
           </div>
@@ -43,8 +43,7 @@
         <label for="address">address</label>
         <input type="tel" class="form-control" id="address" [(ngModel)]="model.address" name="address"/>
       </div>
-      <button type="submit" class="btw btn-success" [disabled]="!registerForm.form.valid">Submit</button>
-      <button type="button" class="btn btn-default" (click)="newRegistrationUser(); registerForm.reset()" (ngModelChange)="onSave()">New User</button>
+      <button type="submit" class="btn btn-success" [disabled]="!registerForm.form.valid" (click)="onSave(); registerForm.reset()" >New User</button>
     </form>
   </div>
 

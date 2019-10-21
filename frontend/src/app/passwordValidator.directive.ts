@@ -5,7 +5,7 @@ export const passwordValidatorDirective: ValidatorFn = (control: FormGroup): Val
   const password1 = control.get('password1');
   const password2 = control.get('password2');
 
-  if (password1 == null || password2 == null || password1.value !== password2.value) {
+  if (password1 == null || password2 == null || password1.value === password2.value) {
     return null;
     }
   return { passwordInvalid: true };
