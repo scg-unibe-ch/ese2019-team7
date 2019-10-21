@@ -3,12 +3,9 @@ TODO
 Frontend:
 Pretty css for login and register component
 Program opening of register component
-Handle failed login
+Handle errors
 Save succesful login (json webtoken, probabbly)
-Check password1 and password2 on registering
 remove hardcoded url
-error for duplicate username? (failed register)
-test sending of information to backend
 
 Backend:
 
