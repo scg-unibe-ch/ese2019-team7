@@ -28,7 +28,8 @@ router.post('/', async (req: Request, res: Response) => {
     eMail: req.body.email
   };
   const instance = createModels();
-  await instance.User.create(user).catch(err => res.status(500).send({ err: ['oops', err.name] }));
+  try{ await instance.User.create(user); }
+  catch(err) {res.status(500).send({ err: ['oops', err.name] }); }
   res.status(201).send('register complete');
 });
 
