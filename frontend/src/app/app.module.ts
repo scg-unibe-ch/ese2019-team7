@@ -14,7 +14,8 @@ import { TodoListComponent } from './todo-list/todo-list.component';
 import { TodoItemComponent } from './todo-list/todo-item/todo-item.component';
 import {RegisterComponent} from './register/register.component';
 import {LoginComponent} from './login/login.component';
-import {passwordValidatorDirective, PasswordValidatorDirective} from './passwordValidator.directive';
+import {PasswordValidatorDirective} from './passwordValidator.directive';
+import {EmailValidatorDirective} from './emailValidator.directive';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {passwordValidatorDirective, PasswordValidatorDirective} from './password
     TodoItemComponent,
     LoginComponent,
     RegisterComponent,
-    PasswordValidatorDirective
+    PasswordValidatorDirective,
+    EmailValidatorDirective
   ],
   entryComponents: [],
   imports: [

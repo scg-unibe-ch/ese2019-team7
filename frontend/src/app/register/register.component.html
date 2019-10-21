@@ -1,7 +1,7 @@
 <div class="container">
   <div [hidden]="submitted">
     <h1>Register</h1>
-    <form (ngSubmit)="onSubmit()" #registerForm="ngForm" appPasswordValid>
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm" appPasswordValid appEmailValid>
       <div class="form-group">
         <label for="username">Username</label>
         <input type="text" class="form-control" id="username" [(ngModel)]="model.username" name="username" #username="ngModel" required/>
@@ -28,11 +28,16 @@
           </div>
         </div>
       </div>
-      <div class="form-group">
-        <label for="email">e-mail address</label>
-        <input type="email" class="form-control" id="email" [(ngModel)]="model.email" name="email" #email="ngModel" required/>
-        <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
-          e-mail address is required
+      <div class="cross-validation" [class.cross-validation-error]="registerForm.errors?.emailInvalid">
+        <div class="form-group">
+          <label for="email">e-mail address</label>
+          <input type="email" class="form-control" id="email" [(ngModel)]="model.email" name="email" #email="ngModel" required/>
+          <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
+            e-mail address is required
+          </div>
+          <div *ngIf="(email.touched || email.dirty) && registerForm.errors?.emailInvalid" class="alert alert-danger">
+            Please enter a valid e mail address
+          </div>
         </div>
       </div>
       <div class="form-group">
