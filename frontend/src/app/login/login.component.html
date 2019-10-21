@@ -1,5 +1,5 @@
 <div class="container">
-  <div [hidden]="submitted">
+  <div><!-- [hidden]="submitted"-->
     <h1>Register</h1>
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
       <div class="form-group">
@@ -16,23 +16,12 @@
           Password is required
         </div>
       </div>
-      <button type="submit" class="btn btn-success" [disabled]="!loginForm.form.valid" (click)="onSave(); loginForm.reset()">New User</button>
+      <button type="submit" class="btn btn-success" [disabled]="!loginForm.form.valid" (click)="onSave(); loginForm.reset()">Log in</button>
     </form>
   </div>
 
-  <div [hidden]="!submitted">
-    <h2>You submitted the following:</h2>
-    <div class="row">
-      <div class="col-xs-3">Username</div>
-      <div class="col-xs-9">{{ model.username }}</div>
-    </div>
-    <div class="row">
-      <div class="col-xs-3">password</div>
-      <div class="col-xs-9">{{ model.password }}</div>
-    </div>
-    <br />
-    <button class="btn btn-primary" (click)="submitted=false">Edit</button>
-  </div>
+  <!--<div [hidden]="!submitted">
+  </div>-->
 </div>
 
 
