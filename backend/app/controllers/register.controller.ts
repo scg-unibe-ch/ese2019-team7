@@ -29,9 +29,13 @@ router.post('/', async (req: Request, res: Response) => {
   };
   const userjson= JSON.parse('{ "message" : "register complete" }')
   const instance = createModels();
-  try{ await instance.User.create(user);
-    res.status(201).send(userjson);}
-  catch(err) {res.status(400).send({ err: ['oops', err.name] }); }
+  try{
+    await instance.User.create(user);
+    res.status(201).send({ 'message' : 'register complete' });
+  }
+  catch(err) {
+    res.status(400).send({ err: ['oops', err.name] });
+  }
 
 });
 

@@ -31,11 +31,10 @@ export class RegisterComponent implements OnInit {
       email: this.model.email,
       tel: this.model.tel,
       address: this.model.address
-    }).subscribe( message => this.answer(message), (err: any) => console.log(err));
+    }).subscribe( this.answer, (err: any) => alert(err));
   }
 
   answer(object: any) {
-    this.data = JSON.parse(object);
-    alert(this.data);
+    alert(object.message);
   }
 }
