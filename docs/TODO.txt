@@ -1,7 +1,8 @@
 TODO
 
 Frontend:
-Pretty css for login and register component
+Pretty css for login and register component (more or less done?)
+Integrate css to scss (or get rid of scss)
 Program opening of register component
 Handle errors
 Save succesful login (json webtoken, probabbly)
