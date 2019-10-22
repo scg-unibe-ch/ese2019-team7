@@ -1,5 +1,5 @@
 <div class="container">
-  <div><!--[hidden]="submitted"-->
+  <div [hidden]="submitted">
     <h1>Register</h1>
     <form (ngSubmit)="onSubmit()" #registerForm="ngForm" appPasswordValid appEmailValid>
       <div class="form-group">
@@ -52,6 +52,8 @@
     </form>
   </div>
 
- <!-- <div [hidden]="!submitted">
-  </div>-->
+  <div [hidden]="!submitted">
+    <p>{{ data }}</p>
+    <button (click)="submitted=false">Return</button>
+  </div>
 </div>
