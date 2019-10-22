@@ -22,15 +22,16 @@ router.post('/', async (req: Request, res: Response) => {
   if (!(req.body.username && req.body.password && req.body.email)) res.sendStatus(400); // Bad Request
   const user = {
     address: req.body.address,
-    phone: req.body.phone,
+    phone: req.body.tel,
     name: req.body.username,
     password: bcrypt.hashSync(req.body.password, 10),
     eMail: req.body.email
   };
+  const userjson= JSON.parse('{ message : register complete ')
   const instance = createModels();
   try{ await instance.User.create(user); }
-  catch(err) {res.status(500).send({ err: ['oops', err.name] }); }
-  res.status(201).send('register complete');
+  catch(err) {res.status(400).send({ err: ['oops', err.name] }); }
+  res.status(201).send(userjson);
 });
 
 

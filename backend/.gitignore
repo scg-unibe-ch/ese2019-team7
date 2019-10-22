@@ -1,7 +1,8 @@
 /build/
 /node_modules/
-/package-lock.json/
+/package.json/
 /package.json/
 /tsconfig.json/
 /tslint.json/
 /docs/
+/db3.sqlite
