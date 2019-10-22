@@ -27,14 +27,13 @@ router.post('/', async (req: Request, res: Response) => {
     password: bcrypt.hashSync(req.body.password, 10),
     eMail: req.body.email
   };
-  const userjson= JSON.parse('{ "message" : "register complete" }')
   const instance = createModels();
   try{
     await instance.User.create(user);
     res.status(201).send({ 'message' : 'register complete' });
   }
   catch(err) {
-    res.status(400).send({ err: ['oops', err.name] });
+    res.status(400).send({ 'message': err.name + ': Username already exists.' });
   }
 
 });
