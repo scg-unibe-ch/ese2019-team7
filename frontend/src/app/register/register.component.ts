@@ -18,7 +18,7 @@ export class RegisterComponent implements OnInit {
 
   submitted = false;
 
-  data;
+  data = new Object('{ "message": "failed"}');
 
   onSubmit() {this.submitted = true; }
 
@@ -31,10 +31,11 @@ export class RegisterComponent implements OnInit {
       email: this.model.email,
       tel: this.model.tel,
       address: this.model.address
-    }).subscribe(this.answer, (err: any) => console.log(err));
+    }).subscribe( message => this.answer(message), (err: any) => console.log(err));
   }
 
   answer(object: any) {
-    this.data = object;
+    this.data = JSON.parse(object);
+    alert(this.data);
   }
 }
