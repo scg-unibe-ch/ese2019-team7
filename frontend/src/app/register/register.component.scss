@@ -28,7 +28,7 @@ hr {
 
 /* Set a style for the submit/register button */
 .btn-success {
-  background-color: #4CAF50;
+  background-color: #9a0daf;
   color: white;
   padding: 16px 20px;
   margin: 8px 0;
@@ -45,6 +45,10 @@ hr {
 /* Add a blue text color to links */
 a {
   color: dodgerblue;
+}
+
+.alert-danger {
+  color:red;
 }
 
 /* Set a grey background color and center the text of the "sign in" section */

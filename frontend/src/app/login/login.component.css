@@ -5,9 +5,17 @@
   padding: 16px;
 }
 
+ /*label, input {
+       display: inline;
+     }*/
+
+label {
+  font-weight: bold;
+}
+
 /* Full-width input fields */
 input[type=text], input[type=password] {
-  width: 100%;
+  width: 100%; /*95% */
   padding: 15px;
   margin: 5px 0 22px 0;
   display: inline-block;
@@ -26,9 +34,13 @@ hr {
   margin-bottom: 25px;
 }
 
+.alert-danger {
+  color:red;
+}
+
 /* Set a style for the submit/register button */
 .btn-success {
-  background-color: #4CAF50;
+  background-color: #9a0daf;
   color: white;
   padding: 16px 20px;
   margin: 8px 0;
@@ -47,7 +59,7 @@ a {
   color: dodgerblue;
 }
 
-/* Set a grey background color and center the text of the "sign in" section */
+/* Set a grey background color and center the text of the "register" section */
 .redirect {
   background-color: #f1f1f1;
   text-align: center;
