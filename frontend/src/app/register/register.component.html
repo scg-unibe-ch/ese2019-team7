@@ -4,7 +4,7 @@
     <form (ngSubmit)="onSubmit()" #registerForm="ngForm" appPasswordValid appEmailValid>
       <div class="form-group">
         <label for="username">Username</label>
-        <input type="text" class="form-control" id="username" [(ngModel)]="model.username" name="username" #username="ngModel" required placeholder="Username required"/>
+        <input type="text" class="form-control" id="username" [(ngModel)]="model.username" name="username" #username="ngModel" required placeholder="Enter your username"/>
         <div [hidden]="username.valid || username.pristine" class="alert alert-danger">
           Username is required
         </div>
@@ -12,14 +12,14 @@
       <div class="cross-validation" [class.cross-validation-error]="registerForm.errors?.passwordInvalid">
         <div class="form-group">
           <label for="password1">Password</label>
-          <input type="password" class="form-control" id="password1" [(ngModel)]="model.password1" name="password1" #password1="ngModel" required placeholder="Password1 required"/>
+          <input type="password" class="form-control" id="password1" [(ngModel)]="model.password1" name="password1" #password1="ngModel" required placeholder="Enter your password"/>
           <div [hidden]="password1.valid || password1.pristine" class="alert alert-danger">
             Password is required
           </div>
         </div>
         <div class="form-group">
           <label for="password2">Repeat Password</label>
-          <input type="password" class="form-control" id="password2" [(ngModel)]="model.password2" name="password2" #password2="ngModel" required placeholder="Password2 required"/>
+          <input type="password" class="form-control" id="password2" [(ngModel)]="model.password2" name="password2" #password2="ngModel" required placeholder="Please confirm your password"/>
           <div [hidden]="password2.valid || password2.pristine" class="alert alert-danger">
             Please repeat your password
           </div>
@@ -31,7 +31,7 @@
       <div class="cross-validation" [class.cross-validation-error]="registerForm.errors?.emailInvalid">
         <div class="form-group">
           <label for="email">e-mail address</label>
-          <input type="email" class="form-control" id="email" [(ngModel)]="model.email" name="email" #email="ngModel" required placeholder="Email required"/>
+          <input type="email" class="form-control" id="email" [(ngModel)]="model.email" name="email" #email="ngModel" required placeholder="Enter your e-Mail address"/>
           <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
             e-mail address is required
           </div>
@@ -42,11 +42,11 @@
       </div>
       <div class="form-group">
         <label for="tel">telephone number</label>
-        <input type="tel" class="form-control" id="tel" [(ngModel)]="model.tel" name="tel" placeholder="Tel required"/>
+        <input type="tel" class="form-control" id="tel" [(ngModel)]="model.tel" name="tel" placeholder="Enter your phone number"/>
       </div>
       <div class="form-group">
         <label for="address">address</label>
-        <input type="tel" class="form-control" id="address" [(ngModel)]="model.address" name="address" placeholder="Address required"/>
+        <input type="tel" class="form-control" id="address" [(ngModel)]="model.address" name="address" placeholder="Enter your address"/>
       </div>
       <button type="submit" class="btn btn-success" [disabled]="!registerForm.form.valid" (click)="onSave(); registerForm.reset()" >Register</button>
     </form>
