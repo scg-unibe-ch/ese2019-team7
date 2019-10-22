@@ -31,7 +31,10 @@ export class RegisterComponent implements OnInit {
       email: this.model.email,
       tel: this.model.tel,
       address: this.model.address
-    }).subscribe((data: Component[]) => this.data = data, (err: any) => console.log(err));
+    }).subscribe(this.answer, (err: any) => console.log(err));
   }
 
+  answer(object: any) {
+    this.data = object;
+  }
 }
