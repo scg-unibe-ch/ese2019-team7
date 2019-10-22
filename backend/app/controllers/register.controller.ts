@@ -27,11 +27,12 @@ router.post('/', async (req: Request, res: Response) => {
     password: bcrypt.hashSync(req.body.password, 10),
     eMail: req.body.email
   };
-  const userjson= JSON.parse('{ message : register complete ')
+  const userjson= JSON.parse('{ "message" : "register complete" }')
   const instance = createModels();
-  try{ await instance.User.create(user); }
+  try{ await instance.User.create(user);
+    res.status(201).send(userjson);}
   catch(err) {res.status(400).send({ err: ['oops', err.name] }); }
-  res.status(201).send(userjson);
+
 });
 
 
