@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="login.component.css">
+</head>
+<body>
 <div class="container">
   <div><!-- [hidden]="submitted"-->
     <h1>Sign in</h1>
@@ -17,6 +23,9 @@
         </div>
       </div>
       <button type="submit" class="btn btn-success" [disabled]="!loginForm.form.valid" (click)="onSave(); loginForm.reset()">Sign in</button>
+      <div class="container redirect">
+        <p>New user? <a href="../register/register.component.html">Register here.</a></p>
+      </div>
     </form>
   </div>
 
@@ -29,3 +38,5 @@
 <button (click)="forgotPassword()">Forgot Password</button>
 <button (click)="openRegisterComponent()">Register</button>
 -->
+</body>
+</html>
