@@ -6,7 +6,7 @@
         <label for="username">Username</label>
         <input type="text" class="form-control" id="username" [(ngModel)]="model.username" name="username" #username="ngModel" required placeholder="Enter your username"/>
         <div [hidden]="username.valid || username.pristine" class="alert alert-danger">
-          Username is required
+          Username is required.
         </div>
       </div>
       <div class="cross-validation" [class.cross-validation-error]="registerForm.errors?.passwordInvalid">
@@ -14,34 +14,34 @@
           <label for="password1">Password</label>
           <input type="password" class="form-control" id="password1" [(ngModel)]="model.password1" name="password1" #password1="ngModel" required placeholder="Enter your password"/>
           <div [hidden]="password1.valid || password1.pristine" class="alert alert-danger">
-            Password is required
+            Password is required.
           </div>
         </div>
         <div class="form-group">
-          <label for="password2">Repeat Password</label>
+          <label for="password2">Confirm your password</label>
           <input type="password" class="form-control" id="password2" [(ngModel)]="model.password2" name="password2" #password2="ngModel" required placeholder="Please confirm your password"/>
           <div [hidden]="password2.valid || password2.pristine" class="alert alert-danger">
-            Please repeat your password
+            Please confirm your password.
           </div>
           <div *ngIf="(password1.touched || password1.dirty) && (password2.touched || password2.dirty) && registerForm.errors?.passwordInvalid" class="alert alert-danger">
-            Your password is not identical
+            The entered password is not correct.
           </div>
         </div>
       </div>
       <div class="cross-validation" [class.cross-validation-error]="registerForm.errors?.emailInvalid">
         <div class="form-group">
-          <label for="email">e-mail address</label>
+          <label for="email">E-Mail address</label>
           <input type="email" class="form-control" id="email" [(ngModel)]="model.email" name="email" #email="ngModel" required placeholder="Enter your e-Mail address"/>
           <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
-            e-mail address is required
+            e-Mail address is required
           </div>
           <div *ngIf="(email.touched || email.dirty) && registerForm.errors?.emailInvalid" class="alert alert-danger">
-            Please enter a valid e mail address
+            Please enter a valid e-Mail address
           </div>
         </div>
       </div>
       <div class="form-group">
-        <label for="tel">telephone number</label>
+        <label for="tel">Phone number</label>
         <input type="tel" class="form-control" id="tel" [(ngModel)]="model.tel" name="tel" placeholder="Enter your phone number"/>
       </div>
       <div class="form-group">
