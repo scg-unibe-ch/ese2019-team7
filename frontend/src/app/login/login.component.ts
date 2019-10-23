@@ -18,8 +18,6 @@ export class LoginComponent implements OnInit {
 
   submitted = false;
 
-  data;
-
   onSubmit() { this.submitted = true; }
 
   ngOnInit() {}
@@ -28,7 +26,15 @@ export class LoginComponent implements OnInit {
     this.httpClient.put('http://localhost:3000/login', {
       username: this.model.username,
       password: this.model.password
-    }).subscribe((data: Component[]) => this.data = data, (err: any) => console.log(err));
+    }).subscribe( this.answer, this.onSave_error);
+  }
+
+  onSave_error(object: any) {
+    alert(object.status + ': ' + object.error.message);
+  }
+
+  answer(object: any) {
+    alert(object.message);
   }
 
 }

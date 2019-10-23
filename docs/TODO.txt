@@ -1,9 +1,11 @@
 TODO
 
 Frontend:
-Pretty css for login and register component (more or less done?)
-Integrate css to scss (or get rid of scss)
+
+Fix email and tel field css
+fix tel accepting text
 Program opening of register component
+alert on login
 Handle errors
 Save succesful login (json webtoken, probabbly)
 remove hardcoded url

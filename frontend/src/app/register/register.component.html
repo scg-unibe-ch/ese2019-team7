@@ -18,13 +18,13 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="password2">Password confirm</label>
+          <label for="password2">Confirm password</label>
           <input type="password" class="form-control" id="password2" [(ngModel)]="model.password2" name="password2" #password2="ngModel" required placeholder="Enter your password one more time"/>
           <div [hidden]="password2.valid || password2.pristine" class="alert alert-danger">
             Please confirm your password.
           </div>
           <div *ngIf="(password1.touched || password1.dirty) && (password2.touched || password2.dirty) && registerForm.errors?.passwordInvalid" class="alert alert-danger">
-            The entered password is not correct.
+            The two passwords do not match
           </div>
         </div>
       </div>

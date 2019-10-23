@@ -1,4 +1,8 @@
 <ion-app>
-  <app-register></app-register>
-  <app-login></app-login>
+  <div [hidden]="!registerVisible">
+    <app-register></app-register>
+  </div>
+  <div [hidden]="registerVisible">
+    <app-login></app-login>
+  </div>
 </ion-app>

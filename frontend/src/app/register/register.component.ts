@@ -18,8 +18,6 @@ export class RegisterComponent implements OnInit {
 
   submitted = false;
 
-  data = new Object('{ "message": "failed"}');
-
   onSubmit() {this.submitted = true; }
 
   ngOnInit() {}
