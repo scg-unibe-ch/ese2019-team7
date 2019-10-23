@@ -18,8 +18,6 @@ export class RegisterComponent implements OnInit {
 
   submitted = false;
 
-  data;
-
   onSubmit() {this.submitted = true; }
 
   ngOnInit() {}
@@ -31,10 +29,14 @@ export class RegisterComponent implements OnInit {
       email: this.model.email,
       tel: this.model.tel,
       address: this.model.address
-    }).subscribe(this.answer, (err: any) => console.log(err));
+    }).subscribe( this.answer, this.onSave_error);
+  }
+
+  onSave_error(object: any) {
+    alert(object.status + ': ' + object.error.message);
   }
 
   answer(object: any) {
-    this.data = object;
+    alert(object.message);
   }
 }

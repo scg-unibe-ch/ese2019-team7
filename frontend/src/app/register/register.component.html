@@ -1,12 +1,12 @@
 <div class="container">
-  <div><!--[hidden]="submitted"-->
-    <h1>Register</h1>
-    <form (ngSubmit)="onSubmit()" #registerForm="ngForm" appPasswordValid appEmailValid>
+  <div> <!--[hidden]="submitted"-->
+    <!--<h1>Register</h1>-->
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm" appPasswordValid appEmailValid appTelValid>
       <div class="form-group">
         <label for="username">Username</label>
         <input type="text" class="form-control" id="username" [(ngModel)]="model.username" name="username" #username="ngModel" required placeholder="Enter your username"/>
         <div [hidden]="username.valid || username.pristine" class="alert alert-danger">
-          Username is required
+          Username is required.
         </div>
       </div>
       <div class="cross-validation" [class.cross-validation-error]="registerForm.errors?.passwordInvalid">
@@ -14,44 +14,54 @@
           <label for="password1">Password</label>
           <input type="password" class="form-control" id="password1" [(ngModel)]="model.password1" name="password1" #password1="ngModel" required placeholder="Enter your password"/>
           <div [hidden]="password1.valid || password1.pristine" class="alert alert-danger">
-            Password is required
+            Password is required.
           </div>
         </div>
         <div class="form-group">
-          <label for="password2">Repeat Password</label>
-          <input type="password" class="form-control" id="password2" [(ngModel)]="model.password2" name="password2" #password2="ngModel" required placeholder="Please confirm your password"/>
+          <label for="password2">Confirm password</label>
+          <input type="password" class="form-control" id="password2" [(ngModel)]="model.password2" name="password2" #password2="ngModel" required placeholder="Enter your password one more time"/>
           <div [hidden]="password2.valid || password2.pristine" class="alert alert-danger">
-            Please repeat your password
+            Please confirm your password.
           </div>
           <div *ngIf="(password1.touched || password1.dirty) && (password2.touched || password2.dirty) && registerForm.errors?.passwordInvalid" class="alert alert-danger">
-            Your password is not identical
+            The two passwords do not match
           </div>
         </div>
       </div>
       <div class="cross-validation" [class.cross-validation-error]="registerForm.errors?.emailInvalid">
         <div class="form-group">
-          <label for="email">e-mail address</label>
+          <!--<label for="email">E-Mail address</label>-->
           <input type="email" class="form-control" id="email" [(ngModel)]="model.email" name="email" #email="ngModel" required placeholder="Enter your e-Mail address"/>
           <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
-            e-mail address is required
+            e-Mail address is required.
           </div>
           <div *ngIf="(email.touched || email.dirty) && registerForm.errors?.emailInvalid" class="alert alert-danger">
-            Please enter a valid e mail address
+            Please enter a valid e-Mail address.
           </div>
         </div>
       </div>
-      <div class="form-group">
-        <label for="tel">telephone number</label>
-        <input type="tel" class="form-control" id="tel" [(ngModel)]="model.tel" name="tel" placeholder="Enter your phone number"/>
+      <div class="cross-validation" [class.cross-validation-error]="registerForm.errors?.telInvalid">
+        <div class="form-group">
+          <!-- <label for="tel">Phone number</label>-->
+          <input type="tel" class="form-control" id="tel" [(ngModel)]="model.tel" name="tel" #tel="ngModel" placeholder="Enter your phone number"/>
+        </div>
+        <div *ngIf="tel.dirty && registerForm.errors?.telInvalid" class="alert alert-danger">
+          This is not a valid telephone number.
+        </div>
       </div>
-      <div class="form-group">
-        <label for="address">address</label>
-        <input type="tel" class="form-control" id="address" [(ngModel)]="model.address" name="address" placeholder="Enter your address"/>
+       <div class="form-group">
+         <!--<label for="address">Address</label>-->
+        <input type="text" class="form-control" id="address" [(ngModel)]="model.address" name="address" placeholder="Enter your address"/>
       </div>
       <button type="submit" class="btn btn-success" [disabled]="!registerForm.form.valid" (click)="onSave(); registerForm.reset()" >Register</button>
+      <div class="container redirect">
+        <p>Already have an account? <a href="../login">Sign in.</a></p>
+      </div>
     </form>
   </div>
 
- <!-- <div [hidden]="!submitted">
+  <!--<div [hidden]="!submitted">
+    <div>{{ data.message }}</div>
+    <button (click)="submitted=false">Return</button>
   </div>-->
 </div>

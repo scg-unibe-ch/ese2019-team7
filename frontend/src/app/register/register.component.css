@@ -5,8 +5,12 @@
   padding: 16px;
 }
 
+label {
+  font-weight: bold;
+}
+
 /* Full-width input fields */
-input[type=text], input[type=password] {
+input[type=text], input[type=password], input[type=email], input[type=tel] {
   width: 100%;
   padding: 15px;
   margin: 5px 0 22px 0;
@@ -26,9 +30,13 @@ hr {
   margin-bottom: 25px;
 }
 
+.alert-danger {
+  color:red;
+}
+
 /* Set a style for the submit/register button */
 .btn-success {
-  background-color: #4CAF50;
+  background-color: #9a0daf;
   color: white;
   padding: 16px 20px;
   margin: 8px 0;
