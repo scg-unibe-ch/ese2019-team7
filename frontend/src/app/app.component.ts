@@ -13,8 +13,6 @@ import {HttpClient} from '@angular/common/http';
 
 export class AppComponent implements OnInit {
 
-  registerVisible = false;
-
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,

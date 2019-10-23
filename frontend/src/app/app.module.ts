@@ -16,16 +16,16 @@ import {RegisterComponent} from './register/register.component';
 import {LoginComponent} from './login/login.component';
 import {PasswordValidatorDirective} from './passwordValidator.directive';
 import {EmailValidatorDirective} from './emailValidator.directive';
+import {TelValidatorDirective} from './telValidator.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TodoListComponent,
-    TodoItemComponent,
     LoginComponent,
     RegisterComponent,
     PasswordValidatorDirective,
-    EmailValidatorDirective
+    EmailValidatorDirective,
+    TelValidatorDirective
   ],
   entryComponents: [],
   imports: [

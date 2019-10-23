@@ -1,7 +1,7 @@
 <div class="container">
   <div> <!--[hidden]="submitted"-->
     <!--<h1>Register</h1>-->
-    <form (ngSubmit)="onSubmit()" #registerForm="ngForm" appPasswordValid appEmailValid>
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm" appPasswordValid appEmailValid appTelValid>
       <div class="form-group">
         <label for="username">Username</label>
         <input type="text" class="form-control" id="username" [(ngModel)]="model.username" name="username" #username="ngModel" required placeholder="Enter your username"/>
@@ -40,10 +40,15 @@
           </div>
         </div>
       </div>
-      <div class="form-group">
-        <!-- <label for="tel">Phone number</label>-->
-         <input type="tel" class="form-control" id="tel" [(ngModel)]="model.tel" name="tel" placeholder="Enter your phone number"/>
-       </div>
+      <div class="cross-validation" [class.cross-validation-error]="registerForm.errors?.telInvalid">
+        <div class="form-group">
+          <!-- <label for="tel">Phone number</label>-->
+          <input type="tel" class="form-control" id="tel" [(ngModel)]="model.tel" name="tel" #tel="ngModel" placeholder="Enter your phone number"/>
+        </div>
+        <div *ngIf="tel.dirty && registerForm.errors?.telInvalid" class="alert alert-danger">
+          This is not a valid telephone number.
+        </div>
+      </div>
        <div class="form-group">
          <!--<label for="address">Address</label>-->
         <input type="text" class="form-control" id="address" [(ngModel)]="model.address" name="address" placeholder="Enter your address"/>
