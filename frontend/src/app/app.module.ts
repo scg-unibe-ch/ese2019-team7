@@ -17,10 +17,12 @@ import {LoginComponent} from './login/login.component';
 import {PasswordValidatorDirective} from './passwordValidator.directive';
 import {EmailValidatorDirective} from './emailValidator.directive';
 import {TelValidatorDirective} from './telValidator.directive';
+import {ProtectedComponent} from './protected/protected.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register',      component: RegisterComponent },
+  { path: 'protected', component: ProtectedComponent},
   { path: '', redirectTo: '/login', pathMatch: 'full'}
 //  { path: '**', component: PageNotFoundComponent }
 ];
@@ -30,6 +32,7 @@ const appRoutes: Routes = [
     AppComponent,
     LoginComponent,
     RegisterComponent,
+    ProtectedComponent,
     PasswordValidatorDirective,
     EmailValidatorDirective,
     TelValidatorDirective

@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     this.httpClient.put('http://localhost:3000/login', {
       username: this.model.username,
       password: this.model.password
-    }).subscribe( this.answer, this.onSave_error);
+    }, {withCredentials: true}).subscribe( this.answer, this.onSave_error);
   }
 
   onSave_error(object: any) {

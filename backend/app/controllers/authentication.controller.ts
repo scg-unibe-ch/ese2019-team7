@@ -19,7 +19,7 @@ function checkAuthentication(rawReq: any, rawRes: any, next: any) {
 
 async function testAuthentication(rawReq: any, res: Response) {
   const req: Request & {session: any} = rawReq;
-  res.status(200).send('You are successfully authenticated, mister ' + req.session.user.name);
+  res.status(200).send({ message: 'You are successfully authenticated, mister ' + req.session.user.name});
 }
 
 async function logout(rawReq: any, res: Response) {
