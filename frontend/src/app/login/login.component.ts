@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
   }
 
   answer(object: any) {
-    alert(object.message);
+    alert('Your logged in, ' + object.name);
   }
 
 }
