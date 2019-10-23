@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <link rel="stylesheet" href="register.component.css">
-</head>
-<body>
 <div class="container">
-  <div [hidden]="submitted">
+  <div> <!--[hidden]="submitted"-->
     <!--<h1>Register</h1>-->
     <form (ngSubmit)="onSubmit()" #registerForm="ngForm" appPasswordValid appEmailValid>
       <div class="form-group">
@@ -61,11 +55,8 @@
     </form>
   </div>
 
-  <div [hidden]="!submitted">
+  <!--<div [hidden]="!submitted">
     <div>{{ data.message }}</div>
     <button (click)="submitted=false">Return</button>
-  </div>
+  </div>-->
 </div>
-
-</body>
-</html>
