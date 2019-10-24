@@ -40,6 +40,10 @@ export async function login(rawReq: any, rawRes: any, User: any) {
     res.sendStatus(400); // Bad Request
     return;
   }
+  if (req.session.user != null) {
+    res.status(409).send({'message': 'Please first logout before trying to login.'});
+    return;
+  }
   const user = await User.findOne({where: {name : name }});
   if (user == null ) {
     res.status(401).send({'message': 'Invalid Username, Password combination '}); // Unauthorized
