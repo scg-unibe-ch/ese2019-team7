@@ -16,7 +16,6 @@ import {RegisterComponent} from './register/register.component';
 import {LoginComponent} from './login/login.component';
 import {PasswordValidatorDirective} from './passwordValidator.directive';
 import {EmailValidatorDirective} from './emailValidator.directive';
-import {TelValidatorDirective} from './telValidator.directive';
 import {ProtectedComponent} from './protected/protected.component';
 
 const appRoutes: Routes = [
@@ -34,8 +33,7 @@ const appRoutes: Routes = [
     RegisterComponent,
     ProtectedComponent,
     PasswordValidatorDirective,
-    EmailValidatorDirective,
-    TelValidatorDirective
+    EmailValidatorDirective
   ],
   entryComponents: [],
   imports: [
