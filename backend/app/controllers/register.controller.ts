@@ -48,9 +48,9 @@ export async function register(rawReq: any, rawRes: any, User: any) {
 
   try {
     await User.create(userValues);
-    res.status(201).send({'message': 'Registration complete'});
+    res.status(201).send({message: 'Registration complete'});
   } catch (err) {
-    res.status(409).send({'message': ' Username already exist.'});
+    res.status(409).send({message: ' Username already exist.'});
   }
 }
 
