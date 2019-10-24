@@ -1,0 +1,29 @@
+.btn-success {
+  background-color: #9a0daf;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.btn-success:hover {
+  opacity:1;
+}
+
+/* Add a blue text color to links */
+a {
+  color: dodgerblue;
+}
+
+/* Set a grey background color and center the text of the "log out" section */
+.redirect {
+  background-color: #f1f1f1;
+  text-align: center;
+}
+
+.container {
+  padding: 16px;
+}
