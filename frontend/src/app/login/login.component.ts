@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {LoginUser} from '../login-user';
 import {HttpClient} from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,8 +11,9 @@ import {HttpClient} from '@angular/common/http';
 export class LoginComponent implements OnInit {
 
   constructor(
-    private httpClient: HttpClient
-  ) { }
+    private httpClient: HttpClient, private router: Router
+  ) {
+  }
 
   model = new LoginUser('', '');
 
@@ -26,15 +28,8 @@ export class LoginComponent implements OnInit {
     this.httpClient.put('http://localhost:3000/login', {
       username: this.model.username,
       password: this.model.password
-    }, {withCredentials: true}).subscribe( this.answer, this.onSave_error);
+    }, {withCredentials: true}).subscribe(
+      (object) => this.router.navigate(['protected']),
+      (object) => alert(object.status + ': ' + object.error.message));
   }
-
-  onSave_error(object: any) {
-    alert(object.status + ': ' + object.error.message);
-  }
-
-  answer(object: any) {
-    alert('Your logged in, ' + object.name);
-  }
-
 }

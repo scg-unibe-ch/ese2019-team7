@@ -1,7 +1,7 @@
 <div class="container">
   <div> <!--[hidden]="submitted"-->
     <!--<h1>Register</h1>-->
-    <form (ngSubmit)="onSubmit()" #registerForm="ngForm" appPasswordValid appEmailValid appTelValid>
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm" appPasswordValid appEmailValid>
       <div class="form-group">
         <label for="username">Username</label>
         <input type="text" class="form-control" id="username" [(ngModel)]="model.username" name="username" #username="ngModel" required placeholder="Enter your username"/>
@@ -40,12 +40,10 @@
           </div>
         </div>
       </div>
-      <div class="cross-validation" [class.cross-validation-error]="registerForm.errors?.telInvalid">
-        <div class="form-group">
-          <!-- <label for="tel">Phone number</label>-->
-          <input type="tel" class="form-control" id="tel" [(ngModel)]="model.tel" name="tel" #tel="ngModel" placeholder="Enter your phone number"/>
-        </div>
-        <div *ngIf="tel.dirty && registerForm.errors?.telInvalid" class="alert alert-danger">
+      <div class="form-group">
+        <!-- <label for="tel">Phone number</label>-->
+        <input type="tel" class="form-control" id="tel" [(ngModel)]="model.tel" name="tel" #tel="ngModel" placeholder="Enter your phone number" pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$"/>
+        <div [hidden]="tel.pristine || validTel(tel)" class="alert alert-danger">
           This is not a valid telephone number.
         </div>
       </div>
@@ -55,7 +53,7 @@
       </div>
       <button type="submit" class="btn btn-success" [disabled]="!registerForm.form.valid" (click)="onSave(); registerForm.reset()" >Register</button>
       <div class="container redirect">
-        <p>Already have an account? <a href="../login">Sign in.</a></p>
+        <p>Already have an account? <a routerLink="../login">Sign in.</a></p>
       </div>
     </form>
   </div>

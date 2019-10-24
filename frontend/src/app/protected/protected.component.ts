@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-protected',
@@ -9,22 +10,25 @@ import {HttpClient} from '@angular/common/http';
 export class ProtectedComponent implements OnInit {
 
   welcomeMessage = '';
+// /home/jeremie/WebstormProjects/ese2019-team7/frontend/www/svg/md-information-circle-outline.svg
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private router: Router) {
   }
 
   ngOnInit() {
-    this.httpClient.get('http://localhost:3000/protected', {withCredentials: true}).subscribe( this.answer, this.onSave_error);
+    this.getMessage();
   }
 
-  onSave_error(object: any) {
-    this.welcomeMessage = 'HTTP Error ' + object.status + ': ' + object.error.message + object.error.lengthComputable;
-    alert(this.welcomeMessage);
+  getMessage() {
+    this.httpClient.get('http://localhost:3000/protected', {withCredentials: true}).subscribe(
+      (object: any) => { this.welcomeMessage = object.message; },
+      (object: any) => { this.welcomeMessage = 'HTTP Error ' + object.status + ': ' + object.error.message; });
   }
 
-  answer(object: any) {
-    this.welcomeMessage = object.message;
-    alert(this.welcomeMessage);
+  logOut() {
+    this.httpClient.get('http://localhost:3000/logout', {withCredentials: true}).subscribe(
+      (object: any) => { this.router.navigate(['']); },
+      (object: any) => { this.welcomeMessage = 'HTTP Error ' + object.status + ': ' + object.error.message; });
   }
 
 }
