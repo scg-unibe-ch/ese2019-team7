@@ -231,5 +231,5 @@ backend/db3.sqlite
 
 
 # End of https://www.gitignore.io/api/osx,node,linux,windows,webstorm
-/package.json
-/package-lock.json
+frontend/package.json
+frontend/package-lock.json
