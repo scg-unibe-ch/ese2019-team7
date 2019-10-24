@@ -1,7 +1,6 @@
 import {Router, Request, Response} from 'express';
-import {Sequelize} from 'sequelize-typescript';
 import {createModels} from '../models/index.model';
-import {UserFactory} from "../models/user.model";
+
 
 const session = require('express-session');
 const bcrypt = require('bcrypt');
@@ -42,14 +41,15 @@ export async function login(rawReq: any, rawRes: any, User: any) {
     return;
   }
   const user = await User.findOne({where: {name : name }});
-  if (user == null || !bcrypt.compareSync(pword, user.password)) {
-    res.sendStatus(401); // Unauthorized
+  if (user == null ) {
+    res.status(401).send({'message': 'Invalid Username, Password combination '}); // Unauthorized
     return;
   }
-  if (req.session.user != null) {
-    res.status(409).send('Conflict: Please first logout before trying to login.');
+  else if (!bcrypt.compareSync(pword, user.password)) {
+    res.status(401).send({'message': 'Invalid Username, Password combination '}); // Unauthorized
     return;
   }
+
   req.session.user = user;
   res.status(200).send(user);
 }
