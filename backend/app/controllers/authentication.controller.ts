@@ -13,7 +13,7 @@ function checkAuthentication(rawReq: any, rawRes: any, next: any) {
   if (req.session.user) {
     next();
   } else {
-    res.sendStatus(403); // forbidden
+    res.status(401).send({ message: 'Unauthorized'});
   }
 }
 
@@ -25,7 +25,7 @@ async function testAuthentication(rawReq: any, res: Response) {
 async function logout(rawReq: any, res: Response) {
   const req: Request & {session: any} = rawReq;
   req.session.user = undefined;
-  res.sendStatus(200); // OK
+  res.status(200).send({message: 'ok'}); // OK
 }
 
 export const AuthenticationController: Router = router;
