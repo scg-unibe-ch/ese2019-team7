@@ -4,7 +4,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
-import {RouterModule, Routes} from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -12,16 +12,18 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 
-import {RegisterComponent} from './register/register.component';
-import {LoginComponent} from './login/login.component';
-import {PasswordValidatorDirective} from './passwordValidator.directive';
-import {EmailValidatorDirective} from './emailValidator.directive';
-import {ProtectedComponent} from './protected/protected.component';
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
+import { PasswordValidatorDirective } from './passwordValidator.directive';
+import { EmailValidatorDirective } from './emailValidator.directive';
+import { ProtectedComponent } from './protected/protected.component';
+import { OfferCreationFormComponent } from './offer-creation-form/offer-creation-form.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'register',      component: RegisterComponent },
-  { path: 'protected', component: ProtectedComponent},
+  { path: 'register', component: RegisterComponent },
+  { path: 'protected', component: ProtectedComponent },
+  { path: 'createOffer', component: OfferCreationFormComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full'}
 //  { path: '**', component: PageNotFoundComponent }
 ];
@@ -33,7 +35,8 @@ const appRoutes: Routes = [
     RegisterComponent,
     ProtectedComponent,
     PasswordValidatorDirective,
-    EmailValidatorDirective
+    EmailValidatorDirective,
+    OfferCreationFormComponent
   ],
   entryComponents: [],
   imports: [
