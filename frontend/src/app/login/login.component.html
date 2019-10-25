@@ -1,6 +1,5 @@
 <div class="container">
-  <div><!-- [hidden]="submitted"-->
-    <!-- <h1>Sign in</h1>-->
+  <div>
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
       <div class="form-group">
         <label for="username">Username</label>
@@ -22,13 +21,9 @@
       </div>
     </form>
   </div>
-
-  <!--<div [hidden]="!submitted">
-  </div>-->
 </div>
 
 
 <!--
 <button (click)="forgotPassword()">Forgot Password</button>
-<button (click)="openRegisterComponent()">Register</button>
 -->
