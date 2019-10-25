@@ -17,7 +17,11 @@ export class OfferCreationFormComponent implements OnInit {
 
   model = new OfferCreationForm('', '');
 
+  submitted = false;
+
   ngOnInit() {}
+
+  onSubmit() {this.submitted = true; }
 
   onSave() {
     this.httpClient.post('http://localhost:3000/createOffer', {
