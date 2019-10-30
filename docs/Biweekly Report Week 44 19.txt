@@ -5,4 +5,6 @@ Hooked up backend and frontend, added styling to the frontend, validation of fie
 Backend
 
 Table User now works as intended including Constraints,  milestone 1 complete, after the first week most of the functionality
-was implemented the second week was all about refinement and connection to the frontend. now we start at developing the offer functionality
+was implemented the second week was all about refinement and connection to the frontend.
+started Tests and Documentation
+now we start at developing the offer functionality
