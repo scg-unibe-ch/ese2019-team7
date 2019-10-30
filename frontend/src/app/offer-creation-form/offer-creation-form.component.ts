@@ -17,9 +17,18 @@ export class OfferCreationFormComponent implements OnInit {
 
   model = new OfferCreationForm('', '');
 
+  isLoggedIn = false;
   submitted = false;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getMessage();
+  }
+
+  getMessage() {
+    this.httpClient.get('http://localhost:3000/protected', {withCredentials: true}).subscribe(
+      (object: any) => { this.isLoggedIn = true; },
+      (object: any) => { this.isLoggedIn = false; });
+  }
 
   onSubmit() {this.submitted = true; }
 
@@ -37,6 +46,4 @@ export class OfferCreationFormComponent implements OnInit {
   answer(object: any) {
     alert(object.message);
   }
-
-
 }

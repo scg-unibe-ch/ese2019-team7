@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {OfferItem} from '../offer-item';
 
 @Component({
   selector: 'app-offer-list',
@@ -7,8 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OfferListComponent implements OnInit {
 
-  constructor() { }
+  @Input()
+  offerItem: OfferItem = new OfferItem('', '');
+  offerItems: OfferItem[] = [];
 
-  ngOnInit() {}
+  constructor(
+    private httpClient: HttpClient
+  ) { }
+
+  ngOnInit() {
+    this.httpClient.get('http://localhost:3000/offeritem', {
+    }).subscribe((instances: any) => {
+      this.offerItems = instances.map((instance) => new OfferItem(instance.title, instance.description));
+    });
+  }
 
 }

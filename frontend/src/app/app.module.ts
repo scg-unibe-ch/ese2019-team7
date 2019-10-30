@@ -18,12 +18,15 @@ import { PasswordValidatorDirective } from './passwordValidator.directive';
 import { EmailValidatorDirective } from './emailValidator.directive';
 import { ProtectedComponent } from './protected/protected.component';
 import { OfferCreationFormComponent } from './offer-creation-form/offer-creation-form.component';
+import { OfferListComponent } from './offer-list/offer-list.component';
+import {OfferItemComponent} from './offer-list/offer-item/offer-item.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'protected', component: ProtectedComponent },
   { path: 'createOffer', component: OfferCreationFormComponent },
+  { path: 'offers', component: OfferListComponent},
   { path: '', redirectTo: '/login', pathMatch: 'full'}
 //  { path: '**', component: PageNotFoundComponent }
 ];
@@ -36,7 +39,9 @@ const appRoutes: Routes = [
     ProtectedComponent,
     PasswordValidatorDirective,
     EmailValidatorDirective,
-    OfferCreationFormComponent
+    OfferCreationFormComponent,
+    OfferListComponent,
+    OfferItemComponent
   ],
   entryComponents: [],
   imports: [
