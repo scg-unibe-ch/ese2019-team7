@@ -5,11 +5,11 @@ Initial project development started, forms exist, Password validation is still o
 backend:
 
 Initial project development started, a working prototype of the database and table exist but need improvment( adding constrains).
-The register functionality alsow works in a prototype state. 
-Login resp. authentification has no functional prototype yet.
+The register functionality also  works in a prototype state.
+Login resp. authentication has no functional prototype yet.
 
 
 
 
 
-     
+
