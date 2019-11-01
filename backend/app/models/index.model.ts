@@ -1,6 +1,7 @@
 import Sequelize from 'sequelize';
 import { DbInterface } from '../dbtypings/dbInterface';
 import { UserFactory } from './user.model';
+import {OfferFactory} from './offer.model';
 
 export const createModels = (storagefile = 'db3.sqlite', loggingFunction: any = console.log): DbInterface => {
  // const { database,  username, password, params } = sequelizeConfig;
@@ -16,8 +17,19 @@ export const createModels = (storagefile = 'db3.sqlite', loggingFunction: any = 
   const db: DbInterface = {
     sequelize,
     Sequelize,
-    User: UserFactory(sequelize, Sequelize)
+    User: UserFactory(sequelize, Sequelize),
+    Offer: OfferFactory(sequelize, Sequelize)
   };
+  /*Object.keys(db).forEach(modelName => {
+    if (db[modelName].associate) {
+      db[modelName].associate(db);
+    }
+  });*/
+ /* if (db.User.associate) {
+    db.User.associate();
+  }
+
+  */
 
   return db;
 };

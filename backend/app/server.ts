@@ -4,6 +4,8 @@ import {RegisterController} from './controllers/register.controller';
 import {AuthenticationController} from './controllers/authentication.controller';
 import express from 'express';
 import { createModels } from './models/index.model';
+import {OfferCreateController} from './controllers/offerCreation.controller';
+import {OffersController} from './controllers/offers.controller';
 
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -57,6 +59,8 @@ app.use(function (req: any, res, next) {
 // Files declarations
 app.use('/login', LoginController );
 app.use('/register', RegisterController );
+app.use('/offercreation', OfferCreateController);
+app.use('/offers', OffersController );
 
 // Authentication Control
 app.use(AuthenticationController);
