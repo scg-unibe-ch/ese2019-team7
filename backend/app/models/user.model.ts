@@ -2,6 +2,8 @@ import * as Sequelize from 'sequelize';
 
 import { SequelizeAttributes } from '../dbtypings/sequelizeAttributes';
 
+import { OfferAttributes, OfferInstance } from '../models/offer.model';
+
 export interface UserAttributes {
   id?: number;
   name: string;
@@ -9,15 +11,24 @@ export interface UserAttributes {
   phone: number;
   eMail: string;
   address: string;
+  offers?: OfferAttributes[] | OfferAttributes['id'][];
+
+
   createdAt?: Date;
   updatedAt?: Date;
 };
 export interface UserInstance extends Sequelize.Instance<UserAttributes>, UserAttributes {
-  // At the moment, there's nothing more to add apart
-  // from the methods and attributes that the types
-  // `Sequelize.Instance<UserAttributes>` and
-  // `UserAttributes` give us. We'll add more here when
-  //  we get on to adding associations.
+  getOffers: Sequelize.HasManyGetAssociationsMixin<OfferInstance>;
+  setOffers: Sequelize.HasManySetAssociationsMixin<OfferInstance, OfferInstance['id']>;
+  addOffers: Sequelize.HasManyAddAssociationsMixin<OfferInstance, OfferInstance['id']>;
+  addOffer: Sequelize.HasManyAddAssociationMixin<OfferInstance, OfferInstance['id']>;
+  createOffer: Sequelize.HasManyCreateAssociationMixin<OfferAttributes, OfferInstance>;
+  removeOffer: Sequelize.HasManyRemoveAssociationMixin<OfferInstance, OfferInstance['id']>;
+  removeOffers: Sequelize.HasManyRemoveAssociationsMixin<OfferInstance, OfferInstance['id']>;
+  hasOffer: Sequelize.HasManyHasAssociationMixin<OfferInstance, OfferInstance['id']>;
+  hasOffers: Sequelize.HasManyHasAssociationsMixin<OfferInstance, OfferInstance['id']>;
+  countOffers: Sequelize.HasManyCountAssociationsMixin;
+
 };
 export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes)
   : Sequelize.Model<UserInstance, UserAttributes> => {
@@ -51,6 +62,9 @@ export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize
   };
 
   const User = sequelize.define<UserInstance, UserAttributes>('User', attributes);
+  User.associate = models => {
+    User.hasMany(models.Offer);
+  };
 
   return User;
 };
