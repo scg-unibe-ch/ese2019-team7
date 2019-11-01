@@ -12,6 +12,7 @@
       "schematics": {},
       "architect": {
         "build": {
+          "preserveSymlinks": true,
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "www",

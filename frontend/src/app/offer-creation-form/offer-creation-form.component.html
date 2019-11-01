@@ -22,7 +22,10 @@
         <label for="price">Price (per day/night; if billing is for another type, please leave empty and note in the description)</label>
         <input type="int" class="form-control" id="price" [(ngModel)]="model.price" name="price" #price="ngModel" placeholder="Enter a price for your offer"/>
       </div>
-      <!--timeframe-->
+      <div class="form-group"><!--
+        <input [matDatepicker]="myDatepicker">
+        <mat-datepicker #myDatepicker></mat-datepicker>-->
+      </div>
       <!--category-->
       <button type="submit" class="btn btn-success" [disabled]="!offerCreationForm.form.valid" (click)="onSave(); offerCreationForm.reset()">Create offer</button>
     </form>

@@ -21,6 +21,9 @@ import { OfferCreationFormComponent } from './offer-creation-form/offer-creation
 import { OfferListComponent } from './offer-list/offer-list.component';
 import {OfferItemComponent} from './offer-list/offer-item/offer-item.component';
 
+import {MatDatepickerModule, MatNativeDateModule} from '@angular/material';
+
+
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
@@ -58,6 +61,7 @@ const appRoutes: Routes = [
   providers: [
     StatusBar,
     SplashScreen,
+    MatDatepickerModule,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
