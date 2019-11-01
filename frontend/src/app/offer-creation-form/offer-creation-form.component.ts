@@ -15,7 +15,7 @@ export class OfferCreationFormComponent implements OnInit {
   ) {
   }
 
-  model = new OfferCreationForm('', '');
+  model = new OfferCreationForm('', '', 0);
 
   isLoggedIn = false;
   submitted = false;
@@ -36,6 +36,7 @@ export class OfferCreationFormComponent implements OnInit {
     this.httpClient.post('http://localhost:3000/createOffer', {
       title: this.model.title,
       password: this.model.description,
+      price: this.model.price,
     }).subscribe( this.answer, this.onSave_error);
   }
 
