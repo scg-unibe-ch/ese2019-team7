@@ -15,7 +15,9 @@ export class OfferCreationFormComponent implements OnInit {
   ) {
   }
 
-  model = new OfferCreationForm('', '', 0);
+  model = new OfferCreationForm('', '', 0, '', 0, 0);
+
+  categories = ['food & drink', 'entertainment', 'location', null];
 
   isLoggedIn = false;
   submitted = false;
@@ -33,10 +35,14 @@ export class OfferCreationFormComponent implements OnInit {
   onSubmit() {this.submitted = true; }
 
   onSave() {
-    this.httpClient.post('http://localhost:3000/createOffer', {
+    this.httpClient.post('http://localhost:3000/offercreation', {
       title: this.model.title,
-      password: this.model.description,
+      description: this.model.description,
       price: this.model.price,
+      public: false,
+      category: this.model.category,
+      dateFrom: this.model.dateFrom,
+      dateTo: this.model.dateTo,
     }).subscribe( this.answer, this.onSave_error);
   }
 

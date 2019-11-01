@@ -10,7 +10,7 @@ import {OfferItem} from '../offer-item';
 export class OfferListComponent implements OnInit {
 
   @Input()
-  offerItem: OfferItem = new OfferItem('', '');
+  offerItem: OfferItem = new OfferItem('', '', 0, '', 0, 0);
   offerItems: OfferItem[] = [];
 
   constructor(
@@ -18,10 +18,16 @@ export class OfferListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.httpClient.get('http://localhost:3000/offeritem', {
+    this.httpClient.get('http://localhost:3000/offers', {
     }).subscribe((instances: any) => {
-      this.offerItems = instances.map((instance) => new OfferItem(instance.title, instance.description));
-    });
+      this.offerItems = instances.map((instance) => new OfferItem(
+        instance.title,
+        instance.description,
+        instance.price,
+        instance.category,
+        instance.dateFrom,
+        instance.dateTo));
+    }, (object: any) => {  alert('HTTP Error ' + object.status + ': ' + object.error.message); });
   }
 
 }

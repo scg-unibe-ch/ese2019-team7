@@ -14,7 +14,7 @@
       <div class="form-group">
         <label for="description">Description*</label>
         <input type="text" class="form-control" id="description" [(ngModel)]="model.description" name="description" #description="ngModel" required placeholder="Enter a description of your offer"/>
-        <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+        <div [hidden]="description.valid || description.pristine" class="alert alert-danger">
           You need a description for your offer.
         </div>
       </div>
@@ -26,7 +26,14 @@
         <input [matDatepicker]="myDatepicker">
         <mat-datepicker #myDatepicker></mat-datepicker>-->
       </div>
-      <!--category-->
+      <div class="form-group">
+        <label for="category">Category</label>
+        <select class="form-control" id="category"
+                [(ngModel)]="model.category" name="category"
+                #category="ngModel">
+          <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
+        </select>
+      </div>
       <button type="submit" class="btn btn-success" [disabled]="!offerCreationForm.form.valid" (click)="onSave(); offerCreationForm.reset()">Create offer</button>
     </form>
   </div>
