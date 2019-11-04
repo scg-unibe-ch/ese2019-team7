@@ -10,7 +10,7 @@ import {OfferItem} from '../offer-item';
 export class OfferListComponent implements OnInit {
 
   @Input()
-  offerItem: OfferItem = new OfferItem('', '', '', '', '', '');
+  offerItem: OfferItem = new OfferItem(0, '', '', '', '', '', '', false, false, false);
   offerItems: OfferItem[] = [];
 
   categories = ['food & drink', 'entertainment', 'location', null];
@@ -30,12 +30,16 @@ export class OfferListComponent implements OnInit {
 
   generateOfferItems(instances: any) {
     return instances.offers.map((instance) => new OfferItem(
+      instance.id,
       instance.title,
       instance.description,
       this.generatePriceDisplay(instance.price),
       instance.category,
       instance.dateFrom,
-      instance.dateTo));
+      instance.dateTo,
+      false,
+      false,
+      false));
   }
 
   generatePriceDisplay(price: number) {
