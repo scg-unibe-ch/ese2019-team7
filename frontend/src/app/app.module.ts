@@ -19,7 +19,8 @@ import { EmailValidatorDirective } from './emailValidator.directive';
 import { ProtectedComponent } from './protected/protected.component';
 import { OfferCreationFormComponent } from './offer-creation-form/offer-creation-form.component';
 import { OfferListComponent } from './offer-list/offer-list.component';
-import {OfferItemComponent} from './offer-list/offer-item/offer-item.component';
+import {OfferItemComponent} from './offer-item/offer-item.component';
+import {AdminListComponent} from './admin-list/admin-list.component';
 
 import {MatDatepickerModule, MatNativeDateModule} from '@angular/material';
 
@@ -44,7 +45,8 @@ const appRoutes: Routes = [
     EmailValidatorDirective,
     OfferCreationFormComponent,
     OfferListComponent,
-    OfferItemComponent
+    OfferItemComponent,
+    AdminListComponent
   ],
   entryComponents: [],
   imports: [

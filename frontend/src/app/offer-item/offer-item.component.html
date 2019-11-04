@@ -1,0 +1,14 @@
+<div>
+  <h2>{{offerItem.title}}</h2>
+  <p>{{offerItem.description}}</p>
+  <span>Price: {{offerItem.price}}</span><br />
+  <span>Availability: {{offerItem.dateFrom}} - {{offerItem.dateTo}}</span>
+  <div [hidden]="!offerItem.canBeDeleted">
+    <button (click)="onDelete()">Delete</button>
+  </div>
+  <div [hidden]="!offerItem.canBeSetPublic">
+    <button (click)="onSetPublic()">Set Public</button>
+  </div><!--
+  <div [hidden]="!offerItem.canBeEdited">
+  </div>-->
+</div>

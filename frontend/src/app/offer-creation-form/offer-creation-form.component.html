@@ -29,8 +29,7 @@
       <div class="form-group">
         <label for="category">Category</label>
         <select class="form-control" id="category"
-                [(ngModel)]="model.category" name="category"
-                #category="ngModel">
+                [(ngModel)]="model.category" name="category">
           <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
         </select>
       </div>

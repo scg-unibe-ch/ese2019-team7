@@ -1,0 +1,6 @@
+<div [hidden]="isAdmin">
+  Only admin can access this feature.
+</div>
+<div [hidden]="!isAdmin">
+  <app-offer-item [offerItem]="offerItem" *ngFor="let offerItem of offerItems"></app-offer-item>
+</div>
