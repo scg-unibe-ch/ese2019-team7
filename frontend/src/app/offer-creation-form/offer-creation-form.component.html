@@ -1,7 +1,7 @@
 <div class="container">
   <div>
     <div [hidden]="isLoggedIn">
-      Only logged in Users can access this feature.
+      Only logged-in Users can access this feature.
     </div>
     <form (ngSubmit)="onSubmit()" #offerCreationForm="ngForm" [hidden]="!isLoggedIn">
       <div class="form-group">
