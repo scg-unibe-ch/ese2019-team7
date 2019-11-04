@@ -29,8 +29,8 @@ input[type=int] {
   background-image: url("swiss-flag.png");
   background-position: 10px 10px;
   padding-left: 40px
-  -webkit-transition: width 0.4s ease-in-out;
-  transition: width 0.4s ease-in-out;
+  /*-webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;*/
 }
 
 input[type=text]:focus {
