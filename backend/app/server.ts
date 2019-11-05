@@ -9,6 +9,7 @@ import {OfferCreateController} from './controllers/offerCreation.controller';
 import {OffersController} from './controllers/offers.controller';
 import {getDatabase} from './database';
 import {initDatabase} from './database';
+import {OfferSearchController} from "./controllers/offerSearch.controller";
 
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -63,6 +64,7 @@ app.use('/login', LoginController );
 app.use('/register', RegisterController );
 app.use('/offercreation', OfferCreateController);
 app.use('/offers', OffersController );
+app.use('/search', OfferSearchController);
 app.use(LogoutController);
 
 

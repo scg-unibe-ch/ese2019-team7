@@ -1,5 +1,4 @@
 import {Router, Request, Response} from 'express';
-import {createModels} from '../models/index.model';
 import {getDatabase} from '../database';
 import {OfferInstance} from '../models/offer.model';
 
