@@ -7,7 +7,7 @@ const router: Router = Router();
 const offer = createModels().Offer;
 router.get('/', async (req: Request, res: Response) => {
   offer.findAll({
-    attributes: ['title', 'price', 'category'],
+    attributes: ['id', 'title', 'price', 'category'],
     where: {
       approved: true,
       public: true

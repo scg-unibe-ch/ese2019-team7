@@ -1,6 +1,7 @@
 import {Sequelize} from 'sequelize-typescript';
 import {LoginController} from './controllers/login.controller';
 import {RegisterController} from './controllers/register.controller';
+import {LogoutController} from './controllers/logout.controller';
 import {AuthenticationController} from './controllers/authentication.controller';
 import express from 'express';
 import { createModels } from './models/index.model';
@@ -61,12 +62,7 @@ app.use('/login', LoginController );
 app.use('/register', RegisterController );
 app.use('/offercreation', OfferCreateController);
 app.use('/offers', OffersController );
-
-// Authentication Control
-app.use(AuthenticationController);
-
-// Files protected by Authentication"
-
+app.use(LogoutController);
 
 
 db.sequelize.sync().then(() => {

@@ -25,6 +25,11 @@ export const createModels = (storagefile = 'db3.sqlite', loggingFunction: any = 
       db[modelName].associate(db);
     }
   });*/
+  // @ts-ignore
+  db.User.associate(db);
+  // @ts-ignore
+  db.Offer.associate(db);
+
  /* if (db.User.associate) {
     db.User.associate();
   }
