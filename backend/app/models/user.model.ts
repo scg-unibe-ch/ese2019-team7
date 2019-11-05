@@ -8,9 +8,9 @@ export interface UserAttributes {
   id?: number;
   name: string;
   password: string;
-  phone: number;
+  phone?: number;
   eMail: string;
-  address: string;
+  address?: string;
   offers?: OfferAttributes[] | OfferAttributes['id'][];
 
 
@@ -63,7 +63,7 @@ export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize
 
   const User = sequelize.define<UserInstance, UserAttributes>('User', attributes);
   User.associate = models => {
-    User.hasMany(models.Offer);
+    User.hasMany(models.Offer, {foreignKey: 'providerId'});
   };
 
   return User;

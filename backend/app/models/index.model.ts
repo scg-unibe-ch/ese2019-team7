@@ -35,6 +35,5 @@ export const createModels = (storagefile = 'db3.sqlite', loggingFunction: any = 
   }
 
   */
-
   return db;
 };

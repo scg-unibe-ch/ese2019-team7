@@ -72,7 +72,7 @@ export const OfferFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequeliz
 
   const Offer = sequelize.define<OfferInstance, OfferAttributes>('Offer', attributes);
   Offer.associate = models => {
-    Offer.belongsTo(models.User, { as: 'provider', foreignKey: 'ProviderId' });
+    Offer.belongsTo(models.User, { as: 'provider' });
   };
 
   return Offer;

@@ -1,5 +1,6 @@
 import {Router, Request, Response} from 'express';
-import {createModels} from '../models/index.model';
+import {getDatabase} from '../database';
+
 const bcrypt = require('bcrypt');
 
 const router: Router = Router();
@@ -18,7 +19,7 @@ router.get('/', async (req: Request, res: Response) => {
 router.post('/', registerDef)
 
 async function registerDef(rawReq: any, rawRes: any) {
-  register(rawReq, rawRes, createModels().User);
+  register(rawReq, rawRes, getDatabase().User);
 }
 /**
  * register of a user. Format of the body should be as follow:

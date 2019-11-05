@@ -43,7 +43,7 @@ export class OfferCreationFormComponent implements OnInit {
       category: this.model.category,
       dateFrom: this.model.dateFrom,
       dateTo: this.model.dateTo,
-    }).subscribe( this.answer, this.onSave_error);
+    }, {withCredentials: true}).subscribe( this.answer, this.onSave_error);
   }
 
   onSave_error(object: any) {

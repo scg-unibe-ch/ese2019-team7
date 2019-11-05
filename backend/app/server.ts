@@ -7,6 +7,8 @@ import express from 'express';
 import { createModels } from './models/index.model';
 import {OfferCreateController} from './controllers/offerCreation.controller';
 import {OffersController} from './controllers/offers.controller';
+import {getDatabase} from './database';
+import {initDatabase} from './database';
 
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -21,7 +23,6 @@ const cookieParser = require('cookie-parser');
 });
  */
 
-const db = createModels();
 
 // create a new express application instance
 const app: express.Application = express();
@@ -65,10 +66,10 @@ app.use('/offers', OffersController );
 app.use(LogoutController);
 
 
-db.sequelize.sync().then(() => {
+initDatabase().then(() => {
 // start serving the application on the given port
-    app.listen(port, () => {
-        // success callback, log something to console as soon as the application has started
-        console.log(`Listening at http://localhost:${port}/`);
-    });
+  app.listen(port, () => {
+    // success callback, log something to console as soon as the application has started
+    console.log(`Listening at http://localhost:${port}/`);
+  });
 });
