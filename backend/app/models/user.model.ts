@@ -8,7 +8,7 @@ export interface UserAttributes {
   id?: number;
   name: string;
   password: string;
-  phone?: number;
+  phone?: string;
   eMail: string;
   address?: string;
   offers?: OfferAttributes[] | OfferAttributes['id'][];
@@ -47,7 +47,7 @@ export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize
         notEmpty: true}
     },
    phone: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
     },
     eMail: {
       type: DataTypes.STRING,

@@ -43,7 +43,9 @@ async function initTestDatabase(db: DbInterface) {
   const users = [{
     name: '123',
     password: '123',
-    eMail: 'example@example.com'
+    eMail: 'example@example.com',
+    phone: '+41313333333',
+    address: 'Viktoriaplatz 12, 3013 Bern'
   }];
 
   const offers = [{
