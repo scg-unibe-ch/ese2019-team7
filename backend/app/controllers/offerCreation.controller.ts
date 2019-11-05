@@ -49,13 +49,13 @@ export async function create(rawReq: any, rawRes: any, Db: any) {
   };
   let offer;
   try {
-    offer = await Db.Offer.create(offerValues);
+    offer = await Db.Offer.build(offerValues);
   } catch (err) {
     res.status(400).send({message: '.'});
     return;
   }
   try {
-    await offer.setProvider(user);
+    await offer.setProvider(user, {save: false});
     await offer.save();
   } catch (e) {
     res.status(500).send({message: 'Internal Server error: Could not assign offer to user.\n' + e.message});

@@ -20,12 +20,17 @@ async function setupDatabase(users: UserAttributes[], offers: any, db: DbInterfa
     async (user) => { user.password = bcrypt.hashSync(user.password, 10); await db.User.create(user); })
   );
   if(offers) {
+    const firstuser = await db.User.findOne({where: {id: 1}});
     await Promise.all(offers.map(
       async (offer: OfferAttributes) => {
         try {
-          await db.Offer.create(offer);
+          let dboffer;
+          dboffer = await db.Offer.build(offer);
+          if (firstuser != null) await dboffer.setProvider(firstuser, {save: false});
+          await dboffer.save();
         } catch (e) {
-          throw new assert.AssertionError({actual: 'Failed to create offer', expected: 'create offer'});
+          throw e;
+          // throw new assert.AssertionError({actual: 'Failed to create offer', expected: 'create offer', message: e.message});
         }
       })
     );
