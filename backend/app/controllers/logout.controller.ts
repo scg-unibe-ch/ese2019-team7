@@ -4,13 +4,7 @@ import {AuthenticationController} from './authentication.controller';
 const router: Router = Router();
 
 router.use(AuthenticationController);
-router.get('/protected', testAuthentication);
-router.get('/logout', logout);
-
-async function testAuthentication(rawReq: any, res: Response) {
-  const req: Request & {session: any} = rawReq;
-  res.status(200).send({ message: 'You are successfully authenticated, mister ' + req.session.user.name});
-}
+router.get('/', logout);
 
 async function logout(rawReq: any, res: Response) {
   const req: Request & {session: any} = rawReq;

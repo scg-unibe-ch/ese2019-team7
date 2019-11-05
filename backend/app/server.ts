@@ -10,6 +10,8 @@ import {OffersController} from './controllers/offers.controller';
 import {getDatabase} from './database';
 import {initDatabase} from './database';
 import {OfferSearchController} from "./controllers/offerSearch.controller";
+import {protectedController} from "./controllers/protected.controller";
+import {notFoundController} from "./controllers/notFound.controller";
 
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -65,7 +67,9 @@ app.use('/register', RegisterController );
 app.use('/offercreation', OfferCreateController);
 app.use('/offers', OffersController );
 app.use('/search', OfferSearchController);
-app.use(LogoutController);
+app.use('/logout', LogoutController);
+app.use('/protected', protectedController);
+app.use(notFoundController);
 
 
 initDatabase().then(() => {
