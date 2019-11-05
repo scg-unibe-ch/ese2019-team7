@@ -15,20 +15,31 @@ var assert = require('assert');
 
 exports.getRes = function(expectedStatus) {
   const res = {
-    status: (status) => {assert.strictEqual(status, expectedStatus); return res;},
-    sendStatus: (status) => {assert.strictEqual(status, expectedStatus);},
+    status: (status) => {assert.strictEqual(status, expectedStatus, 'Wrong http error code'); return res;},
+    sendStatus: (status) => {assert.strictEqual(status, expectedStatus, 'Wrong http error code');},
     send: () => {}
   };
   return res;
 };
 
-exports.setupMemoryDatabase = async function(users) {
+exports.setupMemoryDatabase = async function(users, offers) {
   const db = await indexModel.createModels(':memory:', false);
   await db.sequelize.sync();
   // await needed?
   await Promise.all(users.map(
     async (user) => { user.password = bcrypt.hashSync(user.password, 10); await db.User.create(user); })
   );
+  if(offers) {
+    await Promise.all(offers.map(
+      async (offer) => {
+        try {
+          await db.Offer.create(offer);
+        } catch (e) {
+          throw new assert.AssertionError({actual: 'Failed to create offer', expected: 'create offer'});
+        }
+      })
+    );
+  }
   await db.sequelize.sync();
   return db;
 };
