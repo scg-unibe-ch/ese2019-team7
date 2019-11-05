@@ -10,6 +10,7 @@ export const createModels = (storagefile = 'db3.sqlite', loggingFunction: any = 
     dialect: 'sqlite',
     username: 'root',
     password: '',
+    operatorsAliases: false,
     storage: storagefile,
     logging: loggingFunction
   });

@@ -47,7 +47,6 @@ function offerCreationTests() {
     user = await Db.User.findOne({where: {name : 'hans' }});
   });
   it('create Offer Test', createOfferTest);
-  it('not logged in', notLoggedInTest);
 }
 
 async function createOfferTest() {
@@ -58,21 +57,12 @@ async function createOfferTest() {
     }
   };
 
-  await offerCreationController.create(req, tests.getRes(201), Db.Offer);
+  await offerCreationController.create(req, tests.getRes(201), Db);
   let createdOffer;
   createdOffer = await Db.Offer.findOne({where: {title : 'Big beautiful house' }});
   assert.strictEqual(createdOffer.description, req.body.description, 'Saved description defer from expected value');
   let savedUser = await createdOffer.getProvider();
   assert(savedUser.equals(req.session.user), 'Offer does not belong to the right user');
-}
-
-async function notLoggedInTest() {
-  const req = {
-    body: defValidBody,
-    session: {}
-  };
-
-  await offerCreationController.create(req, tests.getRes(403), Db.Offer);
 }
 
 
