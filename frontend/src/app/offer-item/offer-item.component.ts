@@ -11,6 +11,10 @@ export class OfferItemComponent implements OnInit {
 
   @Input()
   offerItem: OfferItem;
+  model = this.offerItem;
+  editing = false;
+  categories = ['food & drink', 'entertainment', 'location', null];
+
 
   constructor( private httpClient: HttpClient) { }
 
@@ -38,4 +42,33 @@ export class OfferItemComponent implements OnInit {
     window.location.reload();
   }
 
+  resolveEditRequest(display: string) {
+    this.editing = false;
+    this.resolveRequest(display);
+  }
+
+  onSubmit() { }
+
+  onEdit() {
+    this.editing = true;
+  }
+
+  onCancel() {
+    this.editing = false;
+    this.model = this.offerItem;
+  }
+
+  onSave() {
+    this.httpClient.post('http://localhost:3000/editOffer', {
+      title: this.model.title,
+      description: this.model.description,
+      price: this.model.price,
+      public: false,
+      category: this.model.category,
+      dateFrom: this.model.dateFrom,
+      dateTo: this.model.dateTo,
+      id: this.model.id
+    }, {withCredentials: true}).subscribe( (object) => this.resolveEditRequest('offer edited'),
+      (object) => alert(object.status + ': ' + object.error.message));
+  }
 }

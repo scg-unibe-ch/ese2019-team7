@@ -23,6 +23,7 @@ import {OfferItemComponent} from './offer-item/offer-item.component';
 import {AdminListComponent} from './admin-list/admin-list.component';
 
 import {MatDatepickerModule, MatNativeDateModule} from '@angular/material';
+import {OwnListComponent} from './own-list/own-list.component';
 
 
 const appRoutes: Routes = [
@@ -31,6 +32,7 @@ const appRoutes: Routes = [
   { path: 'protected', component: ProtectedComponent },
   { path: 'createOffer', component: OfferCreationFormComponent },
   { path: 'offers', component: OfferListComponent},
+  { path: 'myOffers', component: OwnListComponent},
   { path: '', redirectTo: '/login', pathMatch: 'full'}
 //  { path: '**', component: PageNotFoundComponent }
 ];
@@ -46,7 +48,8 @@ const appRoutes: Routes = [
     OfferCreationFormComponent,
     OfferListComponent,
     OfferItemComponent,
-    AdminListComponent
+    AdminListComponent,
+    OwnListComponent
   ],
   entryComponents: [],
   imports: [
