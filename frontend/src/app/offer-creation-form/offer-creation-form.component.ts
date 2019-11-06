@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {OfferCreationForm} from '../offerCreationForm';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 
 @Component({
@@ -39,7 +40,6 @@ export class OfferCreationFormComponent implements OnInit {
       title: this.model.title,
       description: this.model.description,
       price: this.model.price,
-      public: false,
       category: this.model.category,
       dateFrom: this.model.dateFrom,
       dateTo: this.model.dateTo,
