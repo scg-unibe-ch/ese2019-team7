@@ -7,13 +7,13 @@ const router: Router = Router();
 const offer = createModels().Offer;
 router.get('/', async (req: Request, res: Response) => {
   offer.findAll({
-    attributes: ['title', 'price', 'category', 'id'],
+    //attributes: ['title', 'price', 'category', 'id'],
     where: {
-      approved: true,
+      approved: false,
       public: true
     }})
     .then((offers: OfferInstance[]) => res.status(200).json({ offers }))
     .catch(err => res.status(500).json({ err: ['oops', err] }));
 
 });
-export const OffersController: Router = router;
+export const OffersNotApprovedController: Router = router;

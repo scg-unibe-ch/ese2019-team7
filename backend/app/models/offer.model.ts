@@ -5,7 +5,6 @@ import { UserAttributes, UserInstance } from '../models/user.model';
 
 export interface OfferAttributes {
   id?: number;
-  //name: string;
   title: string;
   description: string;
   public: boolean;
@@ -26,15 +25,6 @@ export interface OfferInstance extends Sequelize.Instance<OfferAttributes>, Offe
 export const OfferFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes)
   : Sequelize.Model<OfferInstance, OfferAttributes> => {
   const attributes: SequelizeAttributes<OfferAttributes> = {
-   /* name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        notEmpty: true}
-    },
-
-    */
     title: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -46,10 +36,7 @@ export const OfferFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequeliz
     },
     public: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
+      defaultValue: true,
     },
     approved: {
       type: DataTypes.BOOLEAN,
@@ -72,7 +59,7 @@ export const OfferFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequeliz
 
   const Offer = sequelize.define<OfferInstance, OfferAttributes>('Offer', attributes);
   Offer.associate = models => {
-    Offer.belongsTo(models.User, { as: 'provider', foreignKey: 'ProviderId' });
+    Offer.belongsTo(models.User);
   };
 
   return Offer;

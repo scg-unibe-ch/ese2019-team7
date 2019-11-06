@@ -59,7 +59,6 @@ app.use(function (req: any, res, next) {
 // Files declarations
 app.use('/login', LoginController );
 app.use('/register', RegisterController );
-app.use('/offercreation', OfferCreateController);
 app.use('/offers', OffersController );
 
 // Authentication Control
@@ -67,7 +66,7 @@ app.use(AuthenticationController);
 
 // Files protected by Authentication"
 
-
+app.use('/offercreation', OfferCreateController);
 
 db.sequelize.sync().then(() => {
 // start serving the application on the given port

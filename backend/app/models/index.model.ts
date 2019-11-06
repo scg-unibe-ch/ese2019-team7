@@ -20,16 +20,10 @@ export const createModels = (storagefile = 'db3.sqlite', loggingFunction: any = 
     User: UserFactory(sequelize, Sequelize),
     Offer: OfferFactory(sequelize, Sequelize)
   };
-  /*Object.keys(db).forEach(modelName => {
-    if (db[modelName].associate) {
-      db[modelName].associate(db);
+  Object.values(db).forEach((model: any) => {
+    if (model.associate) {
+      model.associate(db);
     }
-  });*/
- /* if (db.User.associate) {
-    db.User.associate();
-  }
-
-  */
-
+  });
   return db;
 };

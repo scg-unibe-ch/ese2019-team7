@@ -30,7 +30,7 @@ async function createDef(rawReq: any, rawRes: any) {
  * @param Offer Offer table of the database
  */
 export async function create(rawReq: any, rawRes: any, Offer: any) {
-  const req: Request = rawReq;
+  const req: Request & {session: any} = rawReq;
   const res: Response = rawRes;
 
   const offerValues = {
@@ -41,7 +41,7 @@ export async function create(rawReq: any, rawRes: any, Offer: any) {
     category: req.body.category,
     dateFrom: req.body.dateFrom,
     dateTo: req.body.dateTo,
-   // provider:req.session.user.id
+    Userid: req.session.user.id
   };
 
   try {
