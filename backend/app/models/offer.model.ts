@@ -5,10 +5,10 @@ import { UserAttributes, UserInstance } from '../models/user.model';
 
 export interface OfferAttributes {
   id?: number;
+
   title: string;
   description: string;
   public: boolean;
-  approved: boolean;
   category: 'act' | 'catering' | 'location';
   dateFrom: Date;
   dateTo: Date;
@@ -36,11 +36,7 @@ export const OfferFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequeliz
     },
     public: {
       type: DataTypes.BOOLEAN,
-      defaultValue: true,
-    },
-    approved: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
+      defaultValue: false
     },
     dateFrom: {
       type: DataTypes.DATE,
@@ -59,7 +55,7 @@ export const OfferFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequeliz
 
   const Offer = sequelize.define<OfferInstance, OfferAttributes>('Offer', attributes);
   Offer.associate = models => {
-    Offer.belongsTo(models.User);
+    Offer.belongsTo(models.User, { as: 'provider' });
   };
 
   return Offer;

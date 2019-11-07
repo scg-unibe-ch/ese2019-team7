@@ -1,5 +1,5 @@
 import {Router, Request, Response} from 'express';
-import {createModels} from '../models/index.model';
+import {getDatabase} from '../database';
 
 
 const session = require('express-session');
@@ -15,7 +15,7 @@ router.get('/', async (req: Request, res: Response) => {
 router.put('/', logindef);
 
 async function logindef(rawReq: any, rawRes: any) {
-  login(rawReq, rawRes, createModels().User);
+  login(rawReq, rawRes, getDatabase().User);
 }
 
 /**

@@ -4,12 +4,13 @@ import { UserFactory } from './user.model';
 import {OfferFactory} from './offer.model';
 
 export const createModels = (storagefile = 'db3.sqlite', loggingFunction: any = console.log): DbInterface => {
- // const { database,  username, password, params } = sequelizeConfig;
+
   const sequelize = new Sequelize({
     database: 'development',
     dialect: 'sqlite',
     username: 'root',
     password: '',
+    operatorsAliases: false,
     storage: storagefile,
     logging: loggingFunction
   });
@@ -20,10 +21,20 @@ export const createModels = (storagefile = 'db3.sqlite', loggingFunction: any = 
     User: UserFactory(sequelize, Sequelize),
     Offer: OfferFactory(sequelize, Sequelize)
   };
-  Object.values(db).forEach((model: any) => {
-    if (model.associate) {
-      model.associate(db);
+  /*Object.keys(db).forEach(modelName => {
+    if (db[modelName].associate) {
+      db[modelName].associate(db);
     }
-  });
+  });*/
+  // @ts-ignore
+  db.User.associate(db);
+  // @ts-ignore
+  db.Offer.associate(db);
+
+ /* if (db.User.associate) {
+    db.User.associate();
+  }
+
+  */
   return db;
 };

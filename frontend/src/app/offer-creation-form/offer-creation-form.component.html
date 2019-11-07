@@ -1,7 +1,7 @@
 <div class="container">
   <div>
     <div [hidden]="isLoggedIn">
-      Only logged in Users can access this feature.
+      Only logged-in Users can access this feature.
     </div>
     <form (ngSubmit)="onSubmit()" #offerCreationForm="ngForm" [hidden]="!isLoggedIn">
       <div class="form-group">
@@ -29,8 +29,7 @@
       <div class="form-group">
         <label for="category">Category</label>
         <select class="form-control" id="category"
-                [(ngModel)]="model.category" name="category"
-                #category="ngModel">
+                [(ngModel)]="model.category" name="category">
           <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
         </select>
       </div>

@@ -5,6 +5,11 @@
   padding: 16px;
 }
 
+/*label, input {
+       display: inline;
+     }*/
+
+
 /* Full-width input fields */
 input[type=text], input[type=password] {
   width: 100%;
@@ -25,10 +30,13 @@ hr {
   border: 1px solid #f1f1f1;
   margin-bottom: 25px;
 }
+.alert-danger {
+  color:red;
+}
 
 /* Set a style for the submit/register button */
 .btn-success {
-  background-color: #4CAF50;
+  background-color: #9a0daf;
   color: white;
   padding: 16px 20px;
   margin: 8px 0;

@@ -9,8 +9,7 @@ router.get('/', async (req: Request, res: Response) => {
   offer.findAll({
     //attributes: ['title', 'price', 'category', 'id'],
     where: {
-      approved: false,
-      public: true
+      public: false
     }})
     .then((offers: OfferInstance[]) => res.status(200).json({ offers }))
     .catch(err => res.status(500).json({ err: ['oops', err] }));
