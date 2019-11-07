@@ -11,12 +11,14 @@ export class OfferItemComponent implements OnInit {
 
   @Input()
   offerItem: OfferItem;
-  model = this.offerItem;
-  editing = false;
   categories = ['food & drink', 'entertainment', 'location', null];
+  model: OfferItem;
+  editing: boolean;
 
-
-  constructor( private httpClient: HttpClient) { }
+  constructor( private httpClient: HttpClient) {
+    this.model = this.offerItem;
+    this.editing = false;
+  }
 
   ngOnInit() {}
 
@@ -63,7 +65,6 @@ export class OfferItemComponent implements OnInit {
       title: this.model.title,
       description: this.model.description,
       price: this.model.price,
-      public: false,
       category: this.model.category,
       dateFrom: this.model.dateFrom,
       dateTo: this.model.dateTo,

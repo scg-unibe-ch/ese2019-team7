@@ -23,6 +23,7 @@ import {OfferItemComponent} from './offer-item/offer-item.component';
 import {AdminListComponent} from './admin-list/admin-list.component';
 
 import {MatDatepickerModule, MatNativeDateModule} from '@angular/material';
+import {MatInputModule, MatFormFieldModule} from '@angular/material';
 import {OwnListComponent} from './own-list/own-list.component';
 
 
@@ -33,6 +34,7 @@ const appRoutes: Routes = [
   { path: 'createOffer', component: OfferCreationFormComponent },
   { path: 'offers', component: OfferListComponent},
   { path: 'myOffers', component: OwnListComponent},
+  { path: 'adminOffers', component: AdminListComponent},
   { path: '', redirectTo: '/login', pathMatch: 'full'}
 //  { path: '**', component: PageNotFoundComponent }
 ];
@@ -49,7 +51,7 @@ const appRoutes: Routes = [
     OfferListComponent,
     OfferItemComponent,
     AdminListComponent,
-    OwnListComponent
+    OwnListComponent,
   ],
   entryComponents: [],
   imports: [
@@ -57,6 +59,10 @@ const appRoutes: Routes = [
     IonicModule.forRoot(),
     HttpClientModule,
     FormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MatFormFieldModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
@@ -66,7 +72,6 @@ const appRoutes: Routes = [
   providers: [
     StatusBar,
     SplashScreen,
-    MatDatepickerModule,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
