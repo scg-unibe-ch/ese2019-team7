@@ -170,7 +170,7 @@ export async function updateOffer(rawReq: any, rawRes: any, offer: any) {
       }
     });
   } catch (err) {
-    res.status(400).send({err : '^_^'});
+    res.status(400).send({err : 'X_X'});
     return;
   }
   res.status(201).send({message: 'Edited'});
