@@ -1,3 +1,4 @@
+
 var indexModel = require('../build/models/index.model.js');
 const bcrypt = require('bcrypt');
 var assert = require('assert');
@@ -15,9 +16,12 @@ var assert = require('assert');
 
 exports.getRes = function(expectedStatus) {
   const res = {
+    body: null,
     status: (status) => {assert.strictEqual(status, expectedStatus, 'Wrong http error code'); return res;},
     sendStatus: (status) => {assert.strictEqual(status, expectedStatus, 'Wrong http error code');},
-    send: () => {}
+    send: function (object) {
+      this.body = object;
+    }
   };
   return res;
 };
@@ -30,12 +34,16 @@ exports.setupMemoryDatabase = async function(users, offers) {
     async (user) => { user.password = bcrypt.hashSync(user.password, 10); await db.User.create(user); })
   );
   if(offers) {
+    const firstUser = await db.User.findOne({where: {id: 1}});
     await Promise.all(offers.map(
       async (offer) => {
         try {
-          await db.Offer.create(offer);
+          let dbOffer;
+          dbOffer = await db.Offer.build(offer);
+          if (firstUser != null) await dbOffer.setProvider(firstUser, {save: false});
+          await dbOffer.save();
         } catch (e) {
-          throw new assert.AssertionError({actual: 'Failed to create offer', expected: 'create offer'});
+          throw new assert.AssertionError({actual: 'Failed to create offer', expected: 'create offer', message: e.message});
         }
       })
     );
