@@ -2,7 +2,8 @@ var offersController = require('../build/controllers/offers.controller')
 var assert = require('assert');
 var tests = require('./Tests.js');
 var Db;
-var user;
+var hans;
+var ueli;
 
 const users = [{
   name: 'hans',
@@ -69,7 +70,8 @@ describe('offers.controller', offersTests);
 function offersTests() {
   beforeEach(async () => {
     Db = (await tests.setupMemoryDatabase(users, offers));
-    user = await Db.User.findOne({where: {name : 'hans' }});
+    hans = await Db.User.findOne({where: {name : 'hans' }});
+    ueli = await Db.User.findOne({where: {name : 'ueli' }});
   });
 
   describe('#updateOffer()', updateOfferTests);
@@ -91,8 +93,7 @@ function searchOfferTests() {
 }
 
 function deleteOfferTests() {
-  it('try to delete offer not belonging to user', deleteOfferwrongUserTest);
-  it('try to delete offer while not being logged in', deleteOffernotLoggedInTest);
+  it('try to delete offer not belonging to user', deleteOfferWrongUserTest);
   it('successfully delete offer', deleteOfferTest);
 }
 
@@ -117,7 +118,7 @@ async function offerUpdateTest() {
   const req = {
     body: defValidBody,
     session: {
-      user: user
+      user: hans
     }
   };
 
@@ -159,27 +160,19 @@ async function searchOfferTestNoCategory() {
   assert.strictEqual(res.body[1].title, 'Awful swiss house');
 }
 
-async function deleteOfferwrongUserTest() {
-  await deleteOfferNoPermission(users[1]); // Ueli (has no offers)
-}
-
-async function deleteOffernotLoggedInTest() {
-  await deleteOfferNoPermission(undefined);
-}
-
-async function deleteOfferNoPermission(id) {
+async function deleteOfferWrongUserTest() {
   const req = {
     body: {
       id: 1 // title: "Best Italian Food"
     },
     session: {
-      user: id
+      user: ueli // (no offers)
     }
   };
   const res = tests.getRes(401);
   await offersController.deleteOffer(req, res , Db);
   const allOffers = await Db.Offer.findAll({});
-  assert.strictEqual(allOffers.length, 3);
+  assert.strictEqual(allOffers.length, 4);
 }
 
 async function deleteOfferTest() {
@@ -188,13 +181,13 @@ async function deleteOfferTest() {
       id: 1 // title: "Best Italian Food"
     },
     session: {
-      user: users[0] // Hans (has offers)
+      user: hans // (has offers)
     }
   };
   const res = tests.getRes(200);
   await offersController.deleteOffer(req, res , Db);
   const allOffers = await Db.Offer.findAll({});
-  assert.strictEqual(allOffers.length, 2);
+  assert.strictEqual(allOffers.length, 3);
 }
 
 async function setPublicNoAdminTest() {

@@ -3,7 +3,7 @@ import {getDatabase} from '../database';
 import {OfferAttributes, OfferInstance} from '../models/offer.model';
 import {UserInstance} from "../models/user.model";
 import {DbInterface} from "../dbtypings/dbInterface";
-;
+import {AuthenticationController} from './authentication.controller';
 
 const router: Router = Router();
 
@@ -140,10 +140,10 @@ router.get('/editoffer', async (req: Request, res: Response) => {
 router.put('/editoffer',updateOfferDef)
 
 
-router.delete('/editoffer', deleteOfferDef)
+router.delete('/editoffer', AuthenticationController , deleteOfferDef);
 
 async function deleteOfferDef(rawReq: any, rawRes: any) {
-  deleteOffer(rawReq, rawRes, getDatabase().Offer);
+  deleteOffer(rawReq, rawRes, getDatabase());
 }
 async function updateOfferDef(rawReq: any, rawRes: any) {
   updateOffer(rawReq, rawRes, getDatabase().Offer);
@@ -184,22 +184,27 @@ export async function updateOffer(rawReq: any, rawRes: any, offer: any) {
  * @param rawRes
  * @param offer Offer table of the database
  */
-export async function deleteOffer(rawReq: any, rawRes: any, offer: any) {
+export async function deleteOffer(rawReq: any, rawRes: any, Db: DbInterface) {
   const req: Request& {session: {user: UserInstance}} = rawReq;
   const res: Response = rawRes;
-  if (req.session.user.id !== req.body.Userid) res.sendStatus(401); // Bad Request
 
-  try {
-    await offer.destroy({
-      where: {
-        id: req.body.id
-      }
-    });
-  } catch (err) {
-    res.status(400).send({err : '^_^'});
+  if (typeof (req.body.id) !== 'number') {
+    res.status(400).send({message: 'Bad request'});
     return;
   }
-  res.status(201).send({message: 'delete'});
+  const offerToDel = await Db.Offer.findOne({where: {id: req.body.id}});
+  if(offerToDel !== null && offerToDel.providerId === req.session.user.id) {
+    await offerToDel.destroy().catch((err) => res.status(500).send({message: 'Error while deleting offer'}));
+    res.status(200).send({message: 'OK'});
+  }
+  else if(offerToDel === null) {
+    res.status(400).send({message: 'Bad request: Offer Id unexistent'});
+    return;
+  }
+  else {
+    res.status(401).send({message: 'Unauthorized'});
+    return;
+  }
 }
 
 export const OffersController: Router = router;

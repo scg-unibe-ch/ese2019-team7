@@ -5,6 +5,7 @@ import { UserAttributes, UserInstance } from '../models/user.model';
 
 export interface OfferAttributes {
   id?: number;
+  providerId?: number;
 
   title: string;
   description: string;
