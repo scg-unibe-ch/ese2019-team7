@@ -21,6 +21,7 @@ import { OfferCreationFormComponent } from './offer-creation-form/offer-creation
 import { OfferListComponent } from './offer-list/offer-list.component';
 import {OfferItemComponent} from './offer-item/offer-item.component';
 import {AdminListComponent} from './admin-list/admin-list.component';
+import {NavigationBarComponent} from './navigation-bar/navigation-bar.component';
 
 import {MatDatepickerModule, MatNativeDateModule} from '@angular/material';
 import {MatInputModule, MatFormFieldModule} from '@angular/material';
@@ -35,6 +36,7 @@ const appRoutes: Routes = [
   { path: 'offers', component: OfferListComponent},
   { path: 'myOffers', component: OwnListComponent},
   { path: 'adminOffers', component: AdminListComponent},
+  { path: 'navigation-bar', component: NavigationBarComponent},
   { path: '', redirectTo: '/login', pathMatch: 'full'}
 //  { path: '**', component: PageNotFoundComponent }
 ];
@@ -52,6 +54,7 @@ const appRoutes: Routes = [
     OfferItemComponent,
     AdminListComponent,
     OwnListComponent,
+    NavigationBarComponent,
   ],
   entryComponents: [],
   imports: [
