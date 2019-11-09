@@ -170,7 +170,7 @@ async function deleteOfferWrongUserTest() {
       user: ueli // (no offers)
     }
   };
-  const res = tests.getRes(401);
+  const res = tests.getRes(403);
   await offersController.deleteOffer(req, res , Db);
   const allOffers = await Db.Offer.findAll({});
   assert.strictEqual(allOffers.length, 4);

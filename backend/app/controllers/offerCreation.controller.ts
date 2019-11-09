@@ -31,11 +31,7 @@ async function createDef(rawReq: any, rawRes: any) {
  * @param rawRes
  * @param Offer Offer table of the database
  */
-export async function create(rawReq: any, rawRes: any, Db: any) {
-  const req: Request & {session: {user: UserInstance}} = rawReq;
-  const res: Response = rawRes;
-
-  const user = await Db.User.findOne({where: {id: req.session.user.id }});
+export async function create(req: Request, res: Response, Db: any) {
 
   const offerValues = {
     title: req.body.title,
@@ -53,7 +49,7 @@ export async function create(rawReq: any, rawRes: any, Db: any) {
     return;
   }
   try {
-    await offer.setProvider(user, {save: false});
+    await offer.setProvider(req.session.user, {save: false});
     await offer.save();
   } catch (e) {
     res.status(500).send({message: 'Internal Server error: Could not assign offer to user.\n' + e.message});

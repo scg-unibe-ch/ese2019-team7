@@ -1,8 +1,8 @@
 import {Router, Request, Response} from 'express';
 import {getDatabase} from '../database';
 import {OfferAttributes, OfferInstance} from '../models/offer.model';
-import {UserInstance} from "../models/user.model";
-import {DbInterface} from "../dbtypings/dbInterface";
+import {UserInstance} from '../models/user.model';
+import {DbInterface} from '../dbtypings/dbInterface';
 import {AuthenticationController} from './authentication.controller';
 
 const router: Router = Router();
@@ -20,41 +20,41 @@ router.get('/', async (req: Request, res: Response) => {
 
 
 router.get('/search/title', searchTitle);
-router.get('/search/description', searchDescription);
 router.get('/search/all', searchAll);
-router.get('/search', searchAll);
+router.get('/search', searchTitle);
 const defOpts = {
   attributes: ['id', 'title', 'price', 'category'],
   raw: true
 };
 
 
-export async function searchTitle(rawReq: any, rawRes: any) {
-  await httpPerformSearch(rawReq, rawRes, getDatabase(), ['title']);
+export async function searchTitle(req: Request, res: Response) {
+  await httpPerformSearch(req, res, getDatabase(), ['title']);
 }
 
-export async function searchDescription(rawReq: any, rawRes: any) {
-  await httpPerformSearch(rawReq, rawRes, getDatabase(), ['description']);
+export async function searchAdvanced(req: Request, res: Response) {
+  await httpPerformSearch(req, res, getDatabase(), req.body.attributes);
 }
 
-export async function searchAll(rawReq: any, rawRes: any) {
-  await httpPerformSearch(rawReq, rawRes, getDatabase(), ['description', 'title', 'category']);
+export async function searchAll(req: Request, res: Response) {
+  await httpPerformSearch(req, res, getDatabase(), ['description', 'title']);
 }
 
-export async function httpPerformSearch(rawReq: any, rawRes: any, db: any, attributes: string[]) {
-  const req: Request & {session: {user: UserInstance}} = rawReq;
-  const res: Response = rawRes;
-  const results = await performSearch(req.body.search, attributes, db);
+export async function httpPerformSearch(req: Request, res: Response, db: DbInterface, attributes: string[]) {
+  const results = await performSearch(req.body.searchKey, attributes, db, req.body.category);
   res.status(200).send(results);
 }
 
-export async  function performSearch(search: string, attributes: string[], db: DbInterface): Promise<OfferAttributes[]> {
+export async  function performSearch(search: string, attributes: string[], db: DbInterface, category: string): Promise<OfferAttributes[]> {
   const Op = db.Sequelize.Op;
   const cmd = attributes.map((attribute) => {
     const obj: any = {};
     obj[attribute] = {[Op.like]: '%' + search + '%' };
     return obj;
   });
+  let categoryCmd;
+  if (category === undefined || category === '') categoryCmd = {};
+  else categoryCmd = {category: category};
   let offers: OfferAttributes[];
   try {
     offers = await db.Offer.findAll({
@@ -62,9 +62,9 @@ export async  function performSearch(search: string, attributes: string[], db: D
       attributes: ['id', 'title', 'description', 'price', 'category'],
       raw: true,
       where: {
-        approved: true,
         public: true,
-        [Op.or]: cmd
+        [Op.or]: cmd,
+        ...categoryCmd
       }});
   } catch (e) {
     offers = [];
@@ -77,8 +77,8 @@ router.get('/create', async (req: Request, res: Response) => {
 
 router.post('/create', createDef);
 
-async function createDef(rawReq: any, rawRes: any) {
-  create(rawReq, rawRes, getDatabase());
+async function createDef(req: Request, res: Response) {
+  create(req, res, getDatabase());
 }
 /**
  * Creation of a Offer. Format of the body should be as follow:
@@ -92,11 +92,7 @@ async function createDef(rawReq: any, rawRes: any) {
  * @param rawRes
  * @param Offer Offer table of the database
  */
-export async function create(rawReq: any, rawRes: any, Db: any) {
-  const req: Request & { session: { user: UserInstance } } = rawReq;
-  const res: Response = rawRes;
-
-  const user = await Db.User.findOne({where: {id: req.session.user.id}});
+export async function create(req: Request, res: Response, Db: any) {
 
   const offerValues = {
     title: req.body.title,
@@ -114,7 +110,7 @@ export async function create(rawReq: any, rawRes: any, Db: any) {
     return;
   }
   try {
-    await offer.setProvider(user, {save: false});
+    await offer.setProvider(req.session.user, {save: false});
     await offer.save();
   } catch (e) {
     res.status(500).send({message: 'Internal Server error: Could not assign offer to user.\n' + e.message});
@@ -148,9 +144,7 @@ async function deleteOfferDef(rawReq: any, rawRes: any) {
 async function updateOfferDef(rawReq: any, rawRes: any) {
   updateOffer(rawReq, rawRes, getDatabase().Offer);
 }
-export async function updateOffer(rawReq: any, rawRes: any, offer: any) {
-  const req: Request& {session: {user: UserInstance}} = rawReq;
-  const res: Response = rawRes;
+export async function updateOffer(req: Request, res: Response, offer: any) {
   const offerValues = {
     title: req.body.title,
     description: req.body.description,
@@ -184,9 +178,7 @@ export async function updateOffer(rawReq: any, rawRes: any, offer: any) {
  * @param rawRes
  * @param offer Offer table of the database
  */
-export async function deleteOffer(rawReq: any, rawRes: any, Db: DbInterface) {
-  const req: Request& {session: {user: UserInstance}} = rawReq;
-  const res: Response = rawRes;
+export async function deleteOffer(req: Request, res: Response, Db: DbInterface) {
 
   if (typeof (req.body.id) !== 'number') {
     res.status(400).send({message: 'Bad request'});
@@ -195,14 +187,14 @@ export async function deleteOffer(rawReq: any, rawRes: any, Db: DbInterface) {
   const offerToDel = await Db.Offer.findOne({where: {id: req.body.id}});
   if(offerToDel !== null && offerToDel.providerId === req.session.user.id) {
     await offerToDel.destroy().catch((err) => res.status(500).send({message: 'Error while deleting offer'}));
-    res.status(200).send({message: 'OK'});
+    res.sendSuccess();
   }
   else if(offerToDel === null) {
-    res.status(400).send({message: 'Bad request: Offer Id unexistent'});
+    res.sendBadRequest('Bad request: Offer Id unexistent');
     return;
   }
   else {
-    res.status(401).send({message: 'Unauthorized'});
+    res.sendForbidden();
     return;
   }
 }

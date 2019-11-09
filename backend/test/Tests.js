@@ -2,6 +2,7 @@
 var indexModel = require('../build/models/index.model.js');
 const bcrypt = require('bcrypt');
 var assert = require('assert');
+const setupFunctions = require('../app/setupFunctions.js');
 
 /*
   Execute the tests with 'npm test'
@@ -23,6 +24,7 @@ exports.getRes = function(expectedStatus) {
       this.body = object;
     }
   };
+  setupFunctions.addFullResponseFunctions(res);
   return res;
 };
 
