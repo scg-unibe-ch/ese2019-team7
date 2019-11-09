@@ -95,6 +95,7 @@ function searchOfferTests() {
 function deleteOfferTests() {
   it('try to delete offer not belonging to user', deleteOfferWrongUserTest);
   it('successfully delete offer', deleteOfferTest);
+  it('try to delete inexistent offer', deleteInexistentOfferTest);
 }
 
 function setPublicTests() {
@@ -170,6 +171,21 @@ async function deleteOfferWrongUserTest() {
     }
   };
   const res = tests.getRes(401);
+  await offersController.deleteOffer(req, res , Db);
+  const allOffers = await Db.Offer.findAll({});
+  assert.strictEqual(allOffers.length, 4);
+}
+
+async function deleteInexistentOfferTest() {
+  const req = {
+    body: {
+      id: 26 // inexistent offer
+    },
+    session: {
+      user: hans // (has offers)
+    }
+  };
+  const res = tests.getRes(400);
   await offersController.deleteOffer(req, res , Db);
   const allOffers = await Db.Offer.findAll({});
   assert.strictEqual(allOffers.length, 4);
