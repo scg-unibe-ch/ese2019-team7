@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {OfferItem} from '../offer-item';
+import {ContactData} from '../contactData';
 import {HttpClient} from '@angular/common/http';
 
 @Component({
@@ -11,16 +12,28 @@ export class OfferItemComponent implements OnInit {
 
   @Input()
   offerItem: OfferItem;
-  categories = ['food & drink', 'entertainment', 'location', null];
-  model: OfferItem;
-  editing: boolean;
 
   constructor( private httpClient: HttpClient) {
-    this.model = this.offerItem;
-    this.editing = false;
   }
 
-  ngOnInit() {}
+  original = new OfferItem(0, '', '', '', '', '', '', false, false, false);
+  editing = false;
+  categories = ['food & drink', 'entertainment', 'location', null];
+  isLoggedIn = false;
+  contactData = new ContactData('N/A', 'N/A');
+
+
+  ngOnInit() {
+    this.original = this.offerItem.clone();
+    this.editing = false;
+    this.getMessage();
+  }
+
+  getMessage() {
+    this.httpClient.get('http://localhost:3000/protected', {withCredentials: true}).subscribe(
+      (object: any) => { this.isLoggedIn = true; },
+      (object: any) => { this.isLoggedIn = false; });
+  }
 
   onDelete() {
     this.httpClient.put('http://localhost:3000/deleteOffer', {
@@ -57,19 +70,36 @@ export class OfferItemComponent implements OnInit {
 
   onCancel() {
     this.editing = false;
-    this.model = this.offerItem;
+    this.offerItem = this.original.clone();
   }
 
   onSave() {
     this.httpClient.post('http://localhost:3000/editOffer', {
-      title: this.model.title,
-      description: this.model.description,
-      price: this.model.price,
-      category: this.model.category,
-      dateFrom: this.model.dateFrom,
-      dateTo: this.model.dateTo,
-      id: this.model.id
-    }, {withCredentials: true}).subscribe( (object) => this.resolveEditRequest('offer edited'),
+      title: this.original.title,
+      description: this.original.description,
+      price: this.original.price,
+      category: this.original.category,
+      dateFrom: this.original.dateFrom,
+      dateTo: this.original.dateTo,
+      id: this.original.id
+    }, {withCredentials: true}).subscribe((object) => this.resolveEditRequest('offer edited'),
       (object) => alert(object.status + ': ' + object.error.message));
+  }
+
+  generateContactData(instances) {
+    if (instances.tel == null) {
+      instances.tel = 'N/A';
+    }
+    return instances.map((instance) => new ContactData(
+      instance.tel,
+      instance.email));
+  }
+
+  getContactInfo() {
+    this.httpClient.put('http://localhost:3000/offerDetails', {
+      id: this.offerItem.id,
+    }, {withCredentials: true}).subscribe((instances: any) => {
+      this.contactData = this.generateContactData(instances);
+    }, (object: any) => {  alert('HTTP Error ' + object.status + ': ' + object.error.message); });
   }
 }

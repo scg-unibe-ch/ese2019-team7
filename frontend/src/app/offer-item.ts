@@ -12,4 +12,9 @@ export class OfferItem {
     public canBeSetPublic: boolean,
     public canBeEdited: boolean
 ) {}
+
+  clone() {
+    return new OfferItem(this.id, this.title, this.description, this.price, this.category, this.dateFrom, this.dateTo,
+      this.canBeDeleted, this.canBeSetPublic, this.canBeEdited);
+  }
 }

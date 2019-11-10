@@ -21,13 +21,33 @@ function genOfferValues(obj: any) {
 
 router.get('/', async (req: Request, res: Response) => {
   getDatabase().Offer.findAll({
-    attributes: ['id', 'title', 'price', 'category'],
+    attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo'],
     where: {
       public: true
     }})
     .then((offers: OfferInstance[]) => res.status(200).json({ offers }))
     .catch(err => res.status(500).json({ err: ['oops', err] }));
 
+});
+router.get('/offerDetail', AuthenticationController, async (req: Request, res: Response) => {
+  getDatabase().Offer.findOne({
+    attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo'],
+    where: {
+      id: req.body.id
+    }})
+    .then((offer: OfferInstance|null) => res.status(200).json({ offer }))
+    .catch(err => res.status(500).json({ err: ['oops', err] }));
+
+});
+
+router.get('/myOffers', AuthenticationController,  async (req: Request, res: Response) => {
+  getDatabase().Offer.findAll({
+    attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo'],
+    where: {
+      providerId: req.session.user.id
+    }})
+    .then((offers: OfferInstance[]) => res.status(200).json({ offers }))
+    .catch(err => res.status(500).json({ err: ['oops', err] }));
 });
 
 
@@ -71,7 +91,7 @@ export async  function performSearch(search: string, attributes: string[], db: D
   try {
     offers = await db.Offer.findAll({
       include: [ {model: db.User, as: 'provider', attributes: ['name', 'address', 'phone']} ],
-      attributes: ['id', 'title', 'description', 'price', 'category'],
+      attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo'],
       raw: true,
       where: {
         public: true,
@@ -126,11 +146,21 @@ export async function create(req: Request, res: Response, Db: any) {
 }
 router.get('/notApproved', async (req: Request, res: Response) => {
   getDatabase().Offer.findAll({
-    attributes: ['title', 'price', 'category', 'id'],
+    attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo'],
     where: {
       public: false
     }})
     .then((offers: OfferInstance[]) => res.status(200).json({ offers }))
+    .catch(err => res.status(500).json({ err: ['oops', err] }));
+
+});
+router.patch('/notApproved', async (req: Request, res: Response) => {
+  getDatabase().Offer.update(
+    {
+      public: true
+    }, {where: {
+    id: req.body.id
+    }}).then(e => res.status(200).json({message: 'Offer approved'}))
     .catch(err => res.status(500).json({ err: ['oops', err] }));
 
 });
@@ -146,7 +176,7 @@ export async function loadOffer(req: Request, res: Response, next: Function, Db:
   }
   const offerToLoad = await Db.Offer.findOne({where: {id: req.body.id}});
   if (offerToLoad === null) {
-    res.sendBadRequest('Bad request: Offer Id unexistent');
+    res.sendBadRequest('Bad request: Offer Id nonexistent');
     return;
   }
   if (req.session.user.id !== offerToLoad.providerId) {
