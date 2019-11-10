@@ -7,6 +7,18 @@ import {AuthenticationController} from './authentication.controller';
 
 const router: Router = Router();
 
+function genOfferValues(obj: any) {
+  const offerValues = {
+    title: obj.title,
+    description: obj.description,
+    price: obj.price,
+    category: obj.category,
+    dateFrom: obj.dateFrom,
+    dateTo: obj.dateTo,
+  };
+  return offerValues;
+}
+
 router.get('/', async (req: Request, res: Response) => {
   getDatabase().Offer.findAll({
     attributes: ['id', 'title', 'price', 'category'],
@@ -94,14 +106,7 @@ async function createDef(req: Request, res: Response) {
  */
 export async function create(req: Request, res: Response, Db: any) {
 
-  const offerValues = {
-    title: req.body.title,
-    description: req.body.description,
-    price: req.body.price,
-    category: req.body.category,
-    dateFrom: req.body.dateFrom,
-    dateTo: req.body.dateTo,
-  };
+  const offerValues = genOfferValues(req.body);
   let offer;
   try {
     offer = await Db.Offer.build(offerValues);
@@ -129,14 +134,36 @@ router.get('/notApproved', async (req: Request, res: Response) => {
     .catch(err => res.status(500).json({ err: ['oops', err] }));
 
 });
-router.get('/editoffer', async (req: Request, res: Response) => {
-  getDatabase().Offer.findOne({where : {id: req.body.id} })
-  res.statusCode = 200;
+
+async function loadOfferDef(req: Request, res: Response, next: Function) {
+  await loadOffer(req, res, next, getDatabase());
+}
+
+export async function loadOffer(req: Request, res: Response, next: Function, Db: DbInterface) {
+  if (typeof (req.body.id) !== 'number') {
+    res.status(400).send({message: 'Bad request'});
+    return;
+  }
+  const offerToLoad = await Db.Offer.findOne({where: {id: req.body.id}});
+  if (offerToLoad === null) {
+    res.sendBadRequest('Bad request: Offer Id unexistent');
+    return;
+  }
+  if (req.session.user.id !== offerToLoad.providerId) {
+    res.sendForbidden();
+    return;
+  }
+  req.body.offer = offerToLoad;
+  next();
+}
+
+
+router.get('/editoffer', AuthenticationController, loadOfferDef, async (req: Request, res: Response) => {
+  res.status(200).send(req.body.offer);
 });
-router.put('/editoffer',updateOfferDef)
 
-
-router.delete('/editoffer', AuthenticationController , deleteOfferDef);
+router.put('/editoffer', AuthenticationController, loadOfferDef, updateOfferDef);
+router.delete('/editoffer', AuthenticationController , loadOfferDef, deleteOfferDef);
 
 async function deleteOfferDef(rawReq: any, rawRes: any) {
   deleteOffer(rawReq, rawRes, getDatabase());
@@ -145,26 +172,13 @@ async function updateOfferDef(rawReq: any, rawRes: any) {
   updateOffer(rawReq, rawRes, getDatabase().Offer);
 }
 export async function updateOffer(req: Request, res: Response, offer: any) {
-  const offerValues = {
-    title: req.body.title,
-    description: req.body.description,
-    price: req.body.price,
-    category: req.body.category,
-    dateFrom: req.body.dateFrom,
-    dateTo: req.body.dateTo,
-  };
-  if (req.session.user.id !== req.body.Userid) res.sendStatus(401); // Bad Request
-
+  const offerToUpdate: OfferInstance = req.body.offer;
+  offerToUpdate.set(genOfferValues(req.body));
+  offerToUpdate.set('public', false);
   try {
-    await offer.update({
-      offerValues,
-      public: false,
-      where: {
-        id: req.body.id
-      }
-    });
+    await offerToUpdate.save();
   } catch (err) {
-    res.status(400).send({err : 'X_X'});
+    res.sendBadRequest(err.message);
     return;
   }
   res.status(201).send({message: 'Edited'});
@@ -179,24 +193,9 @@ export async function updateOffer(req: Request, res: Response, offer: any) {
  * @param offer Offer table of the database
  */
 export async function deleteOffer(req: Request, res: Response, Db: DbInterface) {
-
-  if (typeof (req.body.id) !== 'number') {
-    res.status(400).send({message: 'Bad request'});
-    return;
-  }
-  const offerToDel = await Db.Offer.findOne({where: {id: req.body.id}});
-  if(offerToDel !== null && offerToDel.providerId === req.session.user.id) {
-    await offerToDel.destroy().catch((err) => res.status(500).send({message: 'Error while deleting offer'}));
-    res.sendSuccess();
-  }
-  else if(offerToDel === null) {
-    res.sendBadRequest('Bad request: Offer Id unexistent');
-    return;
-  }
-  else {
-    res.sendForbidden();
-    return;
-  }
+  await req.body.offer.destroy().catch((err: any) => res.status(500).send({message: 'Error while deleting offer'}));
+  res.sendSuccess();
 }
+
 
 export const OffersController: Router = router;

@@ -117,13 +117,16 @@ function offerDetailsTests() {
 
 async function offerUpdateTest() {
   const req = {
-    body: defValidBody,
+    body: {
+      id: 1,
+      ...defValidBody
+    },
     session: {
       user: hans
     }
   };
 
-  await offersController.updateOffer(req, tests.getRes(201), Db);
+  await tests.simHttpRequest(req, 201, Db, offersController.loadOffer, offersController.updateOffer);
   let createdOffer;
   createdOffer = await Db.Offer.findOne({where: {title : 'Big beautiful house' }});
   assert.strictEqual(createdOffer.description, req.body.description, 'Saved description defer from expected value');
@@ -170,8 +173,7 @@ async function deleteOfferWrongUserTest() {
       user: ueli // (no offers)
     }
   };
-  const res = tests.getRes(403);
-  await offersController.deleteOffer(req, res , Db);
+  const res = await tests.simHttpRequest(req, 403, Db, offersController.loadOffer, offersController.deleteOffer);
   const allOffers = await Db.Offer.findAll({});
   assert.strictEqual(allOffers.length, 4);
 }
@@ -185,8 +187,7 @@ async function deleteInexistentOfferTest() {
       user: hans // (has offers)
     }
   };
-  const res = tests.getRes(400);
-  await offersController.deleteOffer(req, res , Db);
+  const res = await tests.simHttpRequest(req, 400, Db, offersController.loadOffer, offersController.deleteOffer);
   const allOffers = await Db.Offer.findAll({});
   assert.strictEqual(allOffers.length, 4);
 }
@@ -200,8 +201,7 @@ async function deleteOfferTest() {
       user: hans // (has offers)
     }
   };
-  const res = tests.getRes(200);
-  await offersController.deleteOffer(req, res , Db);
+  const res = await tests.simHttpRequest(req, 200, Db, offersController.loadOffer, offersController.deleteOffer);
   const allOffers = await Db.Offer.findAll({});
   assert.strictEqual(allOffers.length, 3);
 }

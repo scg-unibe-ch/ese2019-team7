@@ -15,6 +15,18 @@ const setupFunctions = require('../app/setupFunctions.js');
   -c file => save cookies to file
  */
 
+exports.simHttpRequest = async function(req, expectedStatus, Db, ...fToCall) {
+  const res = exports.getRes(expectedStatus);
+  let cmd = [];
+  if(fToCall[fToCall.length-1].length === 3) cmd[fToCall.length-1] = async () => await fToCall[fToCall.length - 1](req, res, Db);
+  else cmd[fToCall.length-1] = async () => await fToCall[fToCall.length - 1](req, res);
+  for(let i=fToCall.length-2; i>=0; i--) {
+    cmd[i] = async () => await fToCall[i](req, res, cmd[i+1], Db);
+  }
+  await cmd[0]();
+  return res;
+};
+
 exports.getRes = function(expectedStatus) {
   const res = {
     body: null,

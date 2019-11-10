@@ -7,11 +7,11 @@ const router: Router = Router();
 router.use(checkAuthenticationDef);
 
 
-async function checkAuthenticationDef(req: Request, res: Response, next: any) {
+async function checkAuthenticationDef(req: Request, res: Response, next: Function) {
   await checkAuthentication(req, res, next, getDatabase());
 }
 
-async function checkAuthentication(req: Request, res: Response, next: any, Db: DbInterface) {
+async function checkAuthentication(req: Request, res: Response, next: Function, Db: DbInterface) {
   if (req.session.user) {
     try {
       const user = await Db.User.findOne({where: {id: req.session.user.id }, rejectOnEmpty: true});
