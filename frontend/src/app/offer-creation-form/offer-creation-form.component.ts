@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Router} from '@angular/router';
 import {OfferCreationForm} from '../offerCreationForm';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-
 
 @Component({
   selector: 'app-offer-creation-form',
@@ -12,7 +9,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 })
 export class OfferCreationFormComponent implements OnInit {
 
-  constructor(    private httpClient: HttpClient, private router: Router
+  constructor(    private httpClient: HttpClient
   ) {
   }
 
