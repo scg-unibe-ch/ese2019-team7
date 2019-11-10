@@ -13,6 +13,9 @@ import {OfferSearchController} from "./controllers/offerSearch.controller";
 import {protectedController} from "./controllers/protected.controller";
 import {notFoundController} from "./controllers/notFound.controller";
 
+// @ts-ignore
+import * as setupFunctions from '../app/setupFunctions.js';
+
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
@@ -28,9 +31,10 @@ const cookieParser = require('cookie-parser');
 
 
 // create a new express application instance
+setupFunctions.addFullResponseFunctions(express.response);
 const app: express.Application = express();
 app.use(express.json());
-app.use(express.static('app'))
+app.use(express.static('app'));
 
 // define the port the express app will listen on
 var port: number = 3000;

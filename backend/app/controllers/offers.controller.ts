@@ -7,6 +7,18 @@ import {AuthenticationController} from './authentication.controller';
 
 const router: Router = Router();
 
+function genOfferValues(obj: any) {
+  const offerValues = {
+    title: obj.title,
+    description: obj.description,
+    price: obj.price,
+    category: obj.category,
+    dateFrom: obj.dateFrom,
+    dateTo: obj.dateTo,
+  };
+  return offerValues;
+}
+
 router.get('/', async (req: Request, res: Response) => {
   getDatabase().Offer.findAll({
     attributes: ['id', 'title', 'price', 'category'],
@@ -20,41 +32,41 @@ router.get('/', async (req: Request, res: Response) => {
 
 
 router.get('/search/title', searchTitle);
-router.get('/search/description', searchDescription);
 router.get('/search/all', searchAll);
-router.get('/search', searchAll);
+router.get('/search', searchTitle);
 const defOpts = {
   attributes: ['id', 'title', 'price', 'category'],
   raw: true
 };
 
 
-export async function searchTitle(rawReq: any, rawRes: any) {
-  await httpPerformSearch(rawReq, rawRes, getDatabase(), ['title']);
+export async function searchTitle(req: Request, res: Response) {
+  await httpPerformSearch(req, res, getDatabase(), ['title']);
 }
 
-export async function searchDescription(rawReq: any, rawRes: any) {
-  await httpPerformSearch(rawReq, rawRes, getDatabase(), ['description']);
+export async function searchAdvanced(req: Request, res: Response) {
+  await httpPerformSearch(req, res, getDatabase(), req.body.attributes);
 }
 
-export async function searchAll(rawReq: any, rawRes: any) {
-  await httpPerformSearch(rawReq, rawRes, getDatabase(), ['description', 'title', 'category']);
+export async function searchAll(req: Request, res: Response) {
+  await httpPerformSearch(req, res, getDatabase(), ['description', 'title']);
 }
 
-export async function httpPerformSearch(rawReq: any, rawRes: any, db: any, attributes: string[]) {
-  const req: Request & {session: {user: UserInstance}} = rawReq;
-  const res: Response = rawRes;
-  const results = await performSearch(req.body.search, attributes, db);
+export async function httpPerformSearch(req: Request, res: Response, db: DbInterface, attributes: string[]) {
+  const results = await performSearch(req.body.searchKey, attributes, db, req.body.category);
   res.status(200).send(results);
 }
 
-export async  function performSearch(search: string, attributes: string[], db: DbInterface): Promise<OfferAttributes[]> {
+export async  function performSearch(search: string, attributes: string[], db: DbInterface, category: string): Promise<OfferAttributes[]> {
   const Op = db.Sequelize.Op;
   const cmd = attributes.map((attribute) => {
     const obj: any = {};
     obj[attribute] = {[Op.like]: '%' + search + '%' };
     return obj;
   });
+  let categoryCmd;
+  if (category === undefined || category === '') categoryCmd = {};
+  else categoryCmd = {category: category};
   let offers: OfferAttributes[];
   try {
     offers = await db.Offer.findAll({
@@ -62,9 +74,9 @@ export async  function performSearch(search: string, attributes: string[], db: D
       attributes: ['id', 'title', 'description', 'price', 'category'],
       raw: true,
       where: {
-        approved: true,
         public: true,
-        [Op.or]: cmd
+        [Op.or]: cmd,
+        ...categoryCmd
       }});
   } catch (e) {
     offers = [];
@@ -77,8 +89,8 @@ router.get('/create', async (req: Request, res: Response) => {
 
 router.post('/create', createDef);
 
-async function createDef(rawReq: any, rawRes: any) {
-  create(rawReq, rawRes, getDatabase());
+async function createDef(req: Request, res: Response) {
+  create(req, res, getDatabase());
 }
 /**
  * Creation of a Offer. Format of the body should be as follow:
@@ -92,20 +104,9 @@ async function createDef(rawReq: any, rawRes: any) {
  * @param rawRes
  * @param Offer Offer table of the database
  */
-export async function create(rawReq: any, rawRes: any, Db: any) {
-  const req: Request & { session: { user: UserInstance } } = rawReq;
-  const res: Response = rawRes;
+export async function create(req: Request, res: Response, Db: any) {
 
-  const user = await Db.User.findOne({where: {id: req.session.user.id}});
-
-  const offerValues = {
-    title: req.body.title,
-    description: req.body.description,
-    price: req.body.price,
-    category: req.body.category,
-    dateFrom: req.body.dateFrom,
-    dateTo: req.body.dateTo,
-  };
+  const offerValues = genOfferValues(req.body);
   let offer;
   try {
     offer = await Db.Offer.build(offerValues);
@@ -114,7 +115,7 @@ export async function create(rawReq: any, rawRes: any, Db: any) {
     return;
   }
   try {
-    await offer.setProvider(user, {save: false});
+    await offer.setProvider(req.session.user, {save: false});
     await offer.save();
   } catch (e) {
     res.status(500).send({message: 'Internal Server error: Could not assign offer to user.\n' + e.message});
@@ -133,23 +134,36 @@ router.get('/notApproved', async (req: Request, res: Response) => {
     .catch(err => res.status(500).json({ err: ['oops', err] }));
 
 });
-router.put('/notApproved', async (req: Request, res: Response) => {
-  await getDatabase().Offer.update({
-    public: true, }, {
-    where: {
-      id: req.body.id
-    }
-  });
+
+async function loadOfferDef(req: Request, res: Response, next: Function) {
+  await loadOffer(req, res, next, getDatabase());
+}
+
+export async function loadOffer(req: Request, res: Response, next: Function, Db: DbInterface) {
+  if (typeof (req.body.id) !== 'number') {
+    res.status(400).send({message: 'Bad request'});
+    return;
+  }
+  const offerToLoad = await Db.Offer.findOne({where: {id: req.body.id}});
+  if (offerToLoad === null) {
+    res.sendBadRequest('Bad request: Offer Id unexistent');
+    return;
+  }
+  if (req.session.user.id !== offerToLoad.providerId) {
+    res.sendForbidden();
+    return;
+  }
+  req.body.offer = offerToLoad;
+  next();
+}
+
+
+router.get('/editoffer', AuthenticationController, loadOfferDef, async (req: Request, res: Response) => {
+  res.status(200).send(req.body.offer);
 });
 
-router.get('/editoffer', async (req: Request, res: Response) => {
-  getDatabase().Offer.findOne({where : {id: req.body.id} })
-  res.statusCode = 200;
-});
-router.put('/editoffer', updateOfferDef)
-
-
-router.delete('/editoffer', AuthenticationController , deleteOfferDef);
+router.put('/editoffer', AuthenticationController, loadOfferDef, updateOfferDef);
+router.delete('/editoffer', AuthenticationController , loadOfferDef, deleteOfferDef);
 
 async function deleteOfferDef(rawReq: any, rawRes: any) {
   deleteOffer(rawReq, rawRes, getDatabase());
@@ -157,29 +171,14 @@ async function deleteOfferDef(rawReq: any, rawRes: any) {
 async function updateOfferDef(rawReq: any, rawRes: any) {
   updateOffer(rawReq, rawRes, getDatabase().Offer);
 }
-export async function updateOffer(rawReq: any, rawRes: any, offer: any) {
-  const req: Request& {session: {user: UserInstance}} = rawReq;
-  const res: Response = rawRes;
-  const offerValues = {
-    title: req.body.title,
-    description: req.body.description,
-    price: req.body.price,
-    category: req.body.category,
-    dateFrom: req.body.dateFrom,
-    dateTo: req.body.dateTo,
-  };
-  if (req.session.user.id !== req.body.Userid) res.sendStatus(401); // Bad Request
-
+export async function updateOffer(req: Request, res: Response, offer: any) {
+  const offerToUpdate: OfferInstance = req.body.offer;
+  offerToUpdate.set(genOfferValues(req.body));
+  offerToUpdate.set('public', false);
   try {
-    await offer.update({
-      offerValues,
-      public: false,
-      where: {
-        id: req.body.id
-      }
-    });
+    await offerToUpdate.save();
   } catch (err) {
-    res.status(400).send({err : 'X_X'});
+    res.sendBadRequest(err.message);
     return;
   }
   res.status(201).send({message: 'Edited'});
@@ -193,27 +192,10 @@ export async function updateOffer(rawReq: any, rawRes: any, offer: any) {
  * @param rawRes
  * @param offer Offer table of the database
  */
-export async function deleteOffer(rawReq: any, rawRes: any, Db: DbInterface) {
-  const req: Request& {session: {user: UserInstance}} = rawReq;
-  const res: Response = rawRes;
-
-  if (typeof (req.body.id) !== 'number') {
-    res.status(400).send({message: 'Bad request'});
-    return;
-  }
-  const offerToDel = await Db.Offer.findOne({where: {id: req.body.id}});
-  if(offerToDel !== null && offerToDel.providerId === req.session.user.id) {
-    await offerToDel.destroy().catch((err) => res.status(500).send({message: 'Error while deleting offer'}));
-    res.status(200).send({message: 'OK'});
-  }
-  else if(offerToDel === null) {
-    res.status(400).send({message: 'Bad request: Offer Id unexistent'});
-    return;
-  }
-  else {
-    res.status(401).send({message: 'Unauthorized'});
-    return;
-  }
+export async function deleteOffer(req: Request, res: Response, Db: DbInterface) {
+  await req.body.offer.destroy().catch((err: any) => res.status(500).send({message: 'Error while deleting offer'}));
+  res.sendSuccess();
 }
+
 
 export const OffersController: Router = router;
