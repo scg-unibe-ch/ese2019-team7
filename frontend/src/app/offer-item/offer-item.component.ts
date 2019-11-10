@@ -21,6 +21,8 @@ export class OfferItemComponent implements OnInit {
   categories = ['food & drink', 'entertainment', 'location', null];
   isLoggedIn = false;
   contactData = new ContactData('N/A', 'N/A');
+  hideContactData = true;
+  hideButton = false;
 
 
   ngOnInit() {
@@ -90,6 +92,8 @@ export class OfferItemComponent implements OnInit {
     if (instances.tel == null) {
       instances.tel = 'N/A';
     }
+    this.hideContactData = false;
+    this.hideButton = true;
     return instances.map((instance) => new ContactData(
       instance.tel,
       instance.email));
