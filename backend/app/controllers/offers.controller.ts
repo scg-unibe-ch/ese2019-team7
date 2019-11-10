@@ -1,8 +1,8 @@
 import {Router, Request, Response} from 'express';
 import {getDatabase} from '../database';
 import {OfferAttributes, OfferInstance} from '../models/offer.model';
-import {UserInstance} from "../models/user.model";
-import {DbInterface} from "../dbtypings/dbInterface";
+import {UserInstance} from '../models/user.model';
+import {DbInterface} from '../dbtypings/dbInterface';
 import {AuthenticationController} from './authentication.controller';
 
 const router: Router = Router();
@@ -133,11 +133,20 @@ router.get('/notApproved', async (req: Request, res: Response) => {
     .catch(err => res.status(500).json({ err: ['oops', err] }));
 
 });
+router.put('/notApproved', async (req: Request, res: Response) => {
+  await getDatabase().Offer.update({
+    public: true, }, {
+    where: {
+      id: req.body.id
+    }
+  });
+});
+
 router.get('/editoffer', async (req: Request, res: Response) => {
   getDatabase().Offer.findOne({where : {id: req.body.id} })
   res.statusCode = 200;
 });
-router.put('/editoffer',updateOfferDef)
+router.put('/editoffer', updateOfferDef)
 
 
 router.delete('/editoffer', AuthenticationController , deleteOfferDef);

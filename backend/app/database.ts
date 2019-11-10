@@ -1,7 +1,7 @@
 import { createModels } from './models/index.model';
 import {UserAttributes, UserInstance} from './models/user.model';
 import {OfferAttributes, OfferInstance} from './models/offer.model';
-import {DbInterface} from "./dbtypings/dbInterface";
+import {DbInterface} from './dbtypings/dbInterface';
 
 const assert = require('assert');
 const bcrypt = require('bcrypt');

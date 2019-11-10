@@ -2,6 +2,7 @@ import Sequelize from 'sequelize';
 import { DbInterface } from '../dbtypings/dbInterface';
 import { UserFactory } from './user.model';
 import {OfferFactory} from './offer.model';
+import {AdminFactory} from './admin.model';
 
 export const createModels = (storagefile = 'db3.sqlite', loggingFunction: any = console.log): DbInterface => {
 
@@ -19,7 +20,8 @@ export const createModels = (storagefile = 'db3.sqlite', loggingFunction: any = 
     sequelize,
     Sequelize,
     User: UserFactory(sequelize, Sequelize),
-    Offer: OfferFactory(sequelize, Sequelize)
+    Offer: OfferFactory(sequelize, Sequelize),
+    Admin: AdminFactory(sequelize, Sequelize)
   };
   /*Object.keys(db).forEach(modelName => {
     if (db[modelName].associate) {
@@ -30,6 +32,8 @@ export const createModels = (storagefile = 'db3.sqlite', loggingFunction: any = 
   db.User.associate(db);
   // @ts-ignore
   db.Offer.associate(db);
+  // @ts-ignore
+  db.Admin.associate(db);
 
  /* if (db.User.associate) {
     db.User.associate();

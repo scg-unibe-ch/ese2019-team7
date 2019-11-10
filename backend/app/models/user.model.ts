@@ -18,15 +18,15 @@ export interface UserAttributes {
   updatedAt?: Date;
 };
 export interface UserInstance extends Sequelize.Instance<UserAttributes>, UserAttributes {
-  getOffers: Sequelize.HasManyGetAssociationsMixin<OfferInstance>;
-  setOffers: Sequelize.HasManySetAssociationsMixin<OfferInstance, OfferInstance['id']>;
-  addOffers: Sequelize.HasManyAddAssociationsMixin<OfferInstance, OfferInstance['id']>;
-  addOffer: Sequelize.HasManyAddAssociationMixin<OfferInstance, OfferInstance['id']>;
-  createOffer: Sequelize.HasManyCreateAssociationMixin<OfferAttributes, OfferInstance>;
-  removeOffer: Sequelize.HasManyRemoveAssociationMixin<OfferInstance, OfferInstance['id']>;
-  removeOffers: Sequelize.HasManyRemoveAssociationsMixin<OfferInstance, OfferInstance['id']>;
-  hasOffer: Sequelize.HasManyHasAssociationMixin<OfferInstance, OfferInstance['id']>;
-  hasOffers: Sequelize.HasManyHasAssociationsMixin<OfferInstance, OfferInstance['id']>;
+  getOffers: Sequelize.HasManyGetAssociationsMixin<UserInstance>;
+  setOffers: Sequelize.HasManySetAssociationsMixin<UserInstance, UserInstance['id']>;
+  addOffers: Sequelize.HasManyAddAssociationsMixin<UserInstance, UserInstance['id']>;
+  addOffer: Sequelize.HasManyAddAssociationMixin<UserInstance, UserInstance['id']>;
+  createOffer: Sequelize.HasManyCreateAssociationMixin<OfferAttributes, UserInstance>;
+  removeOffer: Sequelize.HasManyRemoveAssociationMixin<UserInstance, UserInstance['id']>;
+  removeOffers: Sequelize.HasManyRemoveAssociationsMixin<UserInstance, UserInstance['id']>;
+  hasOffer: Sequelize.HasManyHasAssociationMixin<UserInstance, UserInstance['id']>;
+  hasOffers: Sequelize.HasManyHasAssociationsMixin<UserInstance, UserInstance['id']>;
   countOffers: Sequelize.HasManyCountAssociationsMixin;
 
 };
@@ -64,6 +64,7 @@ export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize
   const User = sequelize.define<UserInstance, UserAttributes>('User', attributes);
   User.associate = models => {
     User.hasMany(models.Offer, {foreignKey: 'providerId'});
+    User.belongsTo(models.Admin, {foreignKey: 'AdminID'});
   };
 
   return User;
