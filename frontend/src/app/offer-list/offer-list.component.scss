@@ -1,0 +1,61 @@
+.category {
+  width:70%;
+  padding: 16px;
+  background-color: #f1f1f1;
+}
+
+.btn-success {
+  background-color: #9a0daf;
+  color: white;
+  left: 25%;
+  padding: 16px 20px;
+  margin: 2% 25%;
+  border: none;
+  cursor: pointer;
+  width: 50%;
+  opacity: 0.9;
+}
+
+.btn-success:hover {
+  opacity:1;
+}
+
+input[type=text] {
+  width: 50%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type=text]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+ul {
+  list-style-type: none;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+  background-color: #9a0daf;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #ffffff;
+  color: black;
+}

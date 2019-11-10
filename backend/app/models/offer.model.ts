@@ -10,7 +10,7 @@ export interface OfferAttributes {
   title: string;
   description: string;
   public: boolean;
-  category: 'act' | 'catering' | 'location';
+  category: 'act' | 'catering' | 'location' | 'sonstiges';
   dateFrom: Date;
   dateTo: Date;
   price: number;
@@ -46,7 +46,7 @@ export const OfferFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequeliz
       type: DataTypes.DATE,
     },
     category: {
-      type: DataTypes.ENUM('act', 'catering', 'location'),
+      type: DataTypes.ENUM('act', 'catering', 'location', 'sonstiges'),
       allowNull: false
     },
     price:  {
