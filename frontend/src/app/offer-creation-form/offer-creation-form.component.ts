@@ -15,7 +15,7 @@ export class OfferCreationFormComponent implements OnInit {
 
   model = new OfferCreationForm('', '', 0, '', 0, 0);
 
-  categories = ['food & drink', 'entertainment', 'location', null];
+  categories = ['other', 'food & drink', 'entertainment', 'location'];
 
   isLoggedIn = false;
 

@@ -45,7 +45,7 @@
     <div class="form-group">
       <label for="category">Category</label>
       <select class="form-control" id="category"
-              [(ngModel)]="offerItem.category" name="category">
+              [(ngModel)]="offerItem.category" name="category" required>
         <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
       </select>
     </div>

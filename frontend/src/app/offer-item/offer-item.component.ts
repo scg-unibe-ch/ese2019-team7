@@ -18,7 +18,7 @@ export class OfferItemComponent implements OnInit {
 
   original = new OfferItem(0, '', '', '', '', '', '', false, false, false);
   editing = false;
-  categories = ['food & drink', 'entertainment', 'location', null];
+  categories = ['other', 'food & drink', 'entertainment', 'location'];
   isLoggedIn = false;
   contactData = new ContactData('N/A', 'N/A');
   hideContactData = true;
