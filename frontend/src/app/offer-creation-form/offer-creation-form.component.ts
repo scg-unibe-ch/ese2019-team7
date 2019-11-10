@@ -18,7 +18,6 @@ export class OfferCreationFormComponent implements OnInit {
   categories = ['food & drink', 'entertainment', 'location', null];
 
   isLoggedIn = false;
-  submitted = false;
 
   ngOnInit() {
     this.getMessage();
@@ -30,7 +29,7 @@ export class OfferCreationFormComponent implements OnInit {
       (object: any) => { this.isLoggedIn = false; });
   }
 
-  onSubmit() {this.submitted = true; }
+  onSubmit() { }
 
   onSave() {
     this.httpClient.post('http://localhost:3000/offercreation', {

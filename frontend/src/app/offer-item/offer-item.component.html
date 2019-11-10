@@ -3,6 +3,9 @@
   <p>{{offerItem.description}}</p>
   <span>Price: {{offerItem.price}}</span><br />
   <span>Availability: {{offerItem.dateFrom}} - {{offerItem.dateTo}}</span>
+  <div [hidden] = !isLoggedIn>
+    <button (click)="getContactInfo()">Get Contact Info</button>
+  </div>
   <div [hidden]="!offerItem.canBeDeleted">
     <button (click)="onDelete()">Delete</button>
   </div>
