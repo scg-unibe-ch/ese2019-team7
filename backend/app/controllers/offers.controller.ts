@@ -101,7 +101,7 @@ export async  function performSearch(search: string, attributes: string[], db: D
   } catch (e) {
     offers = [];
   }
-  return {offers: offers };
+  return { offers };
 }
 router.get('/create', async (req: Request, res: Response) => {
   res.statusCode = 200;
