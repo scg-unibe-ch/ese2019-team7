@@ -77,7 +77,7 @@ export async function httpPerformSearch(req: Request, res: Response, db: DbInter
   res.status(200).send(results);
 }
 
-export async  function performSearch(search: string, attributes: string[], db: DbInterface, category: string): Promise<OfferAttributes[]> {
+export async  function performSearch(search: string, attributes: string[], db: DbInterface, category: string) {
   const Op = db.Sequelize.Op;
   const cmd = attributes.map((attribute) => {
     const obj: any = {};
@@ -101,7 +101,7 @@ export async  function performSearch(search: string, attributes: string[], db: D
   } catch (e) {
     offers = [];
   }
-  return offers;
+  return {offers: offers };
 }
 router.get('/create', async (req: Request, res: Response) => {
   res.statusCode = 200;
