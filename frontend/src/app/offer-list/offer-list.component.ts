@@ -35,8 +35,8 @@ export class OfferListComponent implements OnInit {
       instance.description,
       this.generatePriceDisplay(instance.price),
       instance.category,
-      instance.dateFrom,
-      instance.dateTo,
+      this.generateDateDisplay(instance.dateFrom),
+      this.generateDateDisplay(instance.dateTo),
       false,
       false,
       false));

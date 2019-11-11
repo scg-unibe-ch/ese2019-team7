@@ -20,7 +20,7 @@ export class OfferItemComponent implements OnInit {
   editing = false;
   categories = ['other', 'food & drink', 'entertainment', 'location'];
   isLoggedIn = false;
-  contactData = new ContactData('N/A', 'N/A');
+  contactData = new ContactData('N/A', 'N/A', 'N/A');
   hideContactData = true;
   hideButton = false;
 
@@ -95,12 +95,13 @@ export class OfferItemComponent implements OnInit {
     this.hideContactData = false;
     this.hideButton = true;
     return instances.map((instance) => new ContactData(
+      instance.username,
       instance.tel,
       instance.email));
   }
 
   getContactInfo() {
-    this.httpClient.put('http://localhost:3000/offerDetails', {
+    this.httpClient.put('http://localhost:3000/offers/contact', {
       id: this.offerItem.id,
     }, {withCredentials: true}).subscribe((instances: any) => {
       this.contactData = this.generateContactData(instances);
