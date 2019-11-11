@@ -53,7 +53,7 @@ router.get('/myOffers', AuthenticationController,  async (req: Request, res: Res
 
 router.get('/search/title', searchTitle);
 router.get('/search/all', searchAll);
-router.get('/search', searchTitle);
+router.put('/search', searchTitle);
 const defOpts = {
   attributes: ['id', 'title', 'price', 'category'],
   raw: true

@@ -144,10 +144,10 @@ async function searchOfferTest() {
   };
   const res = tests.getRes(200);
   await offersController.httpPerformSearch(req, res , Db, ['title']);
-  assert.notStrictEqual(res.body, undefined);
-  assert.notStrictEqual(res.body, null);
-  assert.strictEqual(res.body.length, 1);
-  assert.strictEqual(res.body[0].title, 'Best Swiss Food');
+  assert.notStrictEqual(res.body.offers, undefined);
+  assert.notStrictEqual(res.body.offers, null);
+  assert.strictEqual(res.body.offers.length, 1);
+  assert.strictEqual(res.body.offers[0].title, 'Best Swiss Food');
 }
 
 async function searchOfferTestNoCategory() {
