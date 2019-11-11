@@ -43,8 +43,8 @@ export class AdminListComponent implements OnInit {
       instance.description,
       this.generatePriceDisplay(instance.price),
       instance.category,
-      instance.dateFrom,
-      instance.dateTo,
+      this.generateDateDisplay(instance.dateFrom),
+      this.generateDateDisplay(instance.dateTo),
       true,
       true,
       false));

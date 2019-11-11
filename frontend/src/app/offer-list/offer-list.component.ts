@@ -35,8 +35,8 @@ export class OfferListComponent implements OnInit {
       instance.description,
       this.generatePriceDisplay(instance.price),
       instance.category,
-      instance.dateFrom,
-      instance.dateTo,
+      this.generateDateDisplay(instance.dateFrom),
+      this.generateDateDisplay(instance.dateTo),
       false,
       false,
       false));
@@ -56,9 +56,10 @@ export class OfferListComponent implements OnInit {
   }
 
   onSearch() {
-    this.httpClient.request('get', 'http://localhost:3000/offers/search', { body: {
+    alert(this.searchKey);
+    this.httpClient.put( 'http://localhost:3000/offers/search', {
       searchKey: this.searchKey,
-      category: this.category}
+      category: this.category
     }).subscribe((instances: any) => {
       this.offerItems = this.generateOfferItems(instances);
     }, (object: any) => {  alert('HTTP Error ' + object.status + ': ' + object.error.message); });
