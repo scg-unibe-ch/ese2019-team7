@@ -22,3 +22,4 @@
 </form>
 
 <app-offer-item [offerItem]="offerItem" *ngFor="let offerItem of offerItems"></app-offer-item>
+<div [hidden]="!(offerItems.length == 0)">Nothing to display</div>
