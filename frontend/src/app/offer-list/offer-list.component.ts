@@ -13,7 +13,7 @@ export class OfferListComponent implements OnInit {
   offerItem: OfferItem = new OfferItem(0, '', '', '', '', '', '', false, false, false);
   offerItems: OfferItem[] = [];
 
-  categories = ['food & drink', 'entertainment', 'location', null];
+  categories = ['other', 'food & drink', 'entertainment', 'location', null];
 
   searchKey = '';
   category = '';
