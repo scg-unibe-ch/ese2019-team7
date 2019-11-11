@@ -107,7 +107,7 @@ router.get('/create', async (req: Request, res: Response) => {
   res.statusCode = 200;
 });
 
-router.post('/create', createDef);
+router.post('/create', AuthenticationController, createDef);
 
 async function createDef(req: Request, res: Response) {
   create(req, res, getDatabase());
