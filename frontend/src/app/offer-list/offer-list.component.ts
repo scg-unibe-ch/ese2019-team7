@@ -56,9 +56,9 @@ export class OfferListComponent implements OnInit {
   }
 
   onSearch() {
-    this.httpClient.put('http://localhost:3000/search', {
+    this.httpClient.request('get', 'http://localhost:3000/offers/search', { body: {
       searchKey: this.searchKey,
-      category: this.category
+      category: this.category}
     }).subscribe((instances: any) => {
       this.offerItems = this.generateOfferItems(instances);
     }, (object: any) => {  alert('HTTP Error ' + object.status + ': ' + object.error.message); });

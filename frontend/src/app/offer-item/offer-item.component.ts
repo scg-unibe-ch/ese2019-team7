@@ -38,7 +38,7 @@ export class OfferItemComponent implements OnInit {
   }
 
   onDelete() {
-    this.httpClient.put('http://localhost:3000/deleteOffer', {
+    this.httpClient.put('http://localhost:3000/offers/delete', {
       id: this.offerItem.id,
     }, {withCredentials: true}).subscribe(
       (object) => this.resolveRequest(this.offerItem.title + ' deleted'),
@@ -46,7 +46,7 @@ export class OfferItemComponent implements OnInit {
   }
 
   onSetPublic() {
-    this.httpClient.put('http://localhost:3000/setPublic', {
+    this.httpClient.patch('http://localhost:3000/offers/notApproved', {
       id: this.offerItem.id,
     }, {withCredentials: true}).subscribe(
       (object) => this.resolveRequest(this.offerItem.title + ' has been set public'),
@@ -76,7 +76,7 @@ export class OfferItemComponent implements OnInit {
   }
 
   onSave() {
-    this.httpClient.post('http://localhost:3000/editOffer', {
+    this.httpClient.put('http://localhost:3000/offers/edit', {
       title: this.original.title,
       description: this.original.description,
       price: this.original.price,
