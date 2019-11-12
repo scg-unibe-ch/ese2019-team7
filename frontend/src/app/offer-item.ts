@@ -17,4 +17,5 @@ export class OfferItem {
     return new OfferItem(this.id, this.title, this.description, this.price, this.category, this.dateFrom, this.dateTo,
       this.canBeDeleted, this.canBeSetPublic, this.canBeEdited);
   }
+
 }

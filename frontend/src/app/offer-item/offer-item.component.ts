@@ -23,11 +23,15 @@ export class OfferItemComponent implements OnInit {
   contactData = new ContactData('N/A', 'N/A', 'N/A');
   hideContactData = true;
   hideButton = false;
+  displayDateFrom: string;
+  displayDateTo: string;
 
 
   ngOnInit() {
     this.original = this.offerItem.clone();
     this.editing = false;
+    this.displayDateFrom = this.offerItem.dateFrom.split('T')[0];
+    this.displayDateTo = this.offerItem.dateTo.split('T')[0];
     this.getMessage();
   }
 

@@ -2,7 +2,7 @@
   <h2>{{offerItem.title}}</h2>
   <p>{{offerItem.description}}</p>
   <span>Price: {{offerItem.price}}</span><br />
-  <span>Availability: {{offerItem.dateFrom.split('T')[0]}} - {{offerItem.dateTo.split('T')[0]}}</span>
+  <span>Availability: {{displayDateFrom}} - {{displayDateTo}}</span>
   <div [hidden]="hideContactData">
     <span>Username: {{contactData.username}}</span>
     <span>Tel: {{contactData.tel}}</span>

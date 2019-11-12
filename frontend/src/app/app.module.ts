@@ -22,7 +22,8 @@ import { OfferListComponent } from './offer-list/offer-list.component';
 import {OfferItemComponent} from './offer-item/offer-item.component';
 import {AdminListComponent} from './admin-list/admin-list.component';
 
-import {MatDatepickerModule, MatNativeDateModule} from '@angular/material';
+import {MatDatepickerModule} from '@angular/material';
+import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from '@angular/material-moment-adapter';
 import {MatInputModule, MatFormFieldModule} from '@angular/material';
 import {OwnListComponent} from './own-list/own-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -60,7 +61,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     FormsModule,
     MatDatepickerModule,
-    MatNativeDateModule,
+    MatMomentDateModule,
     MatInputModule,
     MatFormFieldModule,
     BrowserAnimationsModule,
@@ -73,7 +74,8 @@ const appRoutes: Routes = [
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}},
   ],
   bootstrap: [AppComponent]
 })
