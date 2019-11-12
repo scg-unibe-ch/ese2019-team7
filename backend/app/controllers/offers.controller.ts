@@ -44,8 +44,10 @@ router.get('/myOffers', AuthenticationController,  async (req: Request, res: Res
   getDatabase().Offer.findAll({
     attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo'],
     where: {
-      providerId: req.session.user.id
-    }})
+      provider:  req.session.user
+    }
+    })
+
     .then((offers: OfferInstance[]) => res.status(200).json({ offers }))
     .catch(err => res.status(500).json({ err: ['oops', err] }));
 });
@@ -188,12 +190,12 @@ export async function loadOffer(req: Request, res: Response, next: Function, Db:
 }
 
 
-router.get('/editoffer', AuthenticationController, loadOfferDef, async (req: Request, res: Response) => {
+router.get('/edit', AuthenticationController, loadOfferDef, async (req: Request, res: Response) => {
   res.status(200).send(req.body.offer);
 });
 
-router.put('/editoffer', AuthenticationController, loadOfferDef, updateOfferDef);
-router.delete('/editoffer', AuthenticationController , loadOfferDef, deleteOfferDef);
+router.put('/edit', AuthenticationController, loadOfferDef, updateOfferDef);
+router.delete('/edit', AuthenticationController , loadOfferDef, deleteOfferDef);
 
 async function deleteOfferDef(rawReq: any, rawRes: any) {
   deleteOffer(rawReq, rawRes, getDatabase());

@@ -5,13 +5,13 @@ import {LogoutController} from './controllers/logout.controller';
 import {AuthenticationController} from './controllers/authentication.controller';
 import express from 'express';
 import { createModels } from './models/index.model';
-import {OfferCreateController} from './controllers/offerCreation.controller';
+
 import {OffersController} from './controllers/offers.controller';
 import {getDatabase} from './database';
 import {initDatabase} from './database';
-import {OfferSearchController} from "./controllers/offerSearch.controller";
-import {protectedController} from "./controllers/protected.controller";
-import {notFoundController} from "./controllers/notFound.controller";
+
+import {protectedController} from './controllers/protected.controller';
+import {notFoundController} from './controllers/notFound.controller';
 
 // @ts-ignore
 import * as setupFunctions from '../app/setupFunctions.js';
@@ -68,9 +68,9 @@ app.use(function (req: any, res, next) {
 // Files declarations
 app.use('/login', LoginController );
 app.use('/register', RegisterController );
-app.use('/offercreation', OfferCreateController);
+
 app.use('/offers', OffersController );
-app.use('/search', OfferSearchController);
+
 app.use('/logout', LogoutController);
 app.use('/protected', protectedController);
 app.use(notFoundController);
