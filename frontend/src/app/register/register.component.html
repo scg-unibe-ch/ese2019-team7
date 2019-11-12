@@ -1,11 +1,13 @@
 <nav class="navbar">
   <ul>
-    <li><a routerLink="../login">Sign in.</a></li>
-    <li><a routerLink="../register">Register</a></li>
-    <li><a routerLink="../offer-list">View offers</a></li>
-    <li><a routerLink="../offer-creation-form">Publish an offer</a></li>
+    <li><a routerLink="../offers">View offers</a></li>
+    <li><a routerLink="../createOffer">Publish an offer</a></li>
+    <li [hidden]="isLoggedIn" style="float:right; "><a class="active"  routerLink="../login">Sign in</a></li>
+    <li [hidden]="!isLoggedIn" style="float:right; "> <button type="submit" class="logOut" (click)="logOut()">Log out</button> </li>
+    <!--<li style="float: right; padding: 10px 10px;"> <input type="search" id="search" placeholder="Search for an offer" style=""></li>-->
   </ul></nav>
 
+<div style="overflow-y: scroll; max-height:96%">
 <div class="container">
   <div>
     <form (ngSubmit)="onSubmit()" #registerForm="ngForm" appPasswordValid appEmailValid>
@@ -59,9 +61,10 @@
         <input type="text" class="form-control" id="address" [(ngModel)]="model.address" name="address" placeholder="Enter your address"/>
       </div>
       <button type="submit" class="btn btn-success" [disabled]="!registerForm.form.valid" (click)="onSave(); registerForm.reset()" >Register</button>
-      <div class="container redirect">
+      <div class="redirect">
         <p>Already have an account? <a routerLink="../login">Sign in.</a></p>
       </div>
     </form>
   </div>
+</div>
 </div>
