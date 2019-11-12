@@ -22,7 +22,7 @@ export class OwnListComponent implements OnInit {
   ngOnInit() {
     this.getMessage();
     if (this.isLoggedIn) {
-      this.httpClient.get('http://localhost:3000/myOffers', {withCredentials: true}).subscribe((instances: any) => {
+      this.httpClient.get('http://localhost:3000/offers/myOffers', {withCredentials: true}).subscribe((instances: any) => {
         this.offerItems = this.generateOfferItems(instances);
       }, (object: any) => {
         alert('HTTP Error ' + object.status + ': ' + object.error.message);
@@ -43,8 +43,8 @@ export class OwnListComponent implements OnInit {
       instance.description,
       this.generatePriceDisplay(instance.price),
       instance.category,
-      instance.dateFrom,
-      instance.dateTo,
+      this.generateDateDisplay(instance.dateFrom),
+      this.generateDateDisplay(instance.dateTo),
       true,
       false,
       true));

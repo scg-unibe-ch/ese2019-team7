@@ -53,7 +53,7 @@ router.get('/myOffers', AuthenticationController,  async (req: Request, res: Res
 
 router.get('/search/title', searchTitle);
 router.get('/search/all', searchAll);
-router.get('/search', searchTitle);
+router.put('/search', searchTitle);
 const defOpts = {
   attributes: ['id', 'title', 'price', 'category'],
   raw: true
@@ -77,7 +77,7 @@ export async function httpPerformSearch(req: Request, res: Response, db: DbInter
   res.status(200).send(results);
 }
 
-export async  function performSearch(search: string, attributes: string[], db: DbInterface, category: string): Promise<OfferAttributes[]> {
+export async  function performSearch(search: string, attributes: string[], db: DbInterface, category: string) {
   const Op = db.Sequelize.Op;
   const cmd = attributes.map((attribute) => {
     const obj: any = {};
@@ -101,13 +101,13 @@ export async  function performSearch(search: string, attributes: string[], db: D
   } catch (e) {
     offers = [];
   }
-  return offers;
+  return { offers };
 }
 router.get('/create', async (req: Request, res: Response) => {
   res.statusCode = 200;
 });
 
-router.post('/create', createDef);
+router.post('/create', AuthenticationController, createDef);
 
 async function createDef(req: Request, res: Response) {
   create(req, res, getDatabase());

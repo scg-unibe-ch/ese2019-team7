@@ -15,7 +15,7 @@ export class OfferCreationFormComponent implements OnInit {
 
   model = new OfferCreationForm('', '', 0, '', 0, 0);
 
-  categories = ['other', 'food & drink', 'entertainment', 'location'];
+  categories = ['other', 'catering', 'entertainment', 'location'];
 
   isLoggedIn = false;
 
@@ -32,7 +32,7 @@ export class OfferCreationFormComponent implements OnInit {
   onSubmit() { }
 
   onSave() {
-    this.httpClient.post('http://localhost:3000/offercreation', {
+    this.httpClient.post('http://localhost:3000/offers/create', {
       title: this.model.title,
       description: this.model.description,
       price: this.model.price,

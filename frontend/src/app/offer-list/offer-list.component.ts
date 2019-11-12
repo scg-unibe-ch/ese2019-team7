@@ -13,7 +13,7 @@ export class OfferListComponent implements OnInit {
   offerItem: OfferItem = new OfferItem(0, '', '', '', '', '', '', false, false, false);
   offerItems: OfferItem[] = [];
 
-  categories = ['food & drink', 'entertainment', 'location', null];
+  categories = ['other', 'catering', 'entertainment', 'location', ''];
 
   searchKey = '';
   category = '';
@@ -35,8 +35,8 @@ export class OfferListComponent implements OnInit {
       instance.description,
       this.generatePriceDisplay(instance.price),
       instance.category,
-      instance.dateFrom,
-      instance.dateTo,
+      this.generateDateDisplay(instance.dateFrom),
+      this.generateDateDisplay(instance.dateTo),
       false,
       false,
       false));
@@ -56,10 +56,10 @@ export class OfferListComponent implements OnInit {
   }
 
   onSearch() {
-    this.httpClient.put('http://localhost:3000/search', {
+    this.httpClient.put('http://localhost:3000/offers/search',  {
       searchKey: this.searchKey,
-      category: this.category
-    }).subscribe((instances: any) => {
+      category: this.category }
+    ).subscribe((instances: any) => {
       this.offerItems = this.generateOfferItems(instances);
     }, (object: any) => {  alert('HTTP Error ' + object.status + ': ' + object.error.message); });
   }
