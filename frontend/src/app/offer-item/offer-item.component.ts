@@ -67,6 +67,12 @@ export class OfferItemComponent implements OnInit {
   onSubmit() { }
 
   onEdit() {
+    if (this.offerItem.dateFrom === 'N/A') {
+      this.offerItem.dateFrom = null;
+    }
+    if (this.offerItem.dateTo === 'N/A') {
+      this.offerItem.dateTo = null;
+    }
     this.editing = true;
   }
 
