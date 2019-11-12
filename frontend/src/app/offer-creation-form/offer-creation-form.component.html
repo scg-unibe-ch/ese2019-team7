@@ -1,11 +1,13 @@
 <nav class="navbar">
   <ul>
-    <li><a routerLink="../login">Sign in.</a></li>
-    <li><a routerLink="../register">Register</a></li>
-    <li><a routerLink="../offer-list">View offers</a></li>
-    <li><a routerLink="../offer-creation-form">Publish an offer</a></li>
+    <li><a routerLink="../offers">View offers</a></li>
+    <li class="active"><a routerLink="../createOffer">Publish an offer</a></li>
+    <li [hidden]="isLoggedIn" style="float:right; "><a class="active"  routerLink="../login">Sign in</a></li>
+    <li [hidden]="!isLoggedIn" style="float:right; "> <button type="submit" class="logOut" (click)="logOut()">Log out</button> </li>
+    <!--<li style="float: right; padding: 10px 10px;"> <input type="search" id="search" placeholder="Search for an offer" style=""></li>-->
   </ul></nav>
 
+<div style="overflow-y: scroll; max-height:90%">
 <div class="container">
   <div>
     <div [hidden]="isLoggedIn">
@@ -21,7 +23,7 @@
       </div>
       <div class="form-group">
         <label for="description">Description*</label>
-        <input type="text" class="form-control" id="description" [(ngModel)]="model.description" name="description" #description="ngModel" required placeholder="Enter a description of your offer"/>
+        <input type="text" class="form-control"  id="description" [(ngModel)]="model.description" name="description" #description="ngModel" required placeholder="Enter a description of your offer"/>
         <div [hidden]="description.valid || description.pristine" class="alert alert-danger">
           You need a description for your offer.
         </div>
@@ -52,4 +54,5 @@
       <button type="submit" class="btn btn-success" [disabled]="!offerCreationForm.form.valid" (click)="onSave(); offerCreationForm.reset()">Create offer</button>
     </form>
   </div>
+</div>
 </div>

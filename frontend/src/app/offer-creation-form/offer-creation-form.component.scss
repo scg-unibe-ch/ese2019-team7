@@ -3,6 +3,10 @@
 /* Add padding to containers */
 .container {
   padding: 16px;
+  width: 50%;
+  margin-top: 6%;
+  margin-left: 25%;
+  margin-bottom: 15%;
 }
 
 /*label, input {
@@ -21,16 +25,12 @@ input[type=text] {
 }
 
 input[type=int] {
-  padding-right: 15px;
+  width: 100%;
+  padding: 15px;
   margin: 5px 0 22px 0;
   display: inline-block;
   border: none;
   background-color: #f1f1f1;
-  //background-image: url("swiss-flag.png");
-  background-position: 10px 10px;
-  padding-left: 40px
-  /*-webkit-transition: width 0.4s ease-in-out;
-  transition: width 0.4s ease-in-out;*/
 }
 
 input[type=text]:focus {
@@ -42,13 +42,16 @@ input[type=int]:focus {
   width: 100%;
 }
 
-.description {
-  width: 70%;
+#description {
+  padding: 15px;
+  margin: 0;
+  width: 100%;
   height: 150px;
+  vertical-align: top;
 }
 
-.category {
-  width:70%;
+#category {
+  width:100%;
   padding: 16px;
   background-color: #f1f1f1;
 }
@@ -90,6 +93,7 @@ a {
   text-align: center;
 }
 
+/* Navigation bar styling*/
 ul {
   list-style-type: none;
   position: fixed;
@@ -114,4 +118,27 @@ li a {
 li a:hover {
   background-color: #ffffff;
   color: black;
+}
+
+.active {
+  background-color: #af219d;
+}
+
+.logOut {
+  display: block;
+  color: white;
+  background-color:#9d55af;
+  font-size: 16px;
+  text-align: center;
+  padding: 15px 16px;
+  text-decoration: none;
+}
+
+.logOut:hover {
+  background-color: #ffffff;
+  color: black;
+}
+
+.logOut:focus {
+  border: none;
 }
