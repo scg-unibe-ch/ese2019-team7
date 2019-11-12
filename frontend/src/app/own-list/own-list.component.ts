@@ -66,3 +66,4 @@ export class OwnListComponent implements OnInit {
     } else {return String(date); }
   }
 }
+

@@ -49,7 +49,7 @@ export class OfferListComponent implements OnInit {
       return String(price);
     }
   }
-  generateDateDisplay(date: number) {
+  generateDateDisplay(date: string) {
     if (date == null) {
       return 'N/A';
     } else {return String(date); }

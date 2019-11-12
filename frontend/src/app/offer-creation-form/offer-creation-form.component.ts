@@ -13,7 +13,7 @@ export class OfferCreationFormComponent implements OnInit {
   ) {
   }
 
-  model = new OfferCreationForm('', '', 0, '', 0, 0);
+  model = new OfferCreationForm('', '', null, '', 0, 0);
 
   categories = ['other', 'catering', 'entertainment', 'location'];
 
@@ -32,6 +32,8 @@ export class OfferCreationFormComponent implements OnInit {
   onSubmit() { }
 
   onSave() {
+    this.model.dateFrom = this.checkDate(this.model.dateFrom);
+    this.model.dateTo = this.checkDate(this.model.dateTo);
     this.httpClient.post('http://localhost:3000/offers/create', {
       title: this.model.title,
       description: this.model.description,
@@ -40,6 +42,14 @@ export class OfferCreationFormComponent implements OnInit {
       dateFrom: this.model.dateFrom,
       dateTo: this.model.dateTo,
     }, {withCredentials: true}).subscribe( this.answer, this.onSave_error);
+  }
+
+  checkDate(date: number) {
+    if (date === 0) {
+      return null;
+    } else {
+      return date;
+    }
   }
 
   onSave_error(object: any) {

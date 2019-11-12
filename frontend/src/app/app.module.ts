@@ -25,7 +25,7 @@ import {AdminListComponent} from './admin-list/admin-list.component';
 import {MatDatepickerModule, MatNativeDateModule} from '@angular/material';
 import {MatInputModule, MatFormFieldModule} from '@angular/material';
 import {OwnListComponent} from './own-list/own-list.component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -63,6 +63,7 @@ const appRoutes: Routes = [
     MatNativeDateModule,
     MatInputModule,
     MatFormFieldModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
