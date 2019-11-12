@@ -3,6 +3,7 @@ import * as Sequelize from 'sequelize';
 import { SequelizeAttributes } from '../dbtypings/sequelizeAttributes';
 
 import { OfferAttributes, OfferInstance } from '../models/offer.model';
+import {AdminAttributes, AdminInstance} from "./admin.model";
 
 export interface UserAttributes {
   id?: number;
@@ -12,6 +13,7 @@ export interface UserAttributes {
   eMail: string;
   address?: string;
   offers?: OfferAttributes[] | OfferAttributes['id'][];
+  adminId?: AdminAttributes | AdminAttributes['id'];
 
 
   createdAt?: Date;
@@ -28,6 +30,13 @@ export interface UserInstance extends Sequelize.Instance<UserAttributes>, UserAt
   hasOffer: Sequelize.HasManyHasAssociationMixin<UserInstance, UserInstance['id']>;
   hasOffers: Sequelize.HasManyHasAssociationsMixin<UserInstance, UserInstance['id']>;
   countOffers: Sequelize.HasManyCountAssociationsMixin;
+
+  getAdmin: Sequelize.HasManyGetAssociationsMixin<AdminInstance>;
+  setAdmin: Sequelize.HasManySetAssociationsMixin<AdminInstance, AdminInstance['id']>;
+  addAdmin: Sequelize.HasManyAddAssociationMixin<AdminInstance, AdminInstance['id']>;
+  createAdmin: Sequelize.HasManyCreateAssociationMixin<AdminAttributes, AdminInstance>;
+  removeAdmin: Sequelize.HasManyRemoveAssociationMixin<AdminInstance, AdminInstance['id']>;
+  hasAdmin: Sequelize.HasManyHasAssociationMixin<AdminInstance, AdminInstance['id']>;
 
 };
 export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes)
@@ -64,7 +73,7 @@ export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize
   const User = sequelize.define<UserInstance, UserAttributes>('User', attributes);
   User.associate = models => {
     User.hasMany(models.Offer, {foreignKey: 'providerId'});
-    User.belongsTo(models.Admin, {foreignKey: 'AdminID'});
+    User.belongsTo(models.Admin, {foreignKey: 'adminId'});
   };
 
   return User;

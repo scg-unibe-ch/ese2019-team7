@@ -4,6 +4,7 @@ import {OfferAttributes, OfferInstance} from '../models/offer.model';
 import {UserInstance} from '../models/user.model';
 import {DbInterface} from '../dbtypings/dbInterface';
 import {AuthenticationController} from './authentication.controller';
+import {AdminAuthenticationController} from "./adminAuthentication.controller";
 
 const router: Router = Router();
 
@@ -146,7 +147,7 @@ export async function create(req: Request, res: Response, Db: any) {
   res.status(201).send({message: 'Offer created'});
 
 }
-router.get('/notApproved', async (req: Request, res: Response) => {
+router.get('/notApproved', AdminAuthenticationController, async (req: Request, res: Response) => {
   getDatabase().Offer.findAll({
     attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo'],
     where: {
@@ -156,7 +157,7 @@ router.get('/notApproved', async (req: Request, res: Response) => {
     .catch(err => res.status(500).json({ err: ['oops', err] }));
 
 });
-router.patch('/notApproved', async (req: Request, res: Response) => {
+router.patch('/notApproved', AdminAuthenticationController, async (req: Request, res: Response) => {
   getDatabase().Offer.update(
     {
       public: true
