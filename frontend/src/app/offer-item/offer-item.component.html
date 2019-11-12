@@ -1,9 +1,21 @@
-<div [hidden]="editing">
-  <h2>{{offerItem.title}}</h2>
-  <p>{{offerItem.description}}</p>
-  <span>Price: {{offerItem.price}}</span><br />
-  <span>Availability: {{offerItem.dateFrom}} - {{offerItem.dateTo}}</span>
-  <div [hidden]="hideContactData">
+<div style="overflow-x:auto;" [hidden]="editing">
+
+  <p class="title">{{offerItem.title}}</p>
+  <table>
+    <tr>
+      <th> About the offer</th>
+      <td><p class="description">{{offerItem.description}}</p></td>
+    </tr>
+    <tr>
+      <th>Price</th>
+      <td><span class="price">{{offerItem.price}}</span></td>
+    </tr>
+    <tr>
+      <th>Availability</th>
+      <td><span class="availability">{{offerItem.dateFrom}} - {{offerItem.dateTo}}</span></td>
+    </tr>
+
+  <div class="contactData" [hidden]="hideContactData">
     <span>Username: {{contactData.username}}</span>
     <span>Tel: {{contactData.tel}}</span>
     <span>email: {{contactData.email}}</span>
@@ -20,6 +32,7 @@
   <div [hidden]="!offerItem.canBeEdited">
     <button (click)="onEdit()">Edit</button>
   </div>
+  </table>
 </div>
 
 <div>

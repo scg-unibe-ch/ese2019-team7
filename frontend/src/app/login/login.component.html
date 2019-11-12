@@ -1,10 +1,10 @@
 <nav class="navbar">
   <ul>
-    <li><a routerLink="../register">Register</a></li>
     <li><a routerLink="../offers">View offers</a></li>
     <li><a routerLink="../createOffer">Publish an offer</a></li>
-    <li style="float:right; "><a style="background-color:#9d55af;" routerLink="../login">Sign in</a></li>
-    <li style="float: right; padding: 10px 10px;"> <input type="search" id="search" placeholder="Search for an offer" style=""></li>
+    <li [hidden]="isLoggedIn" style="float:right; "><a class="active"  routerLink="../login">Sign in</a></li>
+    <li [hidden]="!isLoggedIn" style="float:right; "> <button type="submit" class="logOut" (click)="logOut()">Log out</button> </li>
+    <!--<li style="float: right; padding: 10px 10px;"> <input type="search" id="search" placeholder="Search for an offer" style=""></li>-->
   </ul></nav>
 
 <div class="container">
@@ -25,7 +25,7 @@
         </div>
       </div>
       <button type="submit" class="btn btn-success" [disabled]="!loginForm.form.valid" (click)="onSave(); loginForm.reset()">Sign in</button>
-      <div class="container redirect">
+      <div class="redirect">
         <p>New user? <a routerLink="../register">Register here.</a></p>
       </div>
     </form>
