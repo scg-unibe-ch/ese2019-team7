@@ -32,12 +32,6 @@ export class OwnListComponent implements OnInit {
       });
   }
 
-  getMessage() {
-    this.httpClient.get('http://localhost:3000/protected', {withCredentials: true}).subscribe(
-      (object: any) => { this.isLoggedIn = true; },
-      (object: any) => { this.isLoggedIn = false; });
-  }
-
   generateOfferItems(instances: any) {
     return instances.offers.map((instance) => new OfferItem(
       instance.id,
