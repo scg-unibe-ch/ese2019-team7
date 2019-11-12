@@ -112,7 +112,7 @@ router.get('/create', async (req: Request, res: Response) => {
 router.post('/create', AuthenticationController, createDef);
 
 async function createDef(req: Request, res: Response) {
-  create(req, res, getDatabase());
+  await create(req, res, getDatabase());
 }
 /**
  * Creation of a Offer. Format of the body should be as follow:
