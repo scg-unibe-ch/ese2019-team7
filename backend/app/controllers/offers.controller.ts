@@ -44,7 +44,7 @@ router.get('/myOffers', AuthenticationController,  async (req: Request, res: Res
   getDatabase().Offer.findAll({
     attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo'],
     where: {
-      provider:  req.session.user
+      providerId:  req.session.user.id
     }
     })
 
@@ -195,7 +195,7 @@ router.get('/edit', AuthenticationController, loadOfferDef, async (req: Request,
 });
 
 router.put('/edit', AuthenticationController, loadOfferDef, updateOfferDef);
-router.delete('/edit', AuthenticationController , loadOfferDef, deleteOfferDef);
+router.put('/delete', AuthenticationController , loadOfferDef, deleteOfferDef);
 
 async function deleteOfferDef(rawReq: any, rawRes: any) {
   deleteOffer(rawReq, rawRes, getDatabase());
