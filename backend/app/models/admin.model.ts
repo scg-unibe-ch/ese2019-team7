@@ -18,12 +18,12 @@ export interface AdminAttributes {
   updatedAt?: Date;
 };
 export interface AdminInstance extends Sequelize.Instance<AdminAttributes>, AdminAttributes {
-  getUser: Sequelize.HasManyGetAssociationsMixin<UserInstance>;
+ /* getUser: Sequelize.HasManyGetAssociationsMixin<UserInstance>;
   setUser: Sequelize.HasManySetAssociationsMixin<UserInstance, UserInstance['id']>;
   addUser: Sequelize.HasManyAddAssociationMixin<UserInstance, UserInstance['id']>;
   createUser: Sequelize.HasManyCreateAssociationMixin<UserAttributes, UserInstance>;
   removeUser: Sequelize.HasManyRemoveAssociationMixin<UserInstance, UserInstance['id']>;
-  hasUser: Sequelize.HasManyHasAssociationMixin<UserInstance, UserInstance['id']>;
+  hasUser: Sequelize.HasManyHasAssociationMixin<UserInstance, UserInstance['id']>;*/
 }
 export const AdminFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes)
   : Sequelize.Model<AdminInstance, AdminAttributes> => {
