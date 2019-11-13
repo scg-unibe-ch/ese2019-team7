@@ -1,4 +1,4 @@
-div {
+.item {
   margin-bottom: 3%;
   border: 1px solid purple;
 }
@@ -23,3 +23,56 @@ th, td {
 tr:nth-child(odd) {background-color: #e5aef1;}
 
 tr:hover {background-color: #9d55af;}
+
+/* Full-width input fields */
+input[type=text] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type=int] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background-color: #f1f1f1;
+}
+
+input[type=text]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+input[type=int]:focus {
+  width: 100%;
+}
+
+#description {
+  padding: 15px;
+  margin: 0;
+  width: 100%;
+  height: 150px;
+  vertical-align: top;
+  background: #f1f1f1;
+}
+
+#category {
+  width:100%;
+  padding: 16px;
+  background-color: #f1f1f1;
+}
+
+/* Overwrite default styles of hr */
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+.alert-danger {
+  color:red;
+}
