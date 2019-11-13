@@ -19,7 +19,7 @@ async function checkAuthentication(req: Request, res: Response, next: Function, 
       else throw 'err';
     }
     catch (e) {
-      res.status(500).send('Internal Server Error: failed to find authenticated user');
+      res.status(500).send({message: 'Internal Server Error: failed to find authenticated user'});
     }
     next();
   } else {
