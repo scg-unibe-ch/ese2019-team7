@@ -30,14 +30,19 @@ router.get('/', async (req: Request, res: Response) => {
     .catch(err => res.status(500).json({ message: err }));
 
 });
-router.get('/offerDetail', AuthenticationController, async (req: Request, res: Response) => {
-  getDatabase().Offer.findOne({
-    attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo'],
-    where: {
-      id: req.body.id
-    }})
-    .then((offer: OfferInstance|null) => res.status(200).json({ offer }))
-    .catch(err => res.status(500).json({ message: err }));
+router.get('/contact', AuthenticationController, loadOfferDef, async (req: Request, res: Response) => {
+  const offer: OfferInstance = req.body.offer;
+  const provider = await offer.getProvider();
+  if (provider !== null) {
+    res.status(200).send({
+      name: provider.name,
+      email: provider.eMail,
+      phone: provider.phone
+    });
+  }
+  else {
+    res.sendError('Could get associated provider of the offer ' + offer.title + '.:');
+  }
 
 });
 
@@ -182,16 +187,16 @@ export async function loadOffer(req: Request, res: Response, next: Function, Db:
     res.sendBadRequest('Bad request: Offer Id nonexistent');
     return;
   }
-  if (req.session.user.id !== offerToLoad.providerId) {
-    res.sendForbidden();
-    return;
-  }
   req.body.offer = offerToLoad;
   next();
 }
 
 
 router.get('/edit', AuthenticationController, loadOfferDef, async (req: Request, res: Response) => {
+  if (req.session.user.id !== req.body.offer.providerId) {
+    res.sendForbidden();
+    return;
+  }
   res.status(200).send(req.body.offer);
 });
 
@@ -205,6 +210,10 @@ async function updateOfferDef(rawReq: any, rawRes: any) {
   updateOffer(rawReq, rawRes, getDatabase().Offer);
 }
 export async function updateOffer(req: Request, res: Response, offer: any) {
+  if (req.session.user.id !== req.body.offer.providerId) {
+    res.sendForbidden();
+    return;
+  }
   const offerToUpdate: OfferInstance = req.body.offer;
   offerToUpdate.set(genOfferValues(req.body));
   offerToUpdate.set('public', false);
@@ -226,6 +235,10 @@ export async function updateOffer(req: Request, res: Response, offer: any) {
  * @param offer Offer table of the database
  */
 export async function deleteOffer(req: Request, res: Response, Db: DbInterface) {
+  if (req.session.user.id !== req.body.offer.providerId) {
+    res.sendForbidden();
+    return;
+  }
   await req.body.offer.destroy().catch((err: any) => res.status(500).send({message: 'Error while deleting offer'}));
   res.sendSuccess();
 }

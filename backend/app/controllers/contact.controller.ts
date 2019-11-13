@@ -19,7 +19,7 @@ router.put('/', AuthenticationController, loadOfferDef, async (req: Request, res
     });
   }
   else {
-    res.sendError('Could get associated provider of the offer ' + offer.title + '.');
+    res.sendError('Could get associated provider of the offer ' + offer.title + '.:');
   }
 
 });
