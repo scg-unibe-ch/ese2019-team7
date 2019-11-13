@@ -1,18 +1,19 @@
 import {Router, Request, Response} from 'express';
 import {createModels} from '../models/index.model';
 import {UserInstance} from '../models/user.model';
+import {AuthenticationController} from "./authentication.controller";
 
 const router: Router = Router();
 
 const users = createModels().User;
-router.get('/', async (req: Request, res: Response) => {
+router.put('/', AuthenticationController, async (req: Request, res: Response) => {
  users.findOne({
     attributes: ['name', 'eMail', 'phone'],
     where: {
-      id: req.body.Userid,
+      id: req.body.id,
     }})
     .then(( user: UserInstance|null) => res.status(200).json({ user }))
-    .catch(err => res.status(500).json({ err: ['oops', err] }));
+    .catch(err => res.status(500).json({ message: err }));
 
 });
 export const ContactController: Router = router;
