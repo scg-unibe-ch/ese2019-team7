@@ -202,9 +202,13 @@ router.get('/edit', AuthenticationController, loadOfferDef, async (req: Request,
 
 router.put('/edit', AuthenticationController, loadOfferDef, updateOfferDef);
 router.put('/delete', AuthenticationController , loadOfferDef, deleteOfferDef);
+router.put('/admindelete', AdminAuthenticationController , loadOfferDef, adminDeleteOfferDef);
 
 async function deleteOfferDef(rawReq: any, rawRes: any) {
   deleteOffer(rawReq, rawRes, getDatabase());
+}
+async function adminDeleteOfferDef(rawReq: any, rawRes: any) {
+  adminDeleteOffer(rawReq, rawRes, getDatabase());
 }
 async function updateOfferDef(rawReq: any, rawRes: any) {
   updateOffer(rawReq, rawRes, getDatabase().Offer);
@@ -239,6 +243,10 @@ export async function deleteOffer(req: Request, res: Response, Db: DbInterface) 
     res.sendForbidden();
     return;
   }
+  await req.body.offer.destroy().catch((err: any) => res.status(500).send({message: 'Error while deleting offer'}));
+  res.sendSuccess();
+}
+export async function adminDeleteOffer(req: Request, res: Response, Db: DbInterface) {
   await req.body.offer.destroy().catch((err: any) => res.status(500).send({message: 'Error while deleting offer'}));
   res.sendSuccess();
 }
