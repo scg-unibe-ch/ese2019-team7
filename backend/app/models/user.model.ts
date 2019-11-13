@@ -31,12 +31,9 @@ export interface UserInstance extends Sequelize.Instance<UserAttributes>, UserAt
   hasOffers: Sequelize.HasManyHasAssociationsMixin<UserInstance, UserInstance['id']>;
   countOffers: Sequelize.HasManyCountAssociationsMixin;
 
-  getAdmin: Sequelize.HasManyGetAssociationsMixin<AdminInstance>;
-  setAdmin: Sequelize.HasManySetAssociationsMixin<AdminInstance, AdminInstance['id']>;
-  addAdmin: Sequelize.HasManyAddAssociationMixin<AdminInstance, AdminInstance['id']>;
-  createAdmin: Sequelize.HasManyCreateAssociationMixin<AdminAttributes, AdminInstance>;
-  removeAdmin: Sequelize.HasManyRemoveAssociationMixin<AdminInstance, AdminInstance['id']>;
-  hasAdmin: Sequelize.HasManyHasAssociationMixin<AdminInstance, AdminInstance['id']>;
+  getAdmin: Sequelize.BelongsToGetAssociationMixin<AdminInstance>;
+  setAdmin: Sequelize.BelongsToSetAssociationMixin<AdminInstance, AdminInstance['id']>;
+  createAdmin: Sequelize.BelongsToCreateAssociationMixin<AdminAttributes, AdminInstance>;
 
 };
 export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes)

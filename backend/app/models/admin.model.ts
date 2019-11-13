@@ -22,7 +22,7 @@ export interface AdminInstance extends Sequelize.Instance<AdminAttributes>, Admi
   createUser: Sequelize.HasManyCreateAssociationMixin<UserAttributes, UserInstance>;
   removeUser: Sequelize.HasManyRemoveAssociationMixin<UserInstance, UserInstance['id']>;
   hasUser: Sequelize.HasManyHasAssociationMixin<UserInstance, UserInstance['id']>;
-};
+}
 export const AdminFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes)
   : Sequelize.Model<AdminInstance, AdminAttributes> => {
   const attributes: SequelizeAttributes<AdminAttributes> = {

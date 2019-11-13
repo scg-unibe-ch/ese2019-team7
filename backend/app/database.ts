@@ -35,6 +35,18 @@ async function setupDatabase(users: UserAttributes[], offers: any, db: DbInterfa
       })
     );
   }
+  const admin = await db.User.findOne({where: {id: 2}});
+  try {
+    let dbadmin;
+    dbadmin = await db.Admin.create();
+    if (admin != null) await admin.setAdmin(dbadmin, {save: false});
+    // @ts-ignore
+    await admin.save();
+  } catch (e) {
+    throw e;
+    // throw new assert.AssertionError({actual: 'Failed to create offer', expected: 'create offer', message: e.message});
+  }
+
   await db.sequelize.sync();
   return db;
 }
@@ -46,7 +58,15 @@ async function initTestDatabase(db: DbInterface) {
     eMail: 'example@example.com',
     phone: '+41313333333',
     address: 'Viktoriaplatz 12, 3013 Bern'
-  }];
+  },
+    {
+      name: 'admin',
+      password: 'admin',
+      eMail: 'example@example.com',
+      phone: '+41313333333',
+      address: 'Viktoriaplatz 12, 3013 Bern'
+    }
+  ];
 
   const offers = [{
     title: 'Best Italian Food',
