@@ -30,7 +30,7 @@ router.get('/', async (req: Request, res: Response) => {
     .catch(err => res.status(500).json({ message: err }));
 
 });
-router.get('/contact', AuthenticationController, loadOfferDef, async (req: Request, res: Response) => {
+router.put('/contact', AuthenticationController, loadOfferDef, async (req: Request, res: Response) => {
   const offer: OfferInstance = req.body.offer;
   const provider = await offer.getProvider();
   if (provider !== null) {
