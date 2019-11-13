@@ -27,7 +27,7 @@ router.get('/', async (req: Request, res: Response) => {
       public: true
     }})
     .then((offers: OfferInstance[]) => res.status(200).json({ offers }))
-    .catch(err => res.status(500).json({ err: ['oops', err] }));
+    .catch(err => res.status(500).json({ message: err }));
 
 });
 router.get('/offerDetail', AuthenticationController, async (req: Request, res: Response) => {
@@ -37,7 +37,7 @@ router.get('/offerDetail', AuthenticationController, async (req: Request, res: R
       id: req.body.id
     }})
     .then((offer: OfferInstance|null) => res.status(200).json({ offer }))
-    .catch(err => res.status(500).json({ err: ['oops', err] }));
+    .catch(err => res.status(500).json({ message: err }));
 
 });
 
@@ -50,7 +50,7 @@ router.get('/myOffers', AuthenticationController,  async (req: Request, res: Res
     })
 
     .then((offers: OfferInstance[]) => res.status(200).json({ offers }))
-    .catch(err => res.status(500).json({ err: ['oops', err] }));
+    .catch(err => res.status(500).json({ message: err }));
 });
 
 
@@ -154,7 +154,7 @@ router.get('/notApproved', AdminAuthenticationController, async (req: Request, r
       public: false
     }})
     .then((offers: OfferInstance[]) => res.status(200).json({ offers }))
-    .catch(err => res.status(500).json({ err: ['oops', err] }));
+    .catch(err => res.status(500).json({ message: err }));
 
 });
 router.patch('/notApproved', AdminAuthenticationController, async (req: Request, res: Response) => {
@@ -164,7 +164,7 @@ router.patch('/notApproved', AdminAuthenticationController, async (req: Request,
     }, {where: {
     id: req.body.id
     }}).then(e => res.status(200).json({message: 'Offer approved'}))
-    .catch(err => res.status(500).json({ err: ['oops', err] }));
+    .catch(err => res.status(500).json({ message: err }));
 
 });
 

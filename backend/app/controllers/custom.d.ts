@@ -10,6 +10,7 @@ declare global {
       sendCreated: () => void;
       sendBadRequest: (message: string) => void;
       sendForbidden: () => void;
+      sendError: (message: string) => void;
     }
   }
 }
