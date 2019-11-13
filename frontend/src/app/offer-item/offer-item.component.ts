@@ -104,12 +104,13 @@ export class OfferItemComponent implements OnInit {
     if (instances.tel == null) {
       instances.tel = 'N/A';
     }
-    this.hideContactData = false;
-    this.hideButton = true;
-    return instances.map((instance) => new ContactData(
+    this.contactData = instances.user.map((instance) => new ContactData(
       instance.username,
       instance.tel,
       instance.email));
+    this.hideContactData = false;
+    this.hideButton = true;
+    return this.contactData;
   }
 
   getContactInfo() {
