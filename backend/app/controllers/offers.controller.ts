@@ -4,7 +4,7 @@ import {OfferAttributes, OfferInstance} from '../models/offer.model';
 import {UserInstance} from '../models/user.model';
 import {DbInterface} from '../dbtypings/dbInterface';
 import {AuthenticationController} from './authentication.controller';
-import {AdminAuthenticationController} from "./adminAuthentication.controller";
+import {AdminAuthenticationController} from './adminAuthentication.controller';
 
 const router: Router = Router();
 

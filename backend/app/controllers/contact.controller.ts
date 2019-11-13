@@ -1,7 +1,7 @@
 import {Router, Request, Response} from 'express';
 import {createModels} from '../models/index.model';
 import {UserInstance} from '../models/user.model';
-import {AuthenticationController} from "./authentication.controller";
+import {AuthenticationController} from './authentication.controller';
 
 const router: Router = Router();
 
