@@ -74,6 +74,7 @@ function offersTests() {
     ueli = await Db.User.findOne({where: {name : 'ueli' }});
   });
 
+  describe('#create()', createOfferTests);
   describe('#updateOffer()', updateOfferTests);
   describe('#search()', searchOfferTests);
   describe('#delete()', deleteOfferTests);
@@ -81,6 +82,10 @@ function offersTests() {
   describe('#adminOffers()', adminOffersTests);
   describe('#myOffers()', myOffersTests);
   describe('#offerDetails()', offerDetailsTests);
+}
+
+function createOfferTests() {
+  it('create Offer', createOfferTest);
 }
 
 function updateOfferTests() {
@@ -113,6 +118,22 @@ function myOffersTests() {
 
 function offerDetailsTests() {
 
+}
+
+async function createOfferTest() {
+  const req = {
+    body: defValidBody,
+    session: {
+      user: hans
+    }
+  };
+
+  await offersController.create(req, tests.getRes(201), Db);
+  let createdOffer;
+  createdOffer = await Db.Offer.findOne({where: {title : 'Big beautiful house' }});
+  assert.strictEqual(createdOffer.description, req.body.description, 'Saved description defer from expected value');
+  let savedUser = await createdOffer.getProvider();
+  assert(savedUser.equals(req.session.user), 'Offer does not belong to the right user');
 }
 
 async function offerUpdateTest() {
@@ -159,9 +180,9 @@ async function searchOfferTestNoCategory() {
   };
   const res = tests.getRes(200);
   await offersController.httpPerformSearch(req, res , Db, ['title']);
-  assert.strictEqual(res.body.length, 2);
-  assert.strictEqual(res.body[0].title, 'Best Swiss Food');
-  assert.strictEqual(res.body[1].title, 'Awful swiss house');
+  assert.strictEqual(res.body.offers.length, 2);
+  assert.strictEqual(res.body.offers[0].title, 'Best Swiss Food');
+  assert.strictEqual(res.body.offers[1].title, 'Awful swiss house');
 }
 
 async function deleteOfferWrongUserTest() {

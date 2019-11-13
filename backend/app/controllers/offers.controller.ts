@@ -4,6 +4,7 @@ import {OfferAttributes, OfferInstance} from '../models/offer.model';
 import {UserInstance} from '../models/user.model';
 import {DbInterface} from '../dbtypings/dbInterface';
 import {AuthenticationController} from './authentication.controller';
+import {AdminAuthenticationController} from "./adminAuthentication.controller";
 
 const router: Router = Router();
 
@@ -44,8 +45,10 @@ router.get('/myOffers', AuthenticationController,  async (req: Request, res: Res
   getDatabase().Offer.findAll({
     attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo'],
     where: {
-      providerId: req.session.user.id
-    }})
+      providerId:  req.session.user.id
+    }
+    })
+
     .then((offers: OfferInstance[]) => res.status(200).json({ offers }))
     .catch(err => res.status(500).json({ err: ['oops', err] }));
 });
@@ -110,7 +113,7 @@ router.get('/create', async (req: Request, res: Response) => {
 router.post('/create', AuthenticationController, createDef);
 
 async function createDef(req: Request, res: Response) {
-  create(req, res, getDatabase());
+  await create(req, res, getDatabase());
 }
 /**
  * Creation of a Offer. Format of the body should be as follow:
@@ -144,7 +147,7 @@ export async function create(req: Request, res: Response, Db: any) {
   res.status(201).send({message: 'Offer created'});
 
 }
-router.get('/notApproved', async (req: Request, res: Response) => {
+router.get('/notApproved', AdminAuthenticationController, async (req: Request, res: Response) => {
   getDatabase().Offer.findAll({
     attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo'],
     where: {
@@ -154,7 +157,7 @@ router.get('/notApproved', async (req: Request, res: Response) => {
     .catch(err => res.status(500).json({ err: ['oops', err] }));
 
 });
-router.patch('/notApproved', async (req: Request, res: Response) => {
+router.patch('/notApproved', AdminAuthenticationController, async (req: Request, res: Response) => {
   getDatabase().Offer.update(
     {
       public: true
@@ -188,12 +191,12 @@ export async function loadOffer(req: Request, res: Response, next: Function, Db:
 }
 
 
-router.get('/editoffer', AuthenticationController, loadOfferDef, async (req: Request, res: Response) => {
+router.get('/edit', AuthenticationController, loadOfferDef, async (req: Request, res: Response) => {
   res.status(200).send(req.body.offer);
 });
 
-router.put('/editoffer', AuthenticationController, loadOfferDef, updateOfferDef);
-router.delete('/editoffer', AuthenticationController , loadOfferDef, deleteOfferDef);
+router.put('/edit', AuthenticationController, loadOfferDef, updateOfferDef);
+router.put('/delete', AuthenticationController , loadOfferDef, deleteOfferDef);
 
 async function deleteOfferDef(rawReq: any, rawRes: any) {
   deleteOffer(rawReq, rawRes, getDatabase());
