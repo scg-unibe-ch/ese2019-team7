@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
       username: this.model.username,
       password: this.model.password
     }, {withCredentials: true}).subscribe(
-      (object) => this.router.navigate(['protected']),
+      (object) => this.router.navigate(['offers']),
       (object) => alert(object.status + ': ' + object.error.message));
   }
 }
