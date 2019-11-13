@@ -113,7 +113,7 @@ export class OfferItemComponent implements OnInit {
   }
 
   getContactInfo() {
-    this.httpClient.put('http://localhost:3000/offers/contact', {
+    this.httpClient.put('http://localhost:3000/contact', {
       id: this.offerItem.id,
     }, {withCredentials: true}).subscribe((instances: any) => {
       this.contactData = this.generateContactData(instances);
