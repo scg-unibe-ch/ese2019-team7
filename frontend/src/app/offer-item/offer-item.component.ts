@@ -23,11 +23,15 @@ export class OfferItemComponent implements OnInit {
   contactData = new ContactData('N/A', 'N/A', 'N/A');
   hideContactData = true;
   hideButton = false;
+  displayDateFrom: string;
+  displayDateTo: string;
 
 
   ngOnInit() {
     this.original = this.offerItem.clone();
     this.editing = false;
+    this.displayDateFrom = this.offerItem.dateFrom.split('T')[0];
+    this.displayDateTo = this.offerItem.dateTo.split('T')[0];
     this.getMessage();
   }
 
@@ -67,6 +71,12 @@ export class OfferItemComponent implements OnInit {
   onSubmit() { }
 
   onEdit() {
+    if (this.offerItem.dateFrom === 'N/A') {
+      this.offerItem.dateFrom = null;
+    }
+    if (this.offerItem.dateTo === 'N/A') {
+      this.offerItem.dateTo = null;
+    }
     this.editing = true;
   }
 
@@ -76,14 +86,16 @@ export class OfferItemComponent implements OnInit {
   }
 
   onSave() {
+    this.offerItem.dateFrom = this.checkDate(this.offerItem.dateFrom);
+    this.offerItem.dateTo = this.checkDate(this.offerItem.dateTo);
     this.httpClient.put('http://localhost:3000/offers/edit', {
-      title: this.original.title,
-      description: this.original.description,
-      price: this.original.price,
-      category: this.original.category,
-      dateFrom: this.original.dateFrom,
-      dateTo: this.original.dateTo,
-      id: this.original.id
+      title: this.offerItem.title,
+      description: this.offerItem.description,
+      price: this.offerItem.price,
+      category: this.offerItem.category,
+      dateFrom: this.offerItem.dateFrom,
+      dateTo: this.offerItem.dateTo,
+      id: this.offerItem.id
     }, {withCredentials: true}).subscribe((object) => this.resolveEditRequest('offer edited'),
       (object) => alert(object.status + ': ' + object.error.message));
   }
@@ -107,4 +119,13 @@ export class OfferItemComponent implements OnInit {
       this.contactData = this.generateContactData(instances);
     }, (object: any) => {  alert('HTTP Error ' + object.status + ': ' + object.error.message); });
   }
+
+  checkDate(date: string) {
+    if (date === '1970-01-01T00:00:00.000Z') {
+      return null;
+    } else {
+      return date;
+    }
+  }
+
 }

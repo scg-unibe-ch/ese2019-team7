@@ -35,7 +35,7 @@ const appRoutes: Routes = [
   { path: 'offers', component: OfferListComponent},
   { path: 'myOffers', component: OwnListComponent},
   { path: 'adminOffers', component: AdminListComponent},
-  { path: '', redirectTo: '/login', pathMatch: 'full'}
+  { path: '', redirectTo: '/offers', pathMatch: 'full'}
 //  { path: '**', component: PageNotFoundComponent }
 ];
 
