@@ -168,7 +168,7 @@ router.patch('/notApproved', AdminAuthenticationController, async (req: Request,
 
 });
 
-async function loadOfferDef(req: Request, res: Response, next: Function) {
+export async function loadOfferDef(req: Request, res: Response, next: Function) {
   await loadOffer(req, res, next, getDatabase());
 }
 
