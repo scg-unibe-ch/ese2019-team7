@@ -101,15 +101,16 @@ export class OfferItemComponent implements OnInit {
   }
 
   generateContactData(instances) {
-    if (instances.tel == null) {
-      instances.tel = 'N/A';
+    if (instances.phone == null) {
+      instances.phone = 'N/A';
     }
+    this.contactData =  new ContactData(
+      instances.name,
+      instances.phone,
+      instances.email);
     this.hideContactData = false;
     this.hideButton = true;
-    return instances.map((instance) => new ContactData(
-      instance.username,
-      instance.tel,
-      instance.email));
+    return this.contactData;
   }
 
   getContactInfo() {

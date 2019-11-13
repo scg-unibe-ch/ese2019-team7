@@ -1,4 +1,3 @@
-import {Sequelize} from 'sequelize-typescript';
 import {LoginController} from './controllers/login.controller';
 import {RegisterController} from './controllers/register.controller';
 import {LogoutController} from './controllers/logout.controller';
@@ -12,6 +11,7 @@ import {initDatabase} from './database';
 
 import {protectedController} from './controllers/protected.controller';
 import {notFoundController} from './controllers/notFound.controller';
+import {ContactController} from './controllers/contact.controller';
 
 // @ts-ignore
 import * as setupFunctions from '../app/setupFunctions.js';
@@ -74,6 +74,7 @@ app.use('/offers', OffersController );
 app.use('/adminprotected', AdminProtectedController);
 app.use('/logout', LogoutController);
 app.use('/protected', protectedController);
+app.use('/contact', ContactController);
 app.use(notFoundController);
 
 

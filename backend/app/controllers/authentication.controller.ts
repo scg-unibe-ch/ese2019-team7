@@ -1,6 +1,7 @@
 import {Router, Request, Response} from 'express';
 import {DbInterface} from '../dbtypings/dbInterface';
 import {getDatabase} from '../database';
+import {AdminInstance} from '../models/admin.model';
 
 const router: Router = Router();
 
@@ -21,6 +22,8 @@ async function checkAuthentication(req: Request, res: Response, next: Function, 
     catch (e) {
       res.status(500).send('Internal Server Error: failed to find authenticated user');
     }
+    const admin: AdminInstance | null = await req.session.user.getAdmin();
+    req.session.admin = admin;
     next();
   } else {
     res.status(401).send({ message: 'Unauthenticated'});

@@ -2,6 +2,8 @@ import * as Sequelize from 'sequelize';
 
 import { SequelizeAttributes } from '../dbtypings/sequelizeAttributes';
 import {UserAttributes, UserInstance} from './user.model';
+import {DbInterface} from '../dbtypings/dbInterface';
+import {Models} from 'sequelize';
 
 export interface AdminAttributes {
   id?: number;
@@ -16,12 +18,12 @@ export interface AdminAttributes {
   updatedAt?: Date;
 };
 export interface AdminInstance extends Sequelize.Instance<AdminAttributes>, AdminAttributes {
-  getUser: Sequelize.HasManyGetAssociationsMixin<UserInstance>;
+ /* getUser: Sequelize.HasManyGetAssociationsMixin<UserInstance>;
   setUser: Sequelize.HasManySetAssociationsMixin<UserInstance, UserInstance['id']>;
   addUser: Sequelize.HasManyAddAssociationMixin<UserInstance, UserInstance['id']>;
   createUser: Sequelize.HasManyCreateAssociationMixin<UserAttributes, UserInstance>;
   removeUser: Sequelize.HasManyRemoveAssociationMixin<UserInstance, UserInstance['id']>;
-  hasUser: Sequelize.HasManyHasAssociationMixin<UserInstance, UserInstance['id']>;
+  hasUser: Sequelize.HasManyHasAssociationMixin<UserInstance, UserInstance['id']>;*/
 }
 export const AdminFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes)
   : Sequelize.Model<AdminInstance, AdminAttributes> => {
@@ -46,8 +48,8 @@ export const AdminFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequeliz
   };
 
   const Admin = sequelize.define<AdminInstance, AdminAttributes>('Admin', attributes);
-  Admin.associate = models => {
-    Admin.hasOne(models.Offer, {foreignKey: 'UserId'});
+  Admin.associate = (models: Models) => {
+    Admin.hasOne(models.User, {foreignKey: 'id'});
   };
 
   return Admin;

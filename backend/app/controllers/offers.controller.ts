@@ -4,7 +4,7 @@ import {OfferAttributes, OfferInstance} from '../models/offer.model';
 import {UserInstance} from '../models/user.model';
 import {DbInterface} from '../dbtypings/dbInterface';
 import {AuthenticationController} from './authentication.controller';
-import {AdminAuthenticationController} from "./adminAuthentication.controller";
+import {AdminAuthenticationController} from './adminAuthentication.controller';
 
 const router: Router = Router();
 
@@ -27,17 +27,22 @@ router.get('/', async (req: Request, res: Response) => {
       public: true
     }})
     .then((offers: OfferInstance[]) => res.status(200).json({ offers }))
-    .catch(err => res.status(500).json({ err: ['oops', err] }));
+    .catch(err => res.status(500).json({ message: err }));
 
 });
-router.get('/offerDetail', AuthenticationController, async (req: Request, res: Response) => {
-  getDatabase().Offer.findOne({
-    attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo'],
-    where: {
-      id: req.body.id
-    }})
-    .then((offer: OfferInstance|null) => res.status(200).json({ offer }))
-    .catch(err => res.status(500).json({ err: ['oops', err] }));
+router.put('/contact', AuthenticationController, loadOfferDef, async (req: Request, res: Response) => {
+  const offer: OfferInstance = req.body.offer;
+  const provider = await offer.getProvider();
+  if (provider !== null) {
+    res.status(200).send({
+      name: provider.name,
+      email: provider.eMail,
+      phone: provider.phone
+    });
+  }
+  else {
+    res.sendError('Could get associated provider of the offer ' + offer.title + '.:');
+  }
 
 });
 
@@ -50,7 +55,7 @@ router.get('/myOffers', AuthenticationController,  async (req: Request, res: Res
     })
 
     .then((offers: OfferInstance[]) => res.status(200).json({ offers }))
-    .catch(err => res.status(500).json({ err: ['oops', err] }));
+    .catch(err => res.status(500).json({ message: err }));
 });
 
 
@@ -154,7 +159,7 @@ router.get('/notApproved', AdminAuthenticationController, async (req: Request, r
       public: false
     }})
     .then((offers: OfferInstance[]) => res.status(200).json({ offers }))
-    .catch(err => res.status(500).json({ err: ['oops', err] }));
+    .catch(err => res.status(500).json({ message: err }));
 
 });
 router.patch('/notApproved', AdminAuthenticationController, async (req: Request, res: Response) => {
@@ -164,11 +169,11 @@ router.patch('/notApproved', AdminAuthenticationController, async (req: Request,
     }, {where: {
     id: req.body.id
     }}).then(e => res.status(200).json({message: 'Offer approved'}))
-    .catch(err => res.status(500).json({ err: ['oops', err] }));
+    .catch(err => res.status(500).json({ message: err }));
 
 });
 
-async function loadOfferDef(req: Request, res: Response, next: Function) {
+export async function loadOfferDef(req: Request, res: Response, next: Function) {
   await loadOffer(req, res, next, getDatabase());
 }
 
@@ -182,29 +187,37 @@ export async function loadOffer(req: Request, res: Response, next: Function, Db:
     res.sendBadRequest('Bad request: Offer Id nonexistent');
     return;
   }
-  if (req.session.user.id !== offerToLoad.providerId) {
-    res.sendForbidden();
-    return;
-  }
   req.body.offer = offerToLoad;
   next();
 }
 
 
 router.get('/edit', AuthenticationController, loadOfferDef, async (req: Request, res: Response) => {
+  if (req.session.user.id !== req.body.offer.providerId) {
+    res.sendForbidden();
+    return;
+  }
   res.status(200).send(req.body.offer);
 });
 
 router.put('/edit', AuthenticationController, loadOfferDef, updateOfferDef);
 router.put('/delete', AuthenticationController , loadOfferDef, deleteOfferDef);
+router.put('/admindelete', AdminAuthenticationController , loadOfferDef, adminDeleteOfferDef);
 
 async function deleteOfferDef(rawReq: any, rawRes: any) {
   deleteOffer(rawReq, rawRes, getDatabase());
+}
+async function adminDeleteOfferDef(rawReq: any, rawRes: any) {
+  adminDeleteOffer(rawReq, rawRes, getDatabase());
 }
 async function updateOfferDef(rawReq: any, rawRes: any) {
   updateOffer(rawReq, rawRes, getDatabase().Offer);
 }
 export async function updateOffer(req: Request, res: Response, offer: any) {
+  if (req.session.user.id !== req.body.offer.providerId) {
+    res.sendForbidden();
+    return;
+  }
   const offerToUpdate: OfferInstance = req.body.offer;
   offerToUpdate.set(genOfferValues(req.body));
   offerToUpdate.set('public', false);
@@ -226,6 +239,14 @@ export async function updateOffer(req: Request, res: Response, offer: any) {
  * @param offer Offer table of the database
  */
 export async function deleteOffer(req: Request, res: Response, Db: DbInterface) {
+  if (req.session.user.id !== req.body.offer.providerId && req.session.admin === null) {
+    res.sendForbidden();
+    return;
+  }
+  await req.body.offer.destroy().catch((err: any) => res.status(500).send({message: 'Error while deleting offer'}));
+  res.sendSuccess();
+}
+export async function adminDeleteOffer(req: Request, res: Response, Db: DbInterface) {
   await req.body.offer.destroy().catch((err: any) => res.status(500).send({message: 'Error while deleting offer'}));
   res.sendSuccess();
 }
