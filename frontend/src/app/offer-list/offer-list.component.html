@@ -1,17 +1,37 @@
-<form (ngSubmit)="onSearch()" #searchForm="ngForm">
-  <div class="form-group">
-    <label for="category">Category: </label>
-    <select class="form-control" id="category"
-            [(ngModel)]="category" name="category">
-      <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="username">Search: </label>
-    <input type="text" class="form-control" id="username" [(ngModel)]="searchKey" name="search" #search="ngModel" placeholder="Search"/>
-  </div>
-  <button type="submit" class="btn btn-success" [disabled]="!searchForm.form.valid">Search</button> <!-- (click)="onSearch()"-->
-</form>
+<nav class="navbar">
+  <ul>
+    <li class="active"><a routerLink="../offers">View offers</a></li>
+    <li><a routerLink="../createOffer">Publish an offer</a></li>
+    <li [hidden]="isLoggedIn" style="float:right; "><a routerLink="../login">Sign in</a></li>
+    <li [hidden]="isLoggedIn" style="float:right; "><a routerLink="../protected">Log out</a></li>
+    <!--
+    <li [hidden]="isLoggedIn" style="float:right; "> <button type="submit" class="logOut" (click)="logOut()">Log out</button> </li>
+    <li style="float: right; padding: 10px 10px;"> <input type="search" id="search" placeholder="Search for an offer" style=""></li>-->
+  </ul>
+</nav>
 
-<app-offer-item [offerItem]="offerItem" *ngFor="let offerItem of offerItems"></app-offer-item>
-<div [hidden]="!(offerItems.length == 0)">Nothing to display</div>
+<div style="overflow-y: scroll; max-height:800px">
+  <div class="container">
+    <form (ngSubmit)="onSearch()" #searchForm="ngForm">
+      <div class="form-group">
+        <label for="category">Category: </label>
+        <select class="form-control" id="category"
+                [(ngModel)]="category" name="category">
+          <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="username">Search: </label>
+        <input type="text" class="form-control" id="username" [(ngModel)]="searchKey" name="search" #search="ngModel"
+               placeholder="Search"/>
+      </div>
+      <button type="submit" class="btn btn-success" [disabled]="!searchForm.form.valid">Search</button>
+      <!-- (click)="onSearch()"-->
+    </form>
+  </div>
+
+  <div class="container">
+    <app-offer-item [offerItem]="offerItem" *ngFor="let offerItem of offerItems"></app-offer-item>
+    <div [hidden]="!(offerItems.length == 0)">Nothing to display</div>
+  </div>
+</div>

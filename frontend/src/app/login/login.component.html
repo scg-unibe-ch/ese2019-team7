@@ -2,29 +2,36 @@
   <ul>
     <li><a routerLink="../offers">View offers</a></li>
     <li><a routerLink="../createOffer">Publish an offer</a></li>
-    <li [hidden]="isLoggedIn" style="float:right; "><a class="active"  routerLink="../login">Sign in</a></li>
+    <li [hidden]="isLoggedIn" style="float:right; "><a class="active" routerLink="../login">Sign in</a></li>
+    <li [hidden]="isLoggedIn" style="float:right; "><a routerLink="../protected">Log out</a></li>
+    <!--
     <li [hidden]="!isLoggedIn" style="float:right; "> <button type="submit" class="logOut" (click)="logOut()">Log out</button> </li>
-    <!--<li style="float: right; padding: 10px 10px;"> <input type="search" id="search" placeholder="Search for an offer" style=""></li>-->
-  </ul></nav>
+    <li style="float: right; padding: 10px 10px;"> <input type="search" id="search" placeholder="Search for an offer" style=""></li>-->
+  </ul>
+</nav>
 
 <div class="container">
   <div>
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
       <div class="form-group">
         <label for="username">Username</label>
-        <input type="text" class="form-control" id="username" [(ngModel)]="model.username" name="username" #username="ngModel" required placeholder="Enter your username"/>
+        <input type="text" class="form-control" id="username" [(ngModel)]="model.username" name="username"
+               #username="ngModel" required placeholder="Enter your username"/>
         <div [hidden]="username.valid || username.pristine" class="alert alert-danger">
           Enter a valid username.
         </div>
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" [(ngModel)]="model.password" name="password" #password="ngModel" required placeholder="Enter your password"/>
+        <input type="password" class="form-control" id="password" [(ngModel)]="model.password" name="password"
+               #password="ngModel" required placeholder="Enter your password"/>
         <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
           Invalid password. Please, try again.
         </div>
       </div>
-      <button type="submit" class="btn btn-success" [disabled]="!loginForm.form.valid" (click)="onSave(); loginForm.reset()">Sign in</button>
+      <button type="submit" class="btn btn-success" [disabled]="!loginForm.form.valid"
+              (click)="onSave(); loginForm.reset()">Sign in
+      </button>
       <div class="redirect">
         <p>New user? <a routerLink="../register">Register here.</a></p>
       </div>
