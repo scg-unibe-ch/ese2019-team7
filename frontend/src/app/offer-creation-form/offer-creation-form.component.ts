@@ -13,7 +13,7 @@ export class OfferCreationFormComponent implements OnInit {
   ) {
   }
 
-  model = new OfferCreationForm('', '', null, '', 0, 0);
+  model = new OfferCreationForm('', '', null, '', null, null);
 
   categories = ['other', 'catering', 'entertainment', 'location'];
 

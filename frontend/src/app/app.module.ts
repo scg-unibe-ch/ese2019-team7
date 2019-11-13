@@ -22,11 +22,10 @@ import { OfferListComponent } from './offer-list/offer-list.component';
 import {OfferItemComponent} from './offer-item/offer-item.component';
 import {AdminListComponent} from './admin-list/admin-list.component';
 
-import {MatDatepickerModule} from '@angular/material';
-import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from '@angular/material-moment-adapter';
+import {MatDatepickerModule, MatNativeDateModule} from '@angular/material';
 import {MatInputModule, MatFormFieldModule} from '@angular/material';
 import {OwnListComponent} from './own-list/own-list.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -36,7 +35,7 @@ const appRoutes: Routes = [
   { path: 'offers', component: OfferListComponent},
   { path: 'myOffers', component: OwnListComponent},
   { path: 'adminOffers', component: AdminListComponent},
-  { path: '', redirectTo: '/login', pathMatch: 'full'}
+  { path: '', redirectTo: '/offers', pathMatch: 'full'}
 //  { path: '**', component: PageNotFoundComponent }
 ];
 
@@ -61,10 +60,9 @@ const appRoutes: Routes = [
     HttpClientModule,
     FormsModule,
     MatDatepickerModule,
-    MatMomentDateModule,
+    MatNativeDateModule,
     MatInputModule,
     MatFormFieldModule,
-    BrowserAnimationsModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
@@ -74,8 +72,7 @@ const appRoutes: Routes = [
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}},
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
 })

@@ -23,13 +23,13 @@ export class OwnListComponent implements OnInit {
     this.httpClient.get('http://localhost:3000/offers/myOffers', {withCredentials: true}).subscribe((instances: any) => {
       this.isLoggedIn = true;
       this.offerItems = this.generateOfferItems(instances);
-      }, (object: any) => {
+    }, (object: any) => {
       if (object.status === 401) {
         this.isLoggedIn = false;
       } else {
         alert('HTTP Error ' + object.status + ': ' + object.error.message);
       }
-      });
+    });
   }
 
   generateOfferItems(instances: any) {
@@ -60,4 +60,3 @@ export class OwnListComponent implements OnInit {
     } else {return String(date); }
   }
 }
-

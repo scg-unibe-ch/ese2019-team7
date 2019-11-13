@@ -3,6 +3,8 @@
 /* Add padding to containers */
 .container {
   padding: 16px;
+  width: 50%;
+  margin-left: 25%;
 }
 
 /*label, input {
@@ -55,12 +57,17 @@ a {
   color: dodgerblue;
 }
 
-/* Set a grey background color and center the text of the "sign in" section */
+/* Set a grey background color and center the text of the redirecting section */
 .redirect {
   background-color: #f1f1f1;
   text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 2px;
+  border-radius: 7px;
 }
 
+/* Navigation bar styling*/
 ul {
   list-style-type: none;
   position: fixed;
@@ -87,6 +94,30 @@ li a:hover {
   color: black;
 }
 
+.active {
+  background-color:#9d55af;
+}
+
+.logOut {
+  display: block;
+  color: white;
+  background-color:#9d55af;
+  font-size: 16px;
+  text-align: center;
+  padding: 15px 16px;
+  text-decoration: none;
+}
+
+.logOut:hover {
+  background-color: #ffffff;
+  color: black;
+}
+
+.logOut:focus {
+  border: none;
+}
+
+/*Search field styling*/
 #search {
   background-color: #f1f1f1;
   background-image: url('../../assets/search_icon.png');

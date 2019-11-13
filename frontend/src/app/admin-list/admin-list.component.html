@@ -2,14 +2,22 @@
   <ul>
     <li><a routerLink="../login">Sign in.</a></li>
     <li><a routerLink="../register">Register</a></li>
-    <li><a routerLink="../offer-list">View offers</a></li>
-    <li><a routerLink="../offer-creation-form">Publish an offer</a></li>
-  </ul></nav>
+    <li><a routerLink="../offers">View offers</a></li>
+    <li><a routerLink="../createOffer">Publish an offer</a></li>
+    <li style="float:right;"> <!--[hidden]="isLoggedIn"--> <a routerLink="../protected">Log out</a></li>
+  </ul>
+</nav>
+
 
 <div [hidden]="isAdmin">
-  Only admin can access this feature.
+  You have no administrator rights to access this feature.
 </div>
-<div [hidden]="!isAdmin">
-  <app-offer-item [offerItem]="offerItem" *ngFor="let offerItem of offerItems"></app-offer-item>
-  <div [hidden]="!(offerItems.length == 0)">Nothing to display</div>
+
+<div style="overflow-y: scroll; max-height:800px">
+  <div class="container">
+    <div [hidden]="!isAdmin">
+      <app-offer-item [offerItem]="offerItem" *ngFor="let offerItem of offerItems"></app-offer-item>
+      <div [hidden]="!(offerItems.length == 0)">Nothing to display</div>
+    </div>
+  </div>
 </div>

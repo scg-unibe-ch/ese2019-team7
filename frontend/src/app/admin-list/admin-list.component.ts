@@ -23,13 +23,13 @@ export class AdminListComponent implements OnInit {
     this.httpClient.get('http://localhost:3000/offers/notApproved', {withCredentials: true}).subscribe((instances: any) => {
       this.isAdmin = true;
       this.offerItems = this.generateOfferItems(instances);
-      }, (object: any) => {
+    }, (object: any) => {
       if ( object.status === 401) {
         this.isAdmin = false;
       } else {
         alert('HTTP Error ' + object.status + ': ' + object.error.message);
       }
-      });
+    });
   }
 
   generateOfferItems(instances: any) {

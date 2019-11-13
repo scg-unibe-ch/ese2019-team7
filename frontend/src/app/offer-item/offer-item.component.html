@@ -1,57 +1,75 @@
-<div [hidden]="editing">
-  <h2>{{offerItem.title}}</h2>
-  <p>{{offerItem.description}}</p>
-  <span>Price: {{offerItem.price}}</span><br />
-  <span>Availability: {{displayDateFrom}} - {{displayDateTo}}</span>
-  <div [hidden]="hideContactData">
-    <span>Username: {{contactData.username}}</span>
-    <span>Tel: {{contactData.tel}}</span>
-    <span>email: {{contactData.email}}</span>
-  </div>
-  <div [hidden] = !isLoggedIn>
-    <button (click)="getContactInfo()" [hidden]="hideButton">Get Contact Info</button>
-  </div>
-  <div [hidden]="!offerItem.canBeDeleted">
-    <button (click)="onDelete()">Delete</button>
-  </div>
-  <div [hidden]="!offerItem.canBeSetPublic">
-    <button (click)="onSetPublic()">Set Public</button>
-  </div>
-  <div [hidden]="!offerItem.canBeEdited">
-    <button (click)="onEdit()">Edit</button>
-  </div>
+<div style="overflow-x:auto;" [hidden]="editing">
+
+  <p class="title">{{offerItem.title}}</p>
+  <table>
+    <tr>
+      <th> About the offer</th>
+      <td><p class="description">{{offerItem.description}}</p></td>
+    </tr>
+    <tr>
+      <th>Price</th>
+      <td><span class="price">{{offerItem.price}}</span></td>
+    </tr>
+    <tr>
+      <th>Availability</th>
+      <td><span class="availability">{{displayDateFrom}} - {{displayDateTo}}</span></td>
+    </tr>
+
+    <div class="contactData" [hidden]="hideContactData">
+      <span>Username: {{contactData.username}}</span>
+      <span>Tel: {{contactData.tel}}</span>
+      <span>email: {{contactData.email}}</span>
+    </div>
+    <div [hidden]=!isLoggedIn>
+      <button (click)="getContactInfo()" [hidden]="hideButton">Get Contact Info</button>
+    </div>
+    <div [hidden]="!offerItem.canBeDeleted">
+      <button (click)="onDelete()">Delete</button>
+    </div>
+    <div [hidden]="!offerItem.canBeSetPublic">
+      <button (click)="onSetPublic()">Set Public</button>
+    </div>
+    <div [hidden]="!offerItem.canBeEdited">
+      <button (click)="onEdit()">Edit</button>
+    </div>
+  </table>
 </div>
 
 <div>
   <form (ngSubmit)="onSubmit()" #editForm="ngForm" [hidden]="!editing">
     <div class="form-group">
       <label for="title">Title*</label>
-      <input type="text" class="form-control" id="title" [(ngModel)]="offerItem.title" name="title" #title="ngModel" required/>
+      <input type="text" class="form-control" id="title" [(ngModel)]="offerItem.title" name="title" #title="ngModel"
+             required/>
       <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
         You need a title for your offer.
       </div>
     </div>
     <div class="form-group">
       <label for="description">Description*</label>
-      <textarea type="text" class="form-control" id="description" [(ngModel)]="offerItem.description" name="description" #description="ngModel" required rows="15">{{offerItem.description}}</textarea>
+      <textarea type="text" class="form-control" id="description" [(ngModel)]="offerItem.description" name="description"
+             #description="ngModel" required>{{offerItem.description}}</textarea>
       <div [hidden]="description.valid || description.pristine" class="alert alert-danger">
         You need a description for your offer.
       </div>
     </div>
     <div class="form-group">
-      <label for="price">Price (per day/night; if billing is for another type, please leave empty and note in the description)</label>
+      <label for="price">Price (per day/night; if billing is for another type, please leave empty and note in the
+        description)</label>
       <input type="int" class="form-control" id="price" [(ngModel)]="offerItem.price" name="price" #price="ngModel"/>
     </div>
     <div class="form-group">
       <div class="form-group">
         <label for="dateFrom">From:</label>
-        <input [matDatepicker]="myDatepicker1" type="text" class="form-control" id="dateFrom" [(ngModel)]="offerItem.dateFrom" name="dateFrom" #dateFrom="ngModel">
+        <input [matDatepicker]="myDatepicker1" type="text" class="form-control" id="dateFrom"
+               [(ngModel)]="offerItem.dateFrom" name="dateFrom" #dateFrom="ngModel">
         <mat-datepicker-toggle matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
         <mat-datepicker #myDatepicker1></mat-datepicker>
       </div>
       <div class="form-group">
         <label for="dateTo">To:</label>
-        <input [matDatepicker]="myDatepicker2" type="text" class="form-control" id="dateTo" [(ngModel)]="offerItem.dateTo" name="dateTo" #dateTo="ngModel">
+        <input [matDatepicker]="myDatepicker2" type="text" class="form-control" id="dateTo"
+               [(ngModel)]="offerItem.dateTo" name="dateTo" #dateTo="ngModel">
         <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
         <mat-datepicker #myDatepicker2></mat-datepicker>
       </div>
@@ -63,7 +81,8 @@
         <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
       </select>
     </div>
-    <button type="submit" class="btn btn-success" [disabled]="!editForm.form.valid" (click)="onSave()">Save offer</button>
+    <button type="submit" class="btn btn-success" [disabled]="!editForm.form.valid" (click)="onSave()">Save offer
+    </button>
     <button (click)="onCancel()">Cancel</button>
   </form>
 </div>
