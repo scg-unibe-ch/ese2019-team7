@@ -20,20 +20,16 @@ export class AdminListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getMessage();
-    if (this.isAdmin) {
-      this.httpClient.get('http://localhost:3000/offers/notApproved', {withCredentials: true}).subscribe((instances: any) => {
-        this.offerItems = this.generateOfferItems(instances);
-      }, (object: any) => {
+    this.httpClient.get('http://localhost:3000/offers/notApproved', {withCredentials: true}).subscribe((instances: any) => {
+      this.isAdmin = true;
+      this.offerItems = this.generateOfferItems(instances);
+    }, (object: any) => {
+      if ( object.status === 401) {
+        this.isAdmin = false;
+      } else {
         alert('HTTP Error ' + object.status + ': ' + object.error.message);
-      });
-    }
-  }
-
-  getMessage() {
-    this.httpClient.get('http://localhost:3000/isAdmin', {withCredentials: true}).subscribe(
-      (object: any) => { this.isAdmin = true; },
-      (object: any) => { this.isAdmin = false; });
+      }
+    });
   }
 
   generateOfferItems(instances: any) {

@@ -12,7 +12,7 @@
     </tr>
     <tr>
       <th>Availability</th>
-      <td><span class="availability">{{offerItem.dateFrom}} - {{offerItem.dateTo}}</span></td>
+      <td><span class="availability">{{displayDateFrom}} - {{displayDateTo}}</span></td>
     </tr>
 
     <div class="contactData" [hidden]="hideContactData">
@@ -47,8 +47,8 @@
     </div>
     <div class="form-group">
       <label for="description">Description*</label>
-      <input type="text" class="form-control" id="description" [(ngModel)]="offerItem.description" name="description"
-             #description="ngModel" required/>
+      <textarea type="text" class="form-control" id="description" [(ngModel)]="offerItem.description" name="description"
+             #description="ngModel" required>{{offerItem.description}}</textarea>
       <div [hidden]="description.valid || description.pristine" class="alert alert-danger">
         You need a description for your offer.
       </div>
@@ -81,8 +81,8 @@
         <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
       </select>
     </div>
-    <button type="submit" class="btn btn-success" [disabled]="!editForm.form.valid" (click)="onSave()">Create offer
+    <button type="submit" class="btn btn-success" [disabled]="!editForm.form.valid" (click)="onSave()">Save offer
     </button>
-    <button (click)="onCancel">Cancel</button>
+    <button (click)="onCancel()">Cancel</button>
   </form>
 </div>
