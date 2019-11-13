@@ -239,7 +239,7 @@ export async function updateOffer(req: Request, res: Response, offer: any) {
  * @param offer Offer table of the database
  */
 export async function deleteOffer(req: Request, res: Response, Db: DbInterface) {
-  if (req.session.user.id !== req.body.offer.providerId && req.session.admin !== null) {
+  if (req.session.user.id !== req.body.offer.providerId && req.session.admin === null) {
     res.sendForbidden();
     return;
   }
