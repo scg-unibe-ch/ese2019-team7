@@ -9,7 +9,7 @@ export const createModels = (storagefile = 'db3.sqlite', loggingFunction: any = 
   const sequelize = new Sequelize({
     database: 'development',
     dialect: 'sqlite',
-    username: 'root',
+    username: 'jkroot',
     password: '',
     operatorsAliases: false,
     storage: storagefile,

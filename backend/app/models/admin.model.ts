@@ -2,6 +2,8 @@ import * as Sequelize from 'sequelize';
 
 import { SequelizeAttributes } from '../dbtypings/sequelizeAttributes';
 import {UserAttributes, UserInstance} from './user.model';
+import {DbInterface} from '../dbtypings/dbInterface';
+import {Models} from 'sequelize';
 
 export interface AdminAttributes {
   id?: number;
@@ -46,8 +48,8 @@ export const AdminFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequeliz
   };
 
   const Admin = sequelize.define<AdminInstance, AdminAttributes>('Admin', attributes);
-  Admin.associate = models => {
-    Admin.hasOne(models.Offer, {foreignKey: 'UserId'});
+  Admin.associate = (models: Models) => {
+    Admin.hasOne(models.User, {foreignKey: 'id'});
   };
 
   return Admin;

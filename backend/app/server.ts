@@ -1,4 +1,3 @@
-import {Sequelize} from 'sequelize-typescript';
 import {LoginController} from './controllers/login.controller';
 import {RegisterController} from './controllers/register.controller';
 import {LogoutController} from './controllers/logout.controller';
