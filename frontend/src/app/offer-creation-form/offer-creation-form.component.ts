@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {OfferCreationForm} from '../offerCreationForm';
+import { VariablesService } from '../variables.service';
 
 @Component({
   selector: 'app-offer-creation-form',
@@ -9,7 +10,8 @@ import {OfferCreationForm} from '../offerCreationForm';
 })
 export class OfferCreationFormComponent implements OnInit {
 
-  constructor(    private httpClient: HttpClient
+  constructor(    private httpClient: HttpClient,
+                  private variables: VariablesService
   ) {
   }
 
@@ -17,16 +19,10 @@ export class OfferCreationFormComponent implements OnInit {
 
   categories = ['other', 'catering', 'entertainment', 'location'];
 
-  isLoggedIn = false;
+  isLoggedIn: boolean;
 
   ngOnInit() {
-    this.getMessage();
-  }
-
-  getMessage() {
-    this.httpClient.get('http://localhost:3000/protected', {withCredentials: true}).subscribe(
-      (object: any) => { this.isLoggedIn = true; },
-      (object: any) => { this.isLoggedIn = false; });
+    this.variables.getLogin().subscribe(login => this.isLoggedIn = login);
   }
 
   onSubmit() { }
