@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {OfferItem} from '../offer-item';
+import {VariablesService} from '../variables.service';
 
 @Component({
   selector: 'app-own-list',
@@ -16,20 +17,18 @@ export class OwnListComponent implements OnInit {
   isLoggedIn = false;
 
   constructor(
-    private httpClient: HttpClient
+    private httpClient: HttpClient, private variables: VariablesService
   ) { }
 
   ngOnInit() {
-    this.httpClient.get('http://localhost:3000/offers/myOffers', {withCredentials: true}).subscribe((instances: any) => {
-      this.isLoggedIn = true;
-      this.offerItems = this.generateOfferItems(instances);
-    }, (object: any) => {
-      if (object.status === 401) {
-        this.isLoggedIn = false;
-      } else {
+    this.variables.getLogin().subscribe(login => this.isLoggedIn = login);
+    if (this.isLoggedIn) {
+      this.httpClient.get('http://localhost:3000/offers/myOffers', {withCredentials: true}).subscribe((instances: any) => {
+        this.offerItems = this.generateOfferItems(instances);
+      }, (object: any) => {
         alert('HTTP Error ' + object.status + ': ' + object.error.message);
-      }
-    });
+      });
+    }
   }
 
   generateOfferItems(instances: any) {

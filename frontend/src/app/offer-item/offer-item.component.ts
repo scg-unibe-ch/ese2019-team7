@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {OfferItem} from '../offer-item';
 import {ContactData} from '../contactData';
 import {HttpClient} from '@angular/common/http';
+import {VariablesService} from '../variables.service';
 
 @Component({
   selector: 'app-offer-item',
@@ -13,7 +14,7 @@ export class OfferItemComponent implements OnInit {
   @Input()
   offerItem: OfferItem;
 
-  constructor( private httpClient: HttpClient) {
+  constructor( private httpClient: HttpClient, private variables: VariablesService) {
   }
 
   original = new OfferItem(0, '', '', '', '', '', '', false, false, false);
@@ -32,13 +33,7 @@ export class OfferItemComponent implements OnInit {
     this.editing = false;
     this.displayDateFrom = this.offerItem.dateFrom.split('T')[0];
     this.displayDateTo = this.offerItem.dateTo.split('T')[0];
-    this.getMessage();
-  }
-
-  getMessage() {
-    this.httpClient.get('http://localhost:3000/protected', {withCredentials: true}).subscribe(
-      (object: any) => { this.isLoggedIn = true; },
-      (object: any) => { this.isLoggedIn = false; });
+    this.variables.getLogin().subscribe(login => this.isLoggedIn = login);
   }
 
   onDelete() {
