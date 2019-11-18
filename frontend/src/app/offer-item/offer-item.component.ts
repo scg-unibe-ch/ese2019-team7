@@ -37,7 +37,7 @@ export class OfferItemComponent implements OnInit {
   }
 
   onDelete() {
-    this.httpClient.put('http://localhost:3000/offers/delete', {
+    this.httpClient.put(this.variables.getUrl().concat('/offers/delete'), {
       id: this.offerItem.id,
     }, {withCredentials: true}).subscribe(
       (object) => this.resolveRequest(this.offerItem.title + ' deleted'),
@@ -45,7 +45,7 @@ export class OfferItemComponent implements OnInit {
   }
 
   onSetPublic() {
-    this.httpClient.patch('http://localhost:3000/offers/notApproved', {
+    this.httpClient.patch(this.variables.getUrl().concat('/offers/notApproved'), {
       id: this.offerItem.id,
     }, {withCredentials: true}).subscribe(
       (object) => this.resolveRequest(this.offerItem.title + ' has been set public'),
@@ -83,7 +83,7 @@ export class OfferItemComponent implements OnInit {
   onSave() {
     this.offerItem.dateFrom = this.checkDate(this.offerItem.dateFrom);
     this.offerItem.dateTo = this.checkDate(this.offerItem.dateTo);
-    this.httpClient.put('http://localhost:3000/offers/edit', {
+    this.httpClient.put(this.variables.getUrl().concat('/offers/edit'), {
       title: this.offerItem.title,
       description: this.offerItem.description,
       price: this.offerItem.price,
@@ -109,7 +109,7 @@ export class OfferItemComponent implements OnInit {
   }
 
   getContactInfo() {
-    this.httpClient.put('http://localhost:3000/offers/contact', {
+    this.httpClient.put(this.variables.getUrl().concat('/offers/contact'), {
       id: this.offerItem.id,
     }, {withCredentials: true}).subscribe((instances: any) => {
       this.contactData = this.generateContactData(instances);

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {RegistrationUser} from '../registration-user';
 import {HttpClient} from '@angular/common/http';
+import {VariablesService} from '../variables.service';
 
 
 @Component({
@@ -11,7 +12,8 @@ import {HttpClient} from '@angular/common/http';
 export class RegisterComponent implements OnInit {
 
   constructor(
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private variables: VariablesService
   ) { }
 
   model = new RegistrationUser('', '', '', '');
@@ -23,7 +25,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {}
 
   onSave() {
-    this.httpClient.post('http://localhost:3000/register', {
+    this.httpClient.post(this.variables.getUrl().concat('/register'), {
       username: this.model.username,
       password: this.model.password1,
       email: this.model.email,

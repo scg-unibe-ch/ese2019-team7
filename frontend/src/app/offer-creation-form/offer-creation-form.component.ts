@@ -30,7 +30,7 @@ export class OfferCreationFormComponent implements OnInit {
   onSave() {
     this.model.dateFrom = this.checkDate(this.model.dateFrom);
     this.model.dateTo = this.checkDate(this.model.dateTo);
-    this.httpClient.post('http://localhost:3000/offers/create', {
+    this.httpClient.post(this.variables.getUrl().concat('/offers/create'), {
       title: this.model.title,
       description: this.model.description,
       price: this.model.price,

@@ -21,14 +21,14 @@ export class ProtectedComponent implements OnInit {
   }
 
   getMessage() {
-    this.httpClient.get('http://localhost:3000/protected', {withCredentials: true}).subscribe(
+    this.httpClient.get(this.variables.getUrl().concat('/protected'), {withCredentials: true}).subscribe(
       (object: any) => { this.welcomeMessage = object.message; },
       (object: any) => { this.welcomeMessage = 'HTTP Error ' + object.status + ': ' + object.error.message; });
   }
 
   logOut() {
-    this.httpClient.get('http://localhost:3000/logout', {withCredentials: true}).subscribe(
-      (object: any) => { this.variables.setLogin(false); this.router.navigate(['']); },
+    this.httpClient.get(this.variables.getUrl().concat('/logout'), {withCredentials: true}).subscribe(
+      (object: any) => { this.variables.setAdminFalse(); this.variables.setLogin(false); this.router.navigate(['']); },
       (object: any) => { this.welcomeMessage = 'HTTP Error ' + object.status + ': ' + object.error.message; });
   }
 
