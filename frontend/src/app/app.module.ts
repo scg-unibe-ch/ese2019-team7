@@ -4,6 +4,10 @@ import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
+import {MatMenuModule} from '@angular/material/menu';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
+
+
 import { RouterModule, Routes } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -65,6 +69,7 @@ const appRoutes: Routes = [
     MatInputModule,
     MatFormFieldModule,
     BrowserAnimationsModule,
+    MDBBootstrapModule.forRoot(),
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
