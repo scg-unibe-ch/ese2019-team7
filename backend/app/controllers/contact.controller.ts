@@ -3,7 +3,7 @@ import {createModels} from '../models/index.model';
 import {UserInstance} from '../models/user.model';
 import {AuthenticationController} from './authentication.controller';
 import {loadOfferDef} from './offers.controller';
-import {OfferInstance} from "../models/offer.model";
+import {OfferInstance} from '../models/offer.model';
 
 const router: Router = Router();
 

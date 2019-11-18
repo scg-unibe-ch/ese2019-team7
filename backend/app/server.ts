@@ -21,14 +21,6 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
 
-/*const sequelize =  new Sequelize({
-    database: 'development',
-    dialect: 'sqlite',
-    username: 'root',
-    password: '',
-    storage: 'db3.sqlite'
-});
- */
 
 
 // create a new express application instance

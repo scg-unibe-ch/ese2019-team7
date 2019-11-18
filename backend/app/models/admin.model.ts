@@ -11,7 +11,7 @@ export interface AdminAttributes {
   deleteOffers: boolean;
   deleteUsers: boolean;
   createAdmins: boolean;
-  user?: UserAttributes[] | UserAttributes['id'][];
+  user?: UserAttributes | UserAttributes['id'];
 
 
   createdAt?: Date;
