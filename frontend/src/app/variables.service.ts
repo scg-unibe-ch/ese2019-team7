@@ -10,13 +10,15 @@ export class VariablesService {
   private isLoggedIn: BehaviorSubject<boolean>;
   private isAdmin: BehaviorSubject<boolean>;
   private baseUrl = 'http://localhost:3000';
+  private categories = ['other', 'catering', 'entertainment', 'location', ''];
+
 
 
   constructor(
     private httpClient: HttpClient
   ) {
    this.isLoggedIn = new BehaviorSubject<boolean>(false);
-   this.isLoggedIn = new BehaviorSubject<boolean>(false);
+   this.isAdmin = new BehaviorSubject<boolean>(false);
    this.checkLoginStatus();
   }
 
@@ -54,5 +56,9 @@ export class VariablesService {
   public getUrl(): string {
     return this.baseUrl;
   }
+
+  public getCategories(): string[] {
+    return this.categories;
+}
 }
 

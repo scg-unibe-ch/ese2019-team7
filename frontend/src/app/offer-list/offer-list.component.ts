@@ -14,8 +14,7 @@ export class OfferListComponent implements OnInit {
   offerItem: OfferItem = new OfferItem(0, '', '', '', '', '', '', false, false, false);
   offerItems: OfferItem[] = [];
 
-  categories = ['other', 'catering', 'entertainment', 'location', ''];
-
+  categories: string[];
   searchKey = '';
   category = '';
 
@@ -25,6 +24,7 @@ export class OfferListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.categories = this.variables.getCategories();
     this.httpClient.get(this.variables.getUrl().concat('/offers')).subscribe((instances: any) => {
       this.offerItems = this.generateOfferItems(instances);
     }, (object: any) => {  alert('HTTP Error ' + object.status + ': ' + object.error.message); });

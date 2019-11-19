@@ -19,7 +19,7 @@ export class OfferItemComponent implements OnInit {
 
   original = new OfferItem(0, '', '', '', '', '', '', false, false, false);
   editing = false;
-  categories = ['other', 'catering', 'entertainment', 'location'];
+  categories: string[];
   isLoggedIn = false;
   contactData = new ContactData('N/A', 'N/A', 'N/A');
   hideContactData = true;
@@ -34,6 +34,7 @@ export class OfferItemComponent implements OnInit {
     this.displayDateFrom = this.offerItem.dateFrom.split('T')[0];
     this.displayDateTo = this.offerItem.dateTo.split('T')[0];
     this.variables.getLogin().subscribe(login => this.isLoggedIn = login);
+    this.categories = this.variables.getCategories();
   }
 
   onDelete() {

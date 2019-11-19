@@ -13,19 +13,19 @@
 <div style="overflow-y: scroll; max-height:800px">
   <div class="container">
     <form (ngSubmit)="onSearch()" #searchForm="ngForm">
-      <div class="form-group">
-        <label for="category">Category: </label>
-        <select class="form-control" id="category"
+      <mat-form-field class="form-group">
+        <mat-label>Category: </mat-label>
+        <mat-select class="form-control" id="category"
                 [(ngModel)]="category" name="category">
-          <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="username">Search: </label>
-        <input type="text" class="form-control" id="username" [(ngModel)]="searchKey" name="search" #search="ngModel"
+          <mat-option *ngFor="let cat of categories" [value]="cat">{{cat}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-group">
+        <mat-label>Search: </mat-label>
+        <input matInput type="text" class="form-control" id="username" [(ngModel)]="searchKey" name="search" #search="ngModel"
                placeholder="Search"/>
-      </div>
-      <button type="submit" class="btn btn-success" [disabled]="!searchForm.form.valid">Search</button>
+      </mat-form-field>
+      <button mat-button type="submit" class="btn btn-success" [disabled]="!searchForm.form.valid">Search</button>
       <!-- (click)="onSearch()"-->
     </form>
   </div>
