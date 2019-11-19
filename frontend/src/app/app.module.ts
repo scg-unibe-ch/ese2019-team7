@@ -4,8 +4,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
-import {MatMenuModule} from '@angular/material/menu';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
+
 
 
 import { RouterModule, Routes } from '@angular/router';
@@ -31,7 +30,9 @@ import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from '@angular/mat
 import {MatInputModule, MatFormFieldModule} from '@angular/material';
 import {OwnListComponent} from './own-list/own-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import {NavigationBarComponent} from './navigation-bar/navigation-bar.component';
+
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -59,6 +60,7 @@ const appRoutes: Routes = [
     OfferItemComponent,
     AdminListComponent,
     OwnListComponent,
+    NavigationBarComponent
   ],
   entryComponents: [],
   imports: [
@@ -71,11 +73,11 @@ const appRoutes: Routes = [
     MatInputModule,
     MatFormFieldModule,
     BrowserAnimationsModule,
-    MDBBootstrapModule.forRoot(),
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
-    )
+    ),
+    MDBBootstrapModule.forRoot(),
 
   ],
   providers: [
@@ -86,4 +88,5 @@ const appRoutes: Routes = [
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
