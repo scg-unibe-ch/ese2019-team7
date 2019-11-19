@@ -1,3 +1,4 @@
+/* Navigation bar styling*/
 ul {
   list-style-type: none;
   position: fixed;
@@ -22,4 +23,27 @@ li a {
 li a:hover {
   background-color: #ffffff;
   color: black;
+}
+
+.active {
+  background-color: #9d55af;
+}
+
+.logOut {
+  display: block;
+  color: white;
+  background-color:#9d55af;
+  font-size: 16px;
+  text-align: center;
+  padding: 15px 16px;
+  text-decoration: none;
+}
+
+.logOut:hover {
+  background-color: #ffffff;
+  color: black;
+}
+
+.logOut:focus {
+  border: none;
 }

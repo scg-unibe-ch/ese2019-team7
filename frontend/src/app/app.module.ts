@@ -31,6 +31,8 @@ import {MatCardModule} from '@angular/material';
 import {MatExpansionModule} from '@angular/material';
 
 import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import {NavigationBarComponent} from './navigation-bar/navigation-bar.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -40,6 +42,7 @@ const appRoutes: Routes = [
   { path: 'offers', component: OfferListComponent},
   { path: 'myOffers', component: OwnListComponent},
   { path: 'adminOffers', component: AdminListComponent},
+  { path: 'navigation', component: NavigationBarComponent},
   { path: '', redirectTo: '/offers', pathMatch: 'full'}
 //  { path: '**', component: PageNotFoundComponent }
 ];
@@ -57,6 +60,7 @@ const appRoutes: Routes = [
     OfferItemComponent,
     AdminListComponent,
     OwnListComponent,
+    NavigationBarComponent
   ],
   entryComponents: [],
   imports: [
@@ -76,8 +80,8 @@ const appRoutes: Routes = [
     MatSelectModule,
     MatButtonModule,
     MatCardModule,
-    MatExpansionModule
-
+    MatExpansionModule,
+    MDBBootstrapModule.forRoot(),
   ],
   providers: [
     StatusBar,
@@ -87,4 +91,5 @@ const appRoutes: Routes = [
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
