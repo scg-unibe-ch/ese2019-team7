@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {LoginUser} from '../login-user';
 import {HttpClient} from '@angular/common/http';
 import { Router } from '@angular/router';
+import {VariablesService} from '../variables.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
 
   constructor(
-    private httpClient: HttpClient, private router: Router
+    private httpClient: HttpClient, private router: Router, private variables: VariablesService
   ) {
   }
 
@@ -25,11 +26,17 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
 
   onSave() {
-    this.httpClient.put('http://localhost:3000/login', {
+    this.httpClient.put(this.variables.getUrl().concat('/login'), {
       username: this.model.username,
       password: this.model.password
     }, {withCredentials: true}).subscribe(
-      (object) => this.router.navigate(['offers']),
+      (object) => this.successfulLogin(object),
       (object) => alert(object.status + ': ' + object.error.message));
   }
+
+  successfulLogin(object) {
+    this.variables.setLogin(true);
+    this.router.navigate(['offers']);
+  }
+
 }

@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {OfferItem} from '../offer-item';
 import {ContactData} from '../contactData';
 import {HttpClient} from '@angular/common/http';
+import {VariablesService} from '../variables.service';
 
 @Component({
   selector: 'app-offer-item',
@@ -13,7 +14,7 @@ export class OfferItemComponent implements OnInit {
   @Input()
   offerItem: OfferItem;
 
-  constructor( private httpClient: HttpClient) {
+  constructor( private httpClient: HttpClient, private variables: VariablesService) {
   }
 
   original = new OfferItem(0, '', '', '', '', '', '', false, false, false);
@@ -32,17 +33,11 @@ export class OfferItemComponent implements OnInit {
     this.editing = false;
     this.displayDateFrom = this.offerItem.dateFrom.split('T')[0];
     this.displayDateTo = this.offerItem.dateTo.split('T')[0];
-    this.getMessage();
-  }
-
-  getMessage() {
-    this.httpClient.get('http://localhost:3000/protected', {withCredentials: true}).subscribe(
-      (object: any) => { this.isLoggedIn = true; },
-      (object: any) => { this.isLoggedIn = false; });
+    this.variables.getLogin().subscribe(login => this.isLoggedIn = login);
   }
 
   onDelete() {
-    this.httpClient.put('http://localhost:3000/offers/delete', {
+    this.httpClient.put(this.variables.getUrl().concat('/offers/delete'), {
       id: this.offerItem.id,
     }, {withCredentials: true}).subscribe(
       (object) => this.resolveRequest(this.offerItem.title + ' deleted'),
@@ -50,7 +45,7 @@ export class OfferItemComponent implements OnInit {
   }
 
   onSetPublic() {
-    this.httpClient.patch('http://localhost:3000/offers/notApproved', {
+    this.httpClient.patch(this.variables.getUrl().concat('/offers/notApproved'), {
       id: this.offerItem.id,
     }, {withCredentials: true}).subscribe(
       (object) => this.resolveRequest(this.offerItem.title + ' has been set public'),
@@ -88,7 +83,7 @@ export class OfferItemComponent implements OnInit {
   onSave() {
     this.offerItem.dateFrom = this.checkDate(this.offerItem.dateFrom);
     this.offerItem.dateTo = this.checkDate(this.offerItem.dateTo);
-    this.httpClient.put('http://localhost:3000/offers/edit', {
+    this.httpClient.put(this.variables.getUrl().concat('/offers/edit'), {
       title: this.offerItem.title,
       description: this.offerItem.description,
       price: this.offerItem.price,
@@ -114,7 +109,7 @@ export class OfferItemComponent implements OnInit {
   }
 
   getContactInfo() {
-    this.httpClient.put('http://localhost:3000/offers/contact', {
+    this.httpClient.put(this.variables.getUrl().concat('/offers/contact'), {
       id: this.offerItem.id,
     }, {withCredentials: true}).subscribe((instances: any) => {
       this.contactData = this.generateContactData(instances);

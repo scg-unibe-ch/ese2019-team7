@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {OfferItem} from '../offer-item';
+import {VariablesService} from '../variables.service';
 
 @Component({
   selector: 'app-admin-list',
@@ -16,11 +17,12 @@ export class AdminListComponent implements OnInit {
   isAdmin = false;
 
   constructor(
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private variables: VariablesService
   ) { }
 
   ngOnInit() {
-    this.httpClient.get('http://localhost:3000/offers/notApproved', {withCredentials: true}).subscribe((instances: any) => {
+    this.httpClient.get(this.variables.getUrl().concat('/offers/notApproved'), {withCredentials: true}).subscribe((instances: any) => {
       this.isAdmin = true;
       this.offerItems = this.generateOfferItems(instances);
     }, (object: any) => {

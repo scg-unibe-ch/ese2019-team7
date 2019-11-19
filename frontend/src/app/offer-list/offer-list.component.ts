@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {OfferItem} from '../offer-item';
+import {VariablesService} from '../variables.service';
 
 @Component({
   selector: 'app-offer-list',
@@ -19,11 +20,12 @@ export class OfferListComponent implements OnInit {
   category = '';
 
   constructor(
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private variables: VariablesService
   ) { }
 
   ngOnInit() {
-    this.httpClient.get('http://localhost:3000/offers').subscribe((instances: any) => {
+    this.httpClient.get(this.variables.getUrl().concat('/offers')).subscribe((instances: any) => {
       this.offerItems = this.generateOfferItems(instances);
     }, (object: any) => {  alert('HTTP Error ' + object.status + ': ' + object.error.message); });
   }
@@ -56,7 +58,7 @@ export class OfferListComponent implements OnInit {
   }
 
   onSearch() {
-    this.httpClient.put('http://localhost:3000/offers/search',  {
+    this.httpClient.put(this.variables.getUrl().concat('/offers/search'),  {
       searchKey: this.searchKey,
       category: this.category }
     ).subscribe((instances: any) => {
