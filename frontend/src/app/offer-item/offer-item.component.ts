@@ -83,19 +83,40 @@ export class OfferItemComponent implements OnInit {
     this.offerItem = this.original.clone();
   }
 
+/*  private replaceAll(inp: string, out: RegExp): number {
+    while (String(inp).match(out) !== null) {
+      inp = String(inp).replace(out, '');
+    }
+    console.log(Number(inp));
+    return Number(inp);
+}*/
+
   onSave() {
     this.offerItem.dateFrom = this.checkDate(this.offerItem.dateFrom);
     this.offerItem.dateTo = this.checkDate(this.offerItem.dateTo);
-    this.httpClient.put(this.variables.getUrl().concat('/offers/edit'), {
-      title: this.offerItem.title,
-      description: this.offerItem.description,
-      price: this.offerItem.price,
-      category: this.offerItem.category,
-      dateFrom: this.offerItem.dateFrom,
-      dateTo: this.offerItem.dateTo,
-      id: this.offerItem.id
-    }, {withCredentials: true}).subscribe((object) => this.resolveEditRequest('offer edited'),
-      (object) => alert(object.status + ': ' + object.error.message));
+    /*if (isNaN(Number(this.offerItem.dateTo))) {
+      this.offerItem.dateTo = new Date(this.offerItem.dateTo).valueOf().toString();
+    }
+    if (isNaN(Number(this.offerItem.dateFrom))) {
+      this.offerItem.dateFrom = new Date(this.offerItem.dateFrom).valueOf().toString();
+    }*/
+    alert(new Date(this.offerItem.dateFrom).valueOf().toString());
+    alert(this.offerItem.dateFrom + '\n' + this.offerItem.dateTo);
+    if (Number(this.offerItem.dateFrom) > Number(this.offerItem.dateTo)) {
+      alert('Your start date is later than your end date. Please fix this before submitting.');
+    } else {
+      this.httpClient.put(this.variables.getUrl().concat('/offers/edit'), {
+        title: this.offerItem.title,
+        description: this.offerItem.description,
+        price: this.offerItem.price,
+        category: this.offerItem.category,
+        dateFrom: this.offerItem.dateFrom,
+        dateTo: this.offerItem.dateTo,
+        id: this.offerItem.id
+      }, {withCredentials: true}).subscribe((object) => this.resolveEditRequest('offer edited'),
+        (object) => alert(object.status + ': ' + object.error.message));
+    }
+    alert(this.offerItem.dateFrom + '\n' + this.offerItem.dateTo);
   }
 
   generateContactData(instances) {
