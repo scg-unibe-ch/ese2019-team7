@@ -17,11 +17,11 @@ export class OfferCreationFormComponent implements OnInit {
 
   model = new OfferCreationForm('', '', null, '', null, null);
 
-  categories = ['other', 'catering', 'entertainment', 'location'];
-
+  categories: string[];
   isLoggedIn: boolean;
 
   ngOnInit() {
+    this.categories = this.variables.getCategories();
     this.variables.getLogin().subscribe(login => this.isLoggedIn = login);
   }
 
