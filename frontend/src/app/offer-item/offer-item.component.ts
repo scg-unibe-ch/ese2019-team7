@@ -27,6 +27,9 @@ export class OfferItemComponent implements OnInit {
   hideButton = false;
   displayDateFrom: string;
   displayDateTo: string;
+  showDelete = false;
+  showDeny = false;
+  showSetPublic = false;
 
 
   ngOnInit() {
@@ -82,14 +85,6 @@ export class OfferItemComponent implements OnInit {
     this.editing = false;
     this.offerItem = this.original.clone();
   }
-
-/*  private replaceAll(inp: string, out: RegExp): number {
-    while (String(inp).match(out) !== null) {
-      inp = String(inp).replace(out, '');
-    }
-    console.log(Number(inp));
-    return Number(inp);
-}*/
 
   onSave() {
     this.offerItem.dateFrom = this.checkDate(this.offerItem.dateFrom);
