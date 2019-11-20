@@ -1,36 +1,32 @@
 <div style="overflow-x:auto;">
 
   <div class="item">
-    <mat-card [hidden]="(editing || showDelete || showSetPublic || showDeny)">
-      <mat-card-header>
-        <mat-card-title class="title">{{offerItem.title}}</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p class="label"> About the offer:</p>
-        <p class="description">{{offerItem.description}}</p>
-        <p class="label">Price:</p>
-        <span class="price">{{offerItem.price}}</span><br />
-        <p class="label">Availability</p>
-        <span class="availability">{{displayDateFrom}} - {{displayDateTo}}</span>
+      <div [hidden]="(editing || showDelete || showSetPublic || showDeny)">
+        <p class="title">{{offerItem.title}}</p>
+        <table>
+          <tr>
+            <th> About the offer</th>
+            <td><p class="description">{{offerItem.description}}</p></td>
+          </tr>
+          <tr>
+            <th>Price</th>
+            <td><span class="price">{{offerItem.price}}</span></td>
+          </tr>
+          <tr>
+            <th>Availability</th>
+            <td><span class="availability">{{displayDateFrom}} - {{displayDateTo}}</span></td>
+          </tr>
 
-        <mat-expansion-panel class="contactData" [hidden]=!isLoggedIn>
-          <mat-expansion-panel-header>
-            <mat-panel-title>Contact Information</mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-panel-description>
-            <p>Username: {{contactData.username}}</p>
-            <p>Tel: {{contactData.tel}}</p>
-            <p>email: {{contactData.email}}</p>
-          </mat-panel-description>
-        </mat-expansion-panel>
-        <mat-card-actions>
+          <div class="contactData" [hidden]="hideContactData">
+            <span>Username: {{contactData.username}}   </span>
+            <span>Tel: {{contactData.tel}}   </span>
+            <span>email: {{contactData.email}}</span>
+          </div>
           <button (click)="showDelete=true" [hidden]="!isAdmin && (!offerItem.canBeDeleted || !isLoggedIn)">Delete</button>
           <button (click)="showSetPublic=true" [hidden]="!offerItem.canBeSetPublic || !isAdmin">Set Public</button>
           <button (click)="showDeny=true" [hidden]="!offerItem.canBeSetPublic || !isAdmin">Deny request</button>
           <button (click)="onEdit()" [hidden]="!offerItem.canBeEdited || !isLoggedIn">Edit</button>
-        </mat-card-actions>
-      </mat-card-content>
-    </mat-card>
+        </table>
     <div [hidden]="!showDelete">
       <p>Are you sure you want to delete {{offerItem.title}}?</p>
       <button (click)="onDelete(); showDelete=false">Delete</button>
@@ -51,50 +47,50 @@
     <div>
       <form (ngSubmit)="onSubmit()" #editForm="ngForm" [hidden]="!editing">
         <p>Note: Fields with an asterisk (*) must be filled in, other fields may be left empty.</p>
-        <mat-form-field class="form-group">
-          <mat-label>Title*</mat-label>
-          <input matInput type="text" class="form-control" id="title" [(ngModel)]="offerItem.title" name="title" #title="ngModel"
+        <div class="form-group">
+          <label for="title">Title*</label>
+          <input type="text" class="form-control" id="title" [(ngModel)]="offerItem.title" name="title" #title="ngModel"
                  required/>
           <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
             You need a title for your offer.
           </div>
-        </mat-form-field>
-        <mat-form-field class="form-group" floatLabel="never"> <!--floatLabel is a workaround for a bug in material-->
-          <mat-label>Description*</mat-label>
-          <textarea matInput type="text" class="form-control" id="description" [(ngModel)]="offerItem.description"
+        </div>
+        <div class="form-group">
+          <label for="description">Description*</label>
+          <textarea type="text" class="form-control" id="description" [(ngModel)]="offerItem.description"
                     name="description"
                     #description="ngModel" required>{{offerItem.description}}</textarea>
           <div [hidden]="description.valid || description.pristine" class="alert alert-danger">
             You need a description for your offer.
           </div>
-        </mat-form-field>
-        <mat-form-field class="form-group">
-          <mat-label for="price">Price (per day/night; if billing is for another type, please leave empty and note in the
-            description)</mat-label>
-          <input matInput type="int" class="form-control" id="price" [(ngModel)]="offerItem.price" name="price"
+        </div>
+        <div class="form-group">
+          <label for="price">Price (per day/night; if billing is for another type, please leave empty and note in the
+            description)</label>
+          <input type="int" class="form-control" id="price" [(ngModel)]="offerItem.price" name="price"
                  #price="ngModel"/>
-        </mat-form-field>
-          <mat-form-field class="form-group">
-            <mat-label>From:</mat-label>
-            <input matInput [matDatepicker]="myDatepicker1" type="text" class="form-control" id="dateFrom"
+        </div>
+          <div class="form-group">
+            <label for="dateFrom">From:</label>
+            <input [matDatepicker]="myDatepicker1" type="text" class="form-control" id="dateFrom"
                    [(ngModel)]="offerItem.dateFrom" name="dateFrom" #dateFrom="ngModel">
             <mat-datepicker-toggle matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
             <mat-datepicker #myDatepicker1></mat-datepicker>
-          </mat-form-field>
-          <mat-form-field class="form-group">
-            <mat-label>To:</mat-label>
-            <input matInput [matDatepicker]="myDatepicker2" type="text" class="form-control" id="dateTo"
+          </div>
+          <div class="form-group">
+            <label for="dateTo">To:</label>
+            <input [matDatepicker]="myDatepicker2" type="text" class="form-control" id="dateTo"
                    [(ngModel)]="offerItem.dateTo" name="dateTo" #dateTo="ngModel">
             <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
             <mat-datepicker #myDatepicker2></mat-datepicker>
-          </mat-form-field>
-        <mat-form-field class="form-group">
-          <mat-label>Category</mat-label>
-          <mat-select class="form-control" id="category"
+          </div>
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select class="form-control" id="category"
                   [(ngModel)]="offerItem.category" name="category" required>
-            <mat-option *ngFor="let cat of categories" [value]="cat">{{cat}}</mat-option>
-          </mat-select>
-        </mat-form-field>
+            <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
+          </select>
+        </div>
         <button type="submit" class="btn btn-success" [disabled]="!editForm.form.valid" (click)="onSave()">Save offer</button>
         <button (click)="onCancel()">Cancel</button>
       </form>

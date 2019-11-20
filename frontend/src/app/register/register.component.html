@@ -15,26 +15,26 @@
     <div>
       <p>Note: Fields with an asterisk (*) must be filled in, other fields may be left empty.</p>
       <form (ngSubmit)="onSubmit()" #registerForm="ngForm" appPasswordValid appEmailValid>
-        <mat-form-field class="form-group">
-          <mat-label>Username*</mat-label>
-          <input matInput type="text" class="form-control" id="username" [(ngModel)]="model.username" name="username"
+        <div class="form-group">
+          <label for="username">Username*</label>
+          <input type="text" class="form-control" id="username" [(ngModel)]="model.username" name="username"
                  #username="ngModel" required placeholder="Enter your username"/>
           <div [hidden]="username.valid || username.pristine" class="alert alert-danger">
             Username is required.
           </div>
-        </mat-form-field>
+        </div>
         <div class="cross-validation" [class.cross-validation-error]="registerForm.errors?.passwordInvalid">
-          <mat-form-field class="form-group">
-            <mat-label>Password*</mat-label>
-            <input matInput type="password" class="form-control" id="password1" [(ngModel)]="model.password1" name="password1"
+          <div class="form-group">
+            <label for="password1">Password*</label>
+            <input type="password" class="form-control" id="password1" [(ngModel)]="model.password1" name="password1"
                    #password1="ngModel" required placeholder="Enter your password"/>
             <div [hidden]="password1.valid || password1.pristine" class="alert alert-danger">
               Password is required.
             </div>
-          </mat-form-field>
-          <mat-form-field class="form-group">
-            <mat-label>Confirm password*</mat-label>
-            <input matInput type="password" class="form-control" id="password2" [(ngModel)]="model.password2" name="password2"
+          </div>
+          <div class="form-group">
+            <label for="password2">Confirm password*</label>
+            <input type="password" class="form-control" id="password2" [(ngModel)]="model.password2" name="password2"
                    #password2="ngModel" required placeholder="Enter your password one more time"/>
             <div [hidden]="password2.valid || password2.pristine" class="alert alert-danger">
               Please confirm your password.
@@ -44,12 +44,12 @@
               class="alert alert-danger">
               The two passwords do not match
             </div>
-          </mat-form-field>
+          </div>
         </div>
         <div class="cross-validation" [class.cross-validation-error]="registerForm.errors?.emailInvalid">
-          <mat-form-field class="form-group">
-            <mat-label>E-Mail address*</mat-label>
-            <input matInput type="email" class="form-control" id="email" [(ngModel)]="model.email" name="email" #email="ngModel"
+          <div class="form-group">
+            <label for="email">E-Mail address*</label>
+            <input type="email" class="form-control" id="email" [(ngModel)]="model.email" name="email" #email="ngModel"
                    required placeholder="Enter your e-Mail address"/>
             <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
               e-Mail address is required.
@@ -57,26 +57,26 @@
             <div *ngIf="(email.touched || email.dirty) && registerForm.errors?.emailInvalid" class="alert alert-danger">
               Please enter a valid e-Mail address.
             </div>
-          </mat-form-field>
+          </div>
         </div>
-        <mat-form-field class="form-group">
-          <mat-label>Phone number</mat-label>
-          <input matInput type="tel" class="form-control" id="tel" [(ngModel)]="model.tel" name="tel" #tel="ngModel"
+        <div class="form-group">
+          <label for="tel">Phone number</label>
+          <input type="tel" class="form-control" id="tel" [(ngModel)]="model.tel" name="tel" #tel="ngModel"
                  placeholder="Enter your phone number" pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$"/>
           <div [hidden]="tel.pristine || validTel(tel)" class="alert alert-danger">
             This is not a valid telephone number.
           </div>
-        </mat-form-field>
-        <mat-form-field class="form-group">
-          <mat-label>Address</mat-label>
-          <input matInput type="text" class="form-control" id="address" [(ngModel)]="model.address" name="address"
+        </div>
+        <div class="form-group">
+          <label for="address">Address</label>
+          <input type="text" class="form-control" id="address" [(ngModel)]="model.address" name="address"
                  placeholder="Enter your address"/>
-        </mat-form-field>
-        <button mat-button type="submit" class="btn btn-success" [disabled]="!registerForm.form.valid"
+        </div>
+        <button type="submit" class="btn btn-success" [disabled]="!registerForm.form.valid"
                 (click)="onSave(); registerForm.reset()">Register
         </button>
         <div class="redirect">
-          <p>Already have an account? <a mat-button routerLink="../login">Sign in.</a></p>
+          <p>Already have an account? <a routerLink="../login">Sign in.</a></p>
         </div>
       </form>
     </div>

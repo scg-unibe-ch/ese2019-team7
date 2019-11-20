@@ -17,58 +17,58 @@
       </div>
       <form id="offerCreationForm" (ngSubmit)="onSubmit()" #offerCreationForm="ngForm" [hidden]="(!isLoggedIn || showClear)">
         <p>Note: Fields with an asterisk (*) must be filled in, other fields may be left empty.</p>
-        <mat-form-field class="form-group">
-          <mat-label>Title*</mat-label>
-          <input matInput type="text" class="form-control" id="title" [(ngModel)]="model.title" name="title" #title="ngModel"
+        <div class="form-group">
+          <label for="title">Title*</label>
+          <input type="text" class="form-control" id="title" [(ngModel)]="model.title" name="title" #title="ngModel"
                  required placeholder="Enter a title for your offer"/>
           <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
             You need a title for your offer.
           </div>
-        </mat-form-field>
-        <mat-form-field class="form-group">
-          <mat-label>Description*</mat-label>
-          <textarea matInput type="text" class="form-control" id="description" [(ngModel)]="model.description" name="description"
+        </div>
+        <div class="form-group">
+          <label for="description">Description*</label>
+          <textarea type="text" class="form-control" id="description" [(ngModel)]="model.description" name="description"
                  #description="ngModel" required placeholder="Enter a description of your offer">{{model.description}}</textarea>
           <div [hidden]="description.valid || description.pristine" class="alert alert-danger">
             You need a description for your offer.
           </div>
-        </mat-form-field>
-        <mat-form-field class="form-group">
-          <mat-label>Price (per day/night; if billing is for another type, please leave empty and note in the
-            description)</mat-label>
-          <input matInput type="int" class="form-control" id="price" [(ngModel)]="model.price" name="price" #price="ngModel"
+        </div>
+        <div class="form-group">
+          <label for="price">Price (per day/night; if billing is for another type, please leave empty and note in the
+            description)</label>
+          <input type="int" class="form-control" id="price" [(ngModel)]="model.price" name="price" #price="ngModel"
                  placeholder="Enter a price for your offer"/>
-        </mat-form-field>
-        <mat-form-field class="form-group">
-          <mat-label>From:</mat-label>
-          <input matInput [matDatepicker]="myDatepicker1" type="text" class="form-control" id="dateFrom"
+        </div>
+        <div class="form-group">
+          <label for="dateFrom">From:</label>
+          <input [matDatepicker]="myDatepicker1" type="text" class="form-control" id="dateFrom"
                  [(ngModel)]="model.dateFrom" name="dateFrom" #dateFrom="ngModel">
           <mat-datepicker-toggle matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
           <mat-datepicker #myDatepicker1></mat-datepicker>
-        </mat-form-field>
-        <mat-form-field class="form-group">
-          <mat-label>To:</mat-label>
-          <input matInput [matDatepicker]="myDatepicker2" type="text" class="form-control" id="dateTo" [(ngModel)]="model.dateTo"
+        </div>
+        <div class="form-group">
+          <label for="dateTo">To:</label>
+          <input [matDatepicker]="myDatepicker2" type="text" class="form-control" id="dateTo" [(ngModel)]="model.dateTo"
                  name="dateTo" #dateTo="ngModel">
           <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
           <mat-datepicker #myDatepicker2></mat-datepicker>
-        </mat-form-field>
-        <mat-form-field class="form-group">
-          <mat-label>Category*</mat-label>
-          <mat-select class="form-control" id="category"
+        </div>
+        <div class="form-group">
+          <label for="category">Category*</label>
+          <select class="form-control" id="category"
                                                 [(ngModel)]="model.category" name="category" required>
-            <mat-option *ngFor="let cat of categories" [value]="cat">{{cat}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <button mat-button type="submit" class="btn btn-success" [disabled]="!offerCreationForm.form.valid"
+            <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-success" [disabled]="!offerCreationForm.form.valid"
                 (click)="onSave()">Create offer
         </button>
-        <button mat-button (click)="showClear=true">Clear form</button>
+        <button (click)="showClear=true">Clear form</button>
       </form>
       <div [hidden]="!showClear">
         <p>Are you sure you want to clear the form?</p>
-        <button mat-button (click)="offerCreationForm.reset(); showClear=false">Clear form</button>
-        <button mat-button (click)="showClear=false">Cancel</button>
+        <button (click)="offerCreationForm.reset(); showClear=false">Clear form</button>
+        <button (click)="showClear=false">Cancel</button>
       </div>
     </div>
   </div>
