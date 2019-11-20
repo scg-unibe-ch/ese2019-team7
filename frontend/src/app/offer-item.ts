@@ -1,5 +1,4 @@
 export class OfferItem {
-
   constructor(
     public id: number,
     public title: string,

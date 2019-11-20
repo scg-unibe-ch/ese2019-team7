@@ -21,6 +21,7 @@ export class OfferItemComponent implements OnInit {
   editing = false;
   categories: string[];
   isLoggedIn = false;
+  isAdmin = false;
   contactData = new ContactData('N/A', 'N/A', 'N/A');
   hideContactData = true;
   hideButton = false;
@@ -34,6 +35,7 @@ export class OfferItemComponent implements OnInit {
     this.displayDateFrom = this.offerItem.dateFrom.split('T')[0];
     this.displayDateTo = this.offerItem.dateTo.split('T')[0];
     this.variables.getLogin().subscribe(login => this.isLoggedIn = login);
+    this.variables.getAdmin().subscribe(admin => this.isAdmin = admin);
     this.categories = this.variables.getCategories();
   }
 
