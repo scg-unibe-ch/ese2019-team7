@@ -89,15 +89,19 @@ export class OfferItemComponent implements OnInit {
   onSave() {
     this.offerItem.dateFrom = this.checkDate(this.offerItem.dateFrom);
     this.offerItem.dateTo = this.checkDate(this.offerItem.dateTo);
-    /*if (isNaN(Number(this.offerItem.dateTo))) {
-      this.offerItem.dateTo = new Date(this.offerItem.dateTo).valueOf().toString();
+    let compareFrom: number;
+    let compareTo: number;
+    if (isNaN(Number(this.offerItem.dateTo))) {
+      compareTo = new Date(this.offerItem.dateTo).valueOf();
+    } else {
+      compareTo = Number(this.offerItem.dateTo);
     }
     if (isNaN(Number(this.offerItem.dateFrom))) {
-      this.offerItem.dateFrom = new Date(this.offerItem.dateFrom).valueOf().toString();
-    }*/
-    alert(new Date(this.offerItem.dateFrom).valueOf().toString());
-    alert(this.offerItem.dateFrom + '\n' + this.offerItem.dateTo);
-    if (Number(this.offerItem.dateFrom) > Number(this.offerItem.dateTo)) {
+      compareFrom = new Date(this.offerItem.dateFrom).valueOf();
+    } else {
+      compareFrom = Number(this.offerItem.dateFrom);
+    }
+    if (compareFrom > compareTo) {
       alert('Your start date is later than your end date. Please fix this before submitting.');
     } else {
       this.httpClient.put(this.variables.getUrl().concat('/offers/edit'), {
@@ -111,7 +115,6 @@ export class OfferItemComponent implements OnInit {
       }, {withCredentials: true}).subscribe((object) => this.resolveEditRequest('offer edited'),
         (object) => alert(object.status + ': ' + object.error.message));
     }
-    alert(this.offerItem.dateFrom + '\n' + this.offerItem.dateTo);
   }
 
   generateContactData(instances) {
