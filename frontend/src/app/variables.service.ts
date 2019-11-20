@@ -31,7 +31,7 @@ export class VariablesService {
   }
 
   public setLogin(newBool: boolean) {
-    this.isLoggedIn.next(newBool)
+    this.isLoggedIn.next(newBool);
     if (this.isLoggedIn) {
       this.setAdmin();
     }

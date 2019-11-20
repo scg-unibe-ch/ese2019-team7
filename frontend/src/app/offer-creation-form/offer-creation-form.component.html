@@ -15,7 +15,7 @@
       <div [hidden]="isLoggedIn">
         Only logged-in Users can access this feature.
       </div>
-      <form (ngSubmit)="onSubmit()" #offerCreationForm="ngForm" [hidden]="!isLoggedIn">
+      <form id="offerCreationForm" (ngSubmit)="onSubmit()" #offerCreationForm="ngForm" [hidden]="(!isLoggedIn || showClear)">
         <p>Note: Fields with an asterisk (*) must be filled in, other fields may be left empty.</p>
         <mat-form-field class="form-group">
           <mat-label>Title*</mat-label>
@@ -60,10 +60,16 @@
             <mat-option *ngFor="let cat of categories" [value]="cat">{{cat}}</mat-option>
           </mat-select>
         </mat-form-field>
-        <button type="submit" class="btn btn-success" [disabled]="!offerCreationForm.form.valid"
-                (click)="onSave(); offerCreationForm.reset()">Create offer
+        <button mat-button type="submit" class="btn btn-success" [disabled]="!offerCreationForm.form.valid"
+                (click)="onSave()">Create offer
         </button>
+        <button mat-button (click)="showClear=true">Clear form</button>
       </form>
+      <div [hidden]="!showClear">
+        <p>Are you sure you want to clear the form?</p>
+        <button mat-button (click)="offerCreationForm.reset(); showClear=false">Clear form</button>
+        <button mat-button (click)="showClear=false">Cancel</button>
+      </div>
     </div>
   </div>
 </div>

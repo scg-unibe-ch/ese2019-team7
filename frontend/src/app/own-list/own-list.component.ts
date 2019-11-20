@@ -21,14 +21,16 @@ export class OwnListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.variables.getLogin().subscribe(login => this.isLoggedIn = login);
-    if (this.isLoggedIn) {
-      this.httpClient.get(this.variables.getUrl().concat('/offers/myOffers'), {withCredentials: true}).subscribe((instances: any) => {
-        this.offerItems = this.generateOfferItems(instances);
-      }, (object: any) => {
-        alert('HTTP Error ' + object.status + ': ' + object.error.message);
-      });
-    }
+    this.variables.getLogin().subscribe(login => {
+      this.isLoggedIn = login;
+      if (this.isLoggedIn) {
+        this.httpClient.get(this.variables.getUrl().concat('/offers/myOffers'), {withCredentials: true}).subscribe((instances: any) => {
+          this.offerItems = this.generateOfferItems(instances);
+        }, (object: any) => {
+          alert('HTTP Error ' + object.status + ': ' + object.error.message);
+        });
+      }
+    });
   }
 
   generateOfferItems(instances: any) {
