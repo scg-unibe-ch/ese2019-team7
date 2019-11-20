@@ -34,6 +34,7 @@
 
     <div>
       <form (ngSubmit)="onSubmit()" #editForm="ngForm" [hidden]="!editing">
+        <p>Note: Fields with an asterisk (*) must be filled in, other fields may be left empty.</p>
         <mat-form-field class="form-group">
           <mat-label>Title*</mat-label>
           <input matInput type="text" class="form-control" id="title" [(ngModel)]="offerItem.title" name="title" #title="ngModel"

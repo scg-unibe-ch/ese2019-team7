@@ -11,6 +11,7 @@
 </nav>
 
 <div style="overflow-y: scroll; max-height:800px">
+  <p [hidden]="isLoggedIn">Note: In order to see contact information, you must be logged in.</p>
   <div class="container">
     <form (ngSubmit)="onSearch()" #searchForm="ngForm">
       <mat-form-field class="form-group">

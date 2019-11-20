@@ -16,6 +16,7 @@
         Only logged-in Users can access this feature.
       </div>
       <form (ngSubmit)="onSubmit()" #offerCreationForm="ngForm" [hidden]="!isLoggedIn">
+        <p>Note: Fields with an asterisk (*) must be filled in, other fields may be left empty.</p>
         <mat-form-field class="form-group">
           <mat-label>Title*</mat-label>
           <input matInput type="text" class="form-control" id="title" [(ngModel)]="model.title" name="title" #title="ngModel"
