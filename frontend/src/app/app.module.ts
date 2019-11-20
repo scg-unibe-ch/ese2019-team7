@@ -30,7 +30,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatCardModule} from '@angular/material';
 import {MatExpansionModule} from '@angular/material';
 
-import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import {NavigationBarComponent} from './navigation-bar/navigation-bar.component';
 
