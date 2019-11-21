@@ -80,3 +80,19 @@ hr {
 .description {
   white-space: pre-wrap;
 }
+
+
+button {
+  background-color: #9a0daf;
+  display: inline-block;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+button:hover {
+  opacity:1;
+}
