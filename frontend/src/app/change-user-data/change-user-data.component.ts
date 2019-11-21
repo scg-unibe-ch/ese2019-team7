@@ -35,13 +35,13 @@ export class ChangeUserDataComponent implements OnInit {
       email: this.model.email,
       tel: this.model.tel,
       address: this.model.address
-    }).subscribe( this.answer, this.onSave_error);
+    }, {withCredentials: true}).subscribe( this.answer, this.onSave_error);
   }
 
   onChangePassword() {
     this.httpClient.post(this.variables.getUrl().concat('/changePassword'), {
       password: this.model.password1,
-    }).subscribe( this.answer, this.onSave_error);
+    }, {withCredentials: true}).subscribe( this.answer, this.onSave_error);
   }
 
 
