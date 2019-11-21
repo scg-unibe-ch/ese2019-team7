@@ -16,8 +16,11 @@
           <th>Availability</th>
           <td><span class="availability">{{displayDateFrom}} - {{displayDateTo}}</span></td>
         </tr>
-
-        <div class="contactData" [hidden]="hideContactData">
+      </table>
+      <button (click)="hideContactData=false; getContactInfo()" [hidden]="!hideContactData || !isLoggedIn">Show Contact Data</button>
+      <button (click)="hideContactData=true" [hidden]="hideContactData || !isLoggedIn">Hide Contact Data</button>
+       <div class="contactData" [hidden]="hideContactData">
+          <table>
           <tr>
             <th>Username</th>
             <th>{{contactData.username}}</th>
@@ -30,6 +33,7 @@
             <th>E-Mail</th>
             <th>{{contactData.email}}</th>
           </tr>
+          </table>
         </div>
         <button style="background-color:#b81700" (click)="showDelete=true"
                 [hidden]="!isAdmin && (!offerItem.canBeDeleted || !isLoggedIn)">Delete
@@ -39,7 +43,6 @@
         </button>
         <button (click)="showDeny=true" [hidden]="!offerItem.canBeSetPublic || !isAdmin">Deny request</button>
         <button (click)="onEdit()" [hidden]="!offerItem.canBeEdited || !isLoggedIn">Edit</button>
-      </table>
       <div [hidden]="!showDelete">
         <p>Are you sure you want to delete {{offerItem.title}}?</p>
         <button (click)="onDelete(); showDelete=false">Delete</button>

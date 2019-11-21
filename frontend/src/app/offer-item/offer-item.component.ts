@@ -24,7 +24,6 @@ export class OfferItemComponent implements OnInit {
   isAdmin = false;
   contactData = new ContactData('N/A', 'N/A', 'N/A');
   hideContactData = true;
-  hideButton = false;
   displayDateFrom: string;
   displayDateTo: string;
   showDelete = false;
@@ -126,7 +125,6 @@ export class OfferItemComponent implements OnInit {
       instances.phone,
       instances.email);
     this.hideContactData = false;
-    this.hideButton = true;
     return this.contactData;
   }
 
