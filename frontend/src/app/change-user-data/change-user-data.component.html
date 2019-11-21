@@ -3,17 +3,10 @@
     <p>Only logged in users can access this feature.</p>
   </div>
   <div class="container" [hidden]="!isLoggedIn">
-    <div>
+    <div [hidden]="deleting">
       <p>Note: Fields with an asterisk (*) must be filled in, other fields may be left empty.</p>
       <form (ngSubmit)="onSubmit()" #changeDataForm="ngForm" appEmailValid>
-        <div class="form-group">
-          <label for="username">Username*</label>
-          <input type="text" class="form-control" id="username" [(ngModel)]="model.username" name="username"
-                 #username="ngModel" required placeholder="Enter your username"/>
-          <div [hidden]="username.valid || username.pristine" class="alert alert-danger">
-            Username is required.
-          </div>
-        </div>
+        <p>Username: {{model.username}}</p>
         <div class="cross-validation" [class.cross-validation-error]="changeDataForm.errors?.emailInvalid">
           <div class="form-group">
             <label for="email">E-Mail address*</label>
@@ -73,5 +66,10 @@
         </button>
       </form>
     </div>
+      <button (click)="deleting=true" [hidden]="deleting">Terminate account</button>
+      <div [hidden]="!deleting">
+        <button (click)="logOut(); onDelete()">Terminate account</button>
+        <button (click)="deleting=false">Cancel action</button>
+      </div>
   </div>
 </div>
