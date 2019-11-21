@@ -9,7 +9,7 @@ router.get('/', testAuthentication);
 
 async function testAuthentication(rawReq: any, res: Response) {
   const req: Request & {session: any} = rawReq;
-  if(req.session.admin === null)
+  if(req.session.admin !== null)
   {
     res.status(200).send({ message: 'You are authenticated as admin, mister ' + req.session.user.name});
   }

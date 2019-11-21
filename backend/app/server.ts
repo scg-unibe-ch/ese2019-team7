@@ -16,6 +16,7 @@ import {ContactController} from './controllers/contact.controller';
 // @ts-ignore
 import * as setupFunctions from '../app/setupFunctions.js';
 import {AdminProtectedController} from './controllers/adminProdected.controller';
+import {UserController} from "./controllers/user.controller";
 
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -63,6 +64,8 @@ app.use('/login', LoginController );
 app.use('/register', RegisterController );
 
 app.use('/offers', OffersController );
+app.use('/user', UserController);
+
 app.use('/adminprotected', AdminProtectedController);
 app.use('/logout', LogoutController);
 app.use('/protected', protectedController);
