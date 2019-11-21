@@ -11,7 +11,7 @@ import {VariablesService} from '../variables.service';
 export class AdminListComponent implements OnInit {
 
   @Input()
-  offerItem: OfferItem = new OfferItem(0, '', '', '', '', '', '', true, true, false);
+  offerItem: OfferItem = new OfferItem(0, '', '', '', '', '', '', '', true, true, false);
   offerItems: OfferItem[] = [];
 
   isAdmin = false;
@@ -43,6 +43,7 @@ export class AdminListComponent implements OnInit {
       instance.category,
       this.generateDateDisplay(instance.dateFrom),
       this.generateDateDisplay(instance.dateTo),
+      instance.status,
       true,
       true,
       false));

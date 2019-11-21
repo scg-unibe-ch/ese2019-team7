@@ -11,7 +11,7 @@ import {VariablesService} from '../variables.service';
 export class OfferListComponent implements OnInit {
 
   @Input()
-  offerItem: OfferItem = new OfferItem(0, '', '', '', '', '', '', false, false, false);
+  offerItem: OfferItem = new OfferItem(0, '', '', '', '', '', '', '', false, false, false);
   offerItems: OfferItem[] = [];
 
   categories: string[];
@@ -41,6 +41,7 @@ export class OfferListComponent implements OnInit {
       instance.category,
       this.generateDateDisplay(instance.dateFrom),
       this.generateDateDisplay(instance.dateTo),
+      '',
       false,
       false,
       false));

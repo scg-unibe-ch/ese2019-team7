@@ -11,7 +11,7 @@ import {VariablesService} from '../variables.service';
 export class OwnListComponent implements OnInit {
 
   @Input()
-  offerItem: OfferItem = new OfferItem(0, '', '', '', '', '', '', true, false, true);
+  offerItem: OfferItem = new OfferItem(0, '', '', '', '', '', '', '', true, false, true);
   offerItems: OfferItem[] = [];
 
   isLoggedIn = false;
@@ -42,6 +42,7 @@ export class OwnListComponent implements OnInit {
       instance.category,
       this.generateDateDisplay(instance.dateFrom),
       this.generateDateDisplay(instance.dateTo),
+      instance.status,
       true,
       false,
       true));

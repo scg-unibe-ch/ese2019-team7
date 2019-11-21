@@ -66,6 +66,7 @@
         </button>
       </form>
     </div>
+    <p>Are you sure you want to terminate you account? This will also delete all your offers.</p>
       <button (click)="deleting=true" [hidden]="deleting">Terminate account</button>
       <div [hidden]="!deleting">
         <button (click)="logOut(); onDelete()">Terminate account</button>

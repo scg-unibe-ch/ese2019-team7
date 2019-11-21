@@ -16,6 +16,10 @@
           <th>Availability</th>
           <td><span class="availability">{{displayDateFrom}} - {{displayDateTo}}</span></td>
         </tr>
+        <tr [hidden]="!offerItem.canBeEdited">
+          <th>Status</th>
+          <td><span class="status">{{offerItem.status}}</span></td>
+        </tr>
       </table>
       <button (click)="hideContactData=false; getContactInfo()" [hidden]="!hideContactData || !isLoggedIn">Show Contact Data</button>
       <button (click)="hideContactData=true" [hidden]="hideContactData || !isLoggedIn">Hide Contact Data</button>
@@ -55,9 +59,13 @@
         <button (click)="showSetPublic=false">Cancel</button>
       </div>
       <div [hidden]="!showDeny">
-        <p>Are you sure you want to deny this form? (Please send the user an email explaining why)</p>
-        <button (click)="onDeny(); showDeny=false">Clear form</button>
-        <button (click)="showDeny=false">Cancel</button>
+        <form (ngSubmit)="onDeny(); showDeny=false" #reasonField="ngForm">
+          <label for="reason">Are you sure you want to deny this form? Please provide a reason why.</label>
+          <input type="text" id="reason" [(ngModel)]="reason" name="reasonField" #reasonField="ngModel" required/>
+          <button type="submit" class="btn btn-success" [disabled]="!reasonField.form.valid" (click)="onDeny()">Deny offer
+          </button>
+          <button (click)="showDeny=false; reason=''">Cancel</button>
+        </form>
       </div>
 
 

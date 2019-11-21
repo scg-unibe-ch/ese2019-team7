@@ -17,7 +17,7 @@ export class OfferItemComponent implements OnInit {
   constructor( private httpClient: HttpClient, private variables: VariablesService) {
   }
 
-  original = new OfferItem(0, '', '', '', '', '', '', false, false, false);
+  original: OfferItem;
   editing = false;
   categories: string[];
   isLoggedIn = false;
@@ -29,6 +29,7 @@ export class OfferItemComponent implements OnInit {
   showDelete = false;
   showDeny = false;
   showSetPublic = false;
+  reason = '';
 
 
   ngOnInit() {
@@ -144,4 +145,10 @@ export class OfferItemComponent implements OnInit {
     }
   }
 
+  onDeny() {
+    this.httpClient.patch(this.variables.getUrl().concat('offers/notApproved'), {
+      message: this.reason
+    }, {withCredentials: true}).subscribe((object) => this.resolveRequest(this.offerItem.title + 'denied'),
+      (object) => alert(object.status + ': ' + object.error.message));
+    }
 }
