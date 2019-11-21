@@ -1,7 +1,6 @@
 import {Router, Request, Response} from 'express';
 import {getDatabase} from '../database';
 import {OfferAttributes, OfferInstance} from '../models/offer.model';
-import {UserInstance} from '../models/user.model';
 import {DbInterface} from '../dbtypings/dbInterface';
 import {AuthenticationController} from './authentication.controller';
 import {AdminAuthenticationController} from './adminAuthentication.controller';
@@ -45,7 +44,7 @@ router.put('/contact', AuthenticationController, loadOfferDef, async (req: Reque
   }
 
 });
-
+/*
 router.get('/myOffers', AuthenticationController,  async (req: Request, res: Response) => {
   getDatabase().Offer.findAll({
     attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo'],
@@ -56,6 +55,12 @@ router.get('/myOffers', AuthenticationController,  async (req: Request, res: Res
 
     .then((offers: OfferInstance[]) => res.status(200).json({ offers }))
     .catch(err => res.status(500).json({ message: err }));
+});
+
+ */
+router.get('/myOffers', AuthenticationController,  async (req: Request, res: Response) => {
+  const offers: OfferInstance[] =  await req.session.user.getOffers();
+  res.status(200).json({ offers });
 });
 
 
@@ -154,7 +159,7 @@ export async function create(req: Request, res: Response, Db: any) {
 }
 router.get('/notApproved', AdminAuthenticationController, async (req: Request, res: Response) => {
   getDatabase().Offer.findAll({
-    attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo'],
+    attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo', 'status'],
     where: {
       public: false
     }})
@@ -162,14 +167,38 @@ router.get('/notApproved', AdminAuthenticationController, async (req: Request, r
     .catch(err => res.status(500).json({ message: err }));
 
 });
-router.patch('/notApproved', AdminAuthenticationController, async (req: Request, res: Response) => {
-  getDatabase().Offer.update(
-    {
-      public: true
-    }, {where: {
-    id: req.body.id
-    }}).then(e => res.status(200).json({message: 'Offer approved'}))
-    .catch(err => res.status(500).json({ message: err }));
+router.patch('/notApproved', AuthenticationController, async (req: Request, res: Response) => {
+  if (req.session.admin === null) {
+    res.sendForbidden();
+    return;
+  }
+  if (req.body.approve) {
+    getDatabase().Offer.update(
+      {
+        public: true,
+        status: 'approved'
+      }, {
+        where: {
+          id: req.body.id
+        }
+      }).then(e => res.status(200).json({message: 'Offer approved'}))
+      .catch(err => res.status(500).json({message: err}));
+  }
+  else if(!req.body.approve){
+    getDatabase().Offer.update(
+      {
+        status: 'Rejected reason: ' + req.body.message
+      }, {
+        where: {
+          id: req.body.id
+        }
+      }).then(e => res.status(200).json({message: 'Offer rejected'}))
+      .catch(err => res.status(500).json({message: err}));
+
+  }
+  else{
+    res.status(400).json({message: 'approve has to be set'});
+  }
 
 });
 
@@ -202,14 +231,12 @@ router.get('/edit', AuthenticationController, loadOfferDef, async (req: Request,
 
 router.put('/edit', AuthenticationController, loadOfferDef, updateOfferDef);
 router.put('/delete', AuthenticationController , loadOfferDef, deleteOfferDef);
-router.put('/admindelete', AdminAuthenticationController , loadOfferDef, adminDeleteOfferDef);
+
 
 async function deleteOfferDef(rawReq: any, rawRes: any) {
   deleteOffer(rawReq, rawRes, getDatabase());
 }
-async function adminDeleteOfferDef(rawReq: any, rawRes: any) {
-  adminDeleteOffer(rawReq, rawRes, getDatabase());
-}
+
 async function updateOfferDef(rawReq: any, rawRes: any) {
   updateOffer(rawReq, rawRes, getDatabase().Offer);
 }
@@ -221,6 +248,7 @@ export async function updateOffer(req: Request, res: Response, offer: any) {
   const offerToUpdate: OfferInstance = req.body.offer;
   offerToUpdate.set(genOfferValues(req.body));
   offerToUpdate.set('public', false);
+  offerToUpdate.set('status', 'validation in progress');
   try {
     await offerToUpdate.save();
   } catch (err) {
@@ -246,10 +274,7 @@ export async function deleteOffer(req: Request, res: Response, Db: DbInterface) 
   await req.body.offer.destroy().catch((err: any) => res.status(500).send({message: 'Error while deleting offer'}));
   res.sendSuccess();
 }
-export async function adminDeleteOffer(req: Request, res: Response, Db: DbInterface) {
-  await req.body.offer.destroy().catch((err: any) => res.status(500).send({message: 'Error while deleting offer'}));
-  res.sendSuccess();
-}
+
 
 
 export const OffersController: Router = router;

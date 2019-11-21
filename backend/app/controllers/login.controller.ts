@@ -2,7 +2,7 @@ import {Router, Request, Response} from 'express';
 import {getDatabase} from '../database';
 
 
-const session = require('express-session');
+
 const bcrypt = require('bcrypt');
 
 const router: Router = Router();

@@ -1,5 +1,4 @@
 import {Router, Request, Response} from 'express';
-import {AdminAuthenticationController} from './adminAuthentication.controller';
 import {AuthenticationController} from './authentication.controller';
 
 const router: Router = Router();

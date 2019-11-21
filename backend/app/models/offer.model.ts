@@ -14,6 +14,7 @@ export interface OfferAttributes {
   dateFrom: Date;
   dateTo: Date;
   price: number;
+  status: string;
   provider?: UserAttributes | UserAttributes['id'];
   createdAt?: Date;
   updatedAt?: Date;
@@ -51,6 +52,13 @@ export const OfferFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequeliz
     },
     price:  {
     type: DataTypes.INTEGER,
+  },
+  status: {
+      type: DataTypes.TEXT,
+    defaultValue: `validation in progress`,
+    allowNull: false,
+    validate: {
+      notEmpty: true}
   }
   };
 
