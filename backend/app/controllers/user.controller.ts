@@ -27,7 +27,7 @@ router.get('/', AuthenticationController, loadUserDef, async (req: Request, res:
     });
 });
 router.put('/edit', AuthenticationController, loadUserDef, updateUserDef);
-router.put('/delete', AuthenticationController , loadUserDef, deleteUserDef);
+router.delete('/', AuthenticationController , loadUserDef, deleteUserDef);
 async function deleteUserDef(rawReq: any, rawRes: any) {
   deleteUser(rawReq, rawRes, getDatabase());
 }
