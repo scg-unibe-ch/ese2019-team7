@@ -58,7 +58,7 @@ export async function updateUser(req: Request, res: Response, offer: any) {
  * @param offer Offer table of the database
  */
 export async function deleteUser(req: Request, res: Response, Db: DbInterface) {
-  if (req.session.user.id === null || req.session.admin === null) {
+  if (req.session.user.id === null && req.session.admin === null) {
     res.sendForbidden();
     return;
   }
