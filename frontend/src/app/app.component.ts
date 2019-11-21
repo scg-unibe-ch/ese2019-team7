@@ -4,6 +4,8 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {VariablesService} from './variables.service';
 
 
 @Component({
@@ -14,11 +16,16 @@ import {HttpClient} from '@angular/common/http';
 
 export class AppComponent implements OnInit {
 
+  isLoggedIn = false;
+  isAdmin = false;
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private router: Router,
+    private variables: VariablesService
   ) {
     this.initializeApp();
   }
@@ -31,5 +38,14 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.variables.getLogin().subscribe(login => this.isLoggedIn = login);
+    this.variables.getAdmin().subscribe(admin => this.isAdmin = admin);
   }
+
+  logOut() {
+    this.httpClient.get(this.variables.getUrl().concat('/logout'), {withCredentials: true}).subscribe(
+      (object: any) => { this.variables.setAdminFalse(); this.variables.setLogin(false); },
+      (object: any) => { alert('HTTP Error ' + object.status + ': ' + object.error.message); });
+  }
+
 }

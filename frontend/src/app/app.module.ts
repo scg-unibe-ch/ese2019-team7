@@ -32,6 +32,7 @@ import {MatExpansionModule} from '@angular/material';
 
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import {NavigationBarComponent} from './navigation-bar/navigation-bar.component';
+import {ChangeUserDataComponent} from './change-user-data/change-user-data.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -42,6 +43,7 @@ const appRoutes: Routes = [
   { path: 'myOffers', component: OwnListComponent},
   { path: 'adminOffers', component: AdminListComponent},
   { path: 'navigation', component: NavigationBarComponent},
+  { path: 'changeUserData', component: ChangeUserDataComponent},
   { path: '', redirectTo: '/offers', pathMatch: 'full'}
 //  { path: '**', component: PageNotFoundComponent }
 ];
@@ -59,7 +61,8 @@ const appRoutes: Routes = [
     OfferItemComponent,
     AdminListComponent,
     OwnListComponent,
-    NavigationBarComponent
+    NavigationBarComponent,
+    ChangeUserDataComponent
   ],
   entryComponents: [],
   imports: [

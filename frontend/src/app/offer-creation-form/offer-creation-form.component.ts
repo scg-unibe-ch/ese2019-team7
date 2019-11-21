@@ -19,6 +19,7 @@ export class OfferCreationFormComponent implements OnInit {
 
   categories: string[];
   isLoggedIn: boolean;
+  showClear = false;
 
   ngOnInit() {
     this.categories = this.variables.getCategories();
@@ -30,14 +31,20 @@ export class OfferCreationFormComponent implements OnInit {
   onSave() {
     this.model.dateFrom = this.checkDate(this.model.dateFrom);
     this.model.dateTo = this.checkDate(this.model.dateTo);
-    this.httpClient.post(this.variables.getUrl().concat('/offers/create'), {
-      title: this.model.title,
-      description: this.model.description,
-      price: this.model.price,
-      category: this.model.category,
-      dateFrom: this.model.dateFrom,
-      dateTo: this.model.dateTo,
-    }, {withCredentials: true}).subscribe( this.answer, this.onSave_error);
+    if (this.model.dateFrom !== null && this.model.dateTo !== null && this.model.dateFrom > this.model.dateTo) {
+      alert('Your end date ist before your start date. Please fix this before continuing');
+    } else {
+      this.httpClient.post(this.variables.getUrl().concat('/offers/create'), {
+        title: this.model.title,
+        description: this.model.description,
+        price: this.model.price,
+        category: this.model.category,
+        dateFrom: this.model.dateFrom,
+        dateTo: this.model.dateTo,
+      }, {withCredentials: true}).subscribe(this.answer, this.onSave_error);
+      const resetForm = document.getElementById('offerCreationForm') as HTMLFormElement;
+      resetForm.reset();
+    }
   }
 
   checkDate(date: number) {

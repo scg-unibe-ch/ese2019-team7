@@ -27,6 +27,9 @@ export class OfferItemComponent implements OnInit {
   hideButton = false;
   displayDateFrom: string;
   displayDateTo: string;
+  showDelete = false;
+  showDeny = false;
+  showSetPublic = false;
 
 
   ngOnInit() {
@@ -86,16 +89,32 @@ export class OfferItemComponent implements OnInit {
   onSave() {
     this.offerItem.dateFrom = this.checkDate(this.offerItem.dateFrom);
     this.offerItem.dateTo = this.checkDate(this.offerItem.dateTo);
-    this.httpClient.put(this.variables.getUrl().concat('/offers/edit'), {
-      title: this.offerItem.title,
-      description: this.offerItem.description,
-      price: this.offerItem.price,
-      category: this.offerItem.category,
-      dateFrom: this.offerItem.dateFrom,
-      dateTo: this.offerItem.dateTo,
-      id: this.offerItem.id
-    }, {withCredentials: true}).subscribe((object) => this.resolveEditRequest('offer edited'),
-      (object) => alert(object.status + ': ' + object.error.message));
+    let compareFrom: number;
+    let compareTo: number;
+    if (isNaN(Number(this.offerItem.dateTo))) {
+      compareTo = new Date(this.offerItem.dateTo).valueOf();
+    } else {
+      compareTo = Number(this.offerItem.dateTo);
+    }
+    if (isNaN(Number(this.offerItem.dateFrom))) {
+      compareFrom = new Date(this.offerItem.dateFrom).valueOf();
+    } else {
+      compareFrom = Number(this.offerItem.dateFrom);
+    }
+    if (compareFrom > compareTo) {
+      alert('Your start date is later than your end date. Please fix this before submitting.');
+    } else {
+      this.httpClient.put(this.variables.getUrl().concat('/offers/edit'), {
+        title: this.offerItem.title,
+        description: this.offerItem.description,
+        price: this.offerItem.price,
+        category: this.offerItem.category,
+        dateFrom: this.offerItem.dateFrom,
+        dateTo: this.offerItem.dateTo,
+        id: this.offerItem.id
+      }, {withCredentials: true}).subscribe((object) => this.resolveEditRequest('offer edited'),
+        (object) => alert(object.status + ': ' + object.error.message));
+    }
   }
 
   generateContactData(instances) {
