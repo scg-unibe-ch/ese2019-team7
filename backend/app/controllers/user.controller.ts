@@ -82,4 +82,4 @@ export async function loadUser(req: Request, res: Response, next: Function, Db: 
   req.session.user = userToLoad;
   next();
 }
-
+export const UserController: Router = router;
