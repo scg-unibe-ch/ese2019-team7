@@ -147,6 +147,7 @@ export class OfferItemComponent implements OnInit {
 
   onDeny() {
     this.httpClient.patch(this.variables.getUrl().concat('offers/notApproved'), {
+      id: this.offerItem.id,
       message: this.reason
     }, {withCredentials: true}).subscribe((object) => this.resolveRequest(this.offerItem.title + 'denied'),
       (object) => alert(object.status + ': ' + object.error.message));

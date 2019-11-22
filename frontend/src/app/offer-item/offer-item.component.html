@@ -1,5 +1,4 @@
 <div style="overflow-x:auto;">
-
   <div class="item">
     <div [hidden]="(editing || showDelete || showSetPublic || showDeny)">
       <p class="title">{{offerItem.title}}</p>
@@ -16,7 +15,7 @@
           <th>Availability</th>
           <td><span class="availability">{{displayDateFrom}} - {{displayDateTo}}</span></td>
         </tr>
-        <tr [hidden]="!offerItem.canBeEdited">
+        <tr [hidden]="!offerItem.canBeEdited && !offerItem.canBeSetPublic">
           <th>Status</th>
           <td><span class="status">{{offerItem.status}}</span></td>
         </tr>
@@ -47,81 +46,84 @@
         </button>
         <button (click)="showDeny=true" [hidden]="!offerItem.canBeSetPublic || !isAdmin">Deny request</button>
         <button (click)="onEdit()" [hidden]="!offerItem.canBeEdited || !isLoggedIn">Edit</button>
-      <div [hidden]="!showDelete">
-        <p>Are you sure you want to delete {{offerItem.title}}?</p>
-        <button (click)="onDelete(); showDelete=false">Delete</button>
-        <button (click)="showDelete=false">Cancel</button>
-      </div>
-      <div [hidden]="!showSetPublic">
-        <p>Are you sure you want to set {{offerItem.title}} to public? This can be undone only by deleting the offer, or
-          by the user changing it.</p>
-        <button (click)="onSetPublic(); showSetPublic=false">Set public</button>
-        <button (click)="showSetPublic=false">Cancel</button>
-      </div>
-      <div [hidden]="!showDeny">
-        <form (ngSubmit)="onDeny(); showDeny=false" #reasonField="ngForm">
-          <label for="reason">Are you sure you want to deny this form? Please provide a reason why.</label>
-          <input type="text" id="reason" [(ngModel)]="reason" name="reasonField" #reasonField="ngModel" required class="form-control" placeholder="reason"/>
-          <button type="submit" class="btn btn-success" [disabled]="!reasonField.valid" (click)="onDeny()">Deny offer
-          </button>
-          <button (click)="showDeny=false; reason=''">Cancel</button>
-        </form>
-      </div>
+    </div>
 
+    <div [hidden]="!showDelete">
+      <p>Are you sure you want to delete {{offerItem.title}}?</p>
+      <button (click)="onDelete(); showDelete=false">Delete</button>
+      <button (click)="showDelete=false">Cancel</button>
+    </div>
 
-      <div [hidden]="!editing">
-        <form (ngSubmit)="onSubmit()" #editForm="ngForm">
-          <p>Note: Fields with an asterisk (*) must be filled in, other fields may be left empty.</p>
-          <div class="form-group">
-            <label for="title">Title*</label>
-            <input type="text" class="form-control" id="title" [(ngModel)]="offerItem.title" name="title"
-                   #title="ngModel"
-                   required/>
-            <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
-              You need a title for your offer.
-            </div>
+    <div [hidden]="!showSetPublic">
+      <p>Are you sure you want to set {{offerItem.title}} to public? This can be undone only by deleting the offer, or
+        by the user changing it.</p>
+      <button (click)="onSetPublic(); showSetPublic=false">Set public</button>
+      <button (click)="showSetPublic=false">Cancel</button>
+    </div>
+
+    <div [hidden]="!showDeny">
+      <form (ngSubmit)="onDeny(); showDeny=false" #reasonField="ngForm">
+        <label for="reason">Are you sure you want to deny this form? Please provide a reason why.</label>
+        <input type="text" id="reason" [(ngModel)]="reason" name="reasonField" #reasonField="ngModel" required class="form-control" placeholder="reason"/>
+        <button type="submit" class="btn btn-success" [disabled]="!reasonField.valid" (click)="onDeny()">Deny offer
+        </button>
+        <button (click)="showDeny=false; reason=''">Cancel</button>
+      </form>
+    </div>
+
+    <div [hidden]="!editing">
+      <form (ngSubmit)="onSubmit()" #editForm="ngForm">
+        <p>Note: Fields with an asterisk (*) must be filled in, other fields may be left empty.</p>
+        <div class="form-group">
+          <label for="title">Title*</label>
+          <input type="text" class="form-control" id="title" [(ngModel)]="offerItem.title" name="title"
+                 #title="ngModel"
+                 required/>
+          <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+            You need a title for your offer.
           </div>
-          <div class="form-group">
-            <label for="description">Description*</label>
-            <textarea type="text" class="form-control" id="description" [(ngModel)]="offerItem.description"
-                      name="description"
-                      #description="ngModel" required>{{offerItem.description}}</textarea>
-            <div [hidden]="description.valid || description.pristine" class="alert alert-danger">
-              You need a description for your offer.
-            </div>
+        </div>
+        <div class="form-group">
+          <label for="description">Description*</label>
+          <textarea type="text" class="form-control" id="description" [(ngModel)]="offerItem.description"
+                    name="description"
+                    #description="ngModel" required>{{offerItem.description}}</textarea>
+          <div [hidden]="description.valid || description.pristine" class="alert alert-danger">
+            You need a description for your offer.
           </div>
-          <div class="form-group">
-            <label for="price">Price (per day/night; if billing is for another type, please leave empty and note in the
-              description)</label>
-            <input type="int" class="form-control" id="price" [(ngModel)]="offerItem.price" name="price"
-                   #price="ngModel"/>
-          </div>
-          <div class="form-group">
-            <label for="dateFrom">From:</label>
-            <input [matDatepicker]="myDatepicker1" type="text" class="form-control" id="dateFrom"
-                   [(ngModel)]="offerItem.dateFrom" name="dateFrom" #dateFrom="ngModel">
-            <mat-datepicker-toggle matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
-            <mat-datepicker #myDatepicker1></mat-datepicker>
-          </div>
-          <div class="form-group">
-            <label for="dateTo">To:</label>
-            <input [matDatepicker]="myDatepicker2" type="text" class="form-control" id="dateTo"
-                   [(ngModel)]="offerItem.dateTo" name="dateTo" #dateTo="ngModel">
-            <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
-            <mat-datepicker #myDatepicker2></mat-datepicker>
-          </div>
-          <div class="form-group">
-            <label for="category">Category</label>
-            <select class="form-control" id="category"
-                    [(ngModel)]="offerItem.category" name="category" required>
-              <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-success" [disabled]="!editForm.form.valid" (click)="onSave()">Save
-            offer
-          </button>
-          <button (click)="onCancel()">Cancel</button>
-        </form>
-      </div>
+        </div>
+        <div class="form-group">
+          <label for="price">Price (per day/night; if billing is for another type, please leave empty and note in the
+            description)</label>
+          <input type="int" class="form-control" id="price" [(ngModel)]="offerItem.price" name="price"
+                 #price="ngModel"/>
+        </div>
+        <div class="form-group">
+          <label for="dateFrom">From:</label>
+          <input [matDatepicker]="myDatepicker1" type="text" class="form-control" id="dateFrom"
+                 [(ngModel)]="offerItem.dateFrom" name="dateFrom" #dateFrom="ngModel">
+          <mat-datepicker-toggle matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
+          <mat-datepicker #myDatepicker1></mat-datepicker>
+        </div>
+        <div class="form-group">
+          <label for="dateTo">To:</label>
+          <input [matDatepicker]="myDatepicker2" type="text" class="form-control" id="dateTo"
+                 [(ngModel)]="offerItem.dateTo" name="dateTo" #dateTo="ngModel">
+          <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
+          <mat-datepicker #myDatepicker2></mat-datepicker>
+        </div>
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select class="form-control" id="category"
+                  [(ngModel)]="offerItem.category" name="category" required>
+            <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-success" [disabled]="!editForm.form.valid" (click)="onSave()">Save
+          offer
+        </button>
+        <button (click)="onCancel()">Cancel</button>
+      </form>
     </div>
   </div>
+</div>
