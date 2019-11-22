@@ -53,6 +53,7 @@ export class OfferItemComponent implements OnInit {
   onSetPublic() {
     this.httpClient.patch(this.variables.getUrl().concat('/offers/notApproved'), {
       id: this.offerItem.id,
+      approve: true
     }, {withCredentials: true}).subscribe(
       (object) => this.resolveRequest(this.offerItem.title + ' has been set public'),
       (object) => alert(object.status + ': ' + object.error.message));
@@ -146,10 +147,11 @@ export class OfferItemComponent implements OnInit {
   }
 
   onDeny() {
-    this.httpClient.patch(this.variables.getUrl().concat('offers/notApproved'), {
+    this.httpClient.patch(this.variables.getUrl().concat('/offers/notApproved'), {
       id: this.offerItem.id,
-      message: this.reason
+      message: this.reason,
+      approve: false,
     }, {withCredentials: true}).subscribe((object) => this.resolveRequest(this.offerItem.title + 'denied'),
-      (object) => alert(object.status + ': ' + object.error.message));
+      (object) => console.log(object) /*alert(object.status + ': ' + object.error.message)*/);
     }
 }
