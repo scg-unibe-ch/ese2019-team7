@@ -35,10 +35,6 @@ export const createModels = (storagefile = 'db3.sqlite', loggingFunction: any = 
   // @ts-ignore
   db.Admin.associate(db);
 
- /* if (db.User.associate) {
-    db.User.associate();
-  }
 
-  */
   return db;
 };

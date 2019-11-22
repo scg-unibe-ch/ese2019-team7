@@ -1,12 +1,4 @@
-<nav class="navbar">
-  <ul>
-    <li><a routerLink="../login">Sign in.</a></li>
-    <li><a routerLink="../register">Register</a></li>
-    <li><a routerLink="../offers">View offers</a></li>
-    <li><a routerLink="../createOffer">Publish an offer</a></li>
-    <li style="float:right;"> <!--[hidden]="isLoggedIn"--> <a routerLink="../protected">Log out</a></li>
-  </ul>
-</nav>
+
 
 <div [hidden]="isLoggedIn">
   You must be signed-in to access this feature.

@@ -1,0 +1,5 @@
+1) A cook specializing in italian food wants to offer his services. First he wants to check what other cooks have on offer and who is a direct competitor, then he wants to publish his own offer.
+2) The admin then checks the offer, and confirms the request.
+3) Some time has passed, and the cook wants to make a change to the already existing offer.
+4) The admin reevaluates the offer and deems it inappropriate, so he denies it.
+5) The cook notices that the offer has been denied, and deletes the offer.

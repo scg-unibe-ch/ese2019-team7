@@ -3,7 +3,7 @@ import * as Sequelize from 'sequelize';
 import { SequelizeAttributes } from '../dbtypings/sequelizeAttributes';
 
 import { OfferAttributes, OfferInstance } from '../models/offer.model';
-import {AdminAttributes, AdminInstance} from "./admin.model";
+import {AdminAttributes, AdminInstance} from './admin.model';
 
 export interface UserAttributes {
   id?: number;
@@ -20,15 +20,15 @@ export interface UserAttributes {
   updatedAt?: Date;
 };
 export interface UserInstance extends Sequelize.Instance<UserAttributes>, UserAttributes {
-  getOffers: Sequelize.HasManyGetAssociationsMixin<UserInstance>;
-  setOffers: Sequelize.HasManySetAssociationsMixin<UserInstance, UserInstance['id']>;
-  addOffers: Sequelize.HasManyAddAssociationsMixin<UserInstance, UserInstance['id']>;
-  addOffer: Sequelize.HasManyAddAssociationMixin<UserInstance, UserInstance['id']>;
-  createOffer: Sequelize.HasManyCreateAssociationMixin<OfferAttributes, UserInstance>;
-  removeOffer: Sequelize.HasManyRemoveAssociationMixin<UserInstance, UserInstance['id']>;
-  removeOffers: Sequelize.HasManyRemoveAssociationsMixin<UserInstance, UserInstance['id']>;
-  hasOffer: Sequelize.HasManyHasAssociationMixin<UserInstance, UserInstance['id']>;
-  hasOffers: Sequelize.HasManyHasAssociationsMixin<UserInstance, UserInstance['id']>;
+  getOffers: Sequelize.HasManyGetAssociationsMixin<OfferInstance>;
+  setOffers: Sequelize.HasManySetAssociationsMixin<OfferInstance, OfferInstance['id']>;
+  addOffers: Sequelize.HasManyAddAssociationsMixin<OfferInstance, OfferInstance['id']>;
+  addOffer: Sequelize.HasManyAddAssociationMixin<OfferInstance, OfferInstance['id']>;
+  createOffer: Sequelize.HasManyCreateAssociationMixin<OfferAttributes, OfferInstance>;
+  removeOffer: Sequelize.HasManyRemoveAssociationMixin<OfferInstance, OfferInstance['id']>;
+  removeOffers: Sequelize.HasManyRemoveAssociationsMixin<OfferInstance, OfferInstance['id']>;
+  hasOffer: Sequelize.HasManyHasAssociationMixin<OfferInstance, OfferInstance['id']>;
+  hasOffers: Sequelize.HasManyHasAssociationsMixin<OfferInstance, OfferInstance['id']>;
   countOffers: Sequelize.HasManyCountAssociationsMixin;
 
   getAdmin: Sequelize.BelongsToGetAssociationMixin<AdminInstance>;

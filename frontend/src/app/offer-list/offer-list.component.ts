@@ -11,12 +11,13 @@ import {VariablesService} from '../variables.service';
 export class OfferListComponent implements OnInit {
 
   @Input()
-  offerItem: OfferItem = new OfferItem(0, '', '', '', '', '', '', false, false, false);
+  offerItem: OfferItem = new OfferItem(0, '', '', '', '', '', '', '', false, false, false);
   offerItems: OfferItem[] = [];
 
   categories: string[];
   searchKey = '';
   category = '';
+  isLoggedIn = false;
 
   constructor(
     private httpClient: HttpClient,
@@ -25,6 +26,7 @@ export class OfferListComponent implements OnInit {
 
   ngOnInit() {
     this.categories = this.variables.getCategories();
+    this.variables.getLogin().subscribe(login => this.isLoggedIn = login);
     this.httpClient.get(this.variables.getUrl().concat('/offers')).subscribe((instances: any) => {
       this.offerItems = this.generateOfferItems(instances);
     }, (object: any) => {  alert('HTTP Error ' + object.status + ': ' + object.error.message); });
@@ -39,6 +41,7 @@ export class OfferListComponent implements OnInit {
       instance.category,
       this.generateDateDisplay(instance.dateFrom),
       this.generateDateDisplay(instance.dateTo),
+      '',
       false,
       false,
       false));

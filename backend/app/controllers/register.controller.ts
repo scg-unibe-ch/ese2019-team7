@@ -5,12 +5,6 @@ const bcrypt = require('bcrypt');
 
 const router: Router = Router();
 
-const bodyParser = require('body-parser');
-router.use(bodyParser.urlencoded({extended : true}));
-
-
-
-
 router.get('/', async (req: Request, res: Response) => {
     res.statusCode = 200;
 });

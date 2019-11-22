@@ -17,16 +17,19 @@ export class OfferItemComponent implements OnInit {
   constructor( private httpClient: HttpClient, private variables: VariablesService) {
   }
 
-  original = new OfferItem(0, '', '', '', '', '', '', false, false, false);
+  original: OfferItem;
   editing = false;
   categories: string[];
   isLoggedIn = false;
   isAdmin = false;
   contactData = new ContactData('N/A', 'N/A', 'N/A');
   hideContactData = true;
-  hideButton = false;
   displayDateFrom: string;
   displayDateTo: string;
+  showDelete = false;
+  showDeny = false;
+  showSetPublic = false;
+  reason = '';
 
 
   ngOnInit() {
@@ -86,16 +89,32 @@ export class OfferItemComponent implements OnInit {
   onSave() {
     this.offerItem.dateFrom = this.checkDate(this.offerItem.dateFrom);
     this.offerItem.dateTo = this.checkDate(this.offerItem.dateTo);
-    this.httpClient.put(this.variables.getUrl().concat('/offers/edit'), {
-      title: this.offerItem.title,
-      description: this.offerItem.description,
-      price: this.offerItem.price,
-      category: this.offerItem.category,
-      dateFrom: this.offerItem.dateFrom,
-      dateTo: this.offerItem.dateTo,
-      id: this.offerItem.id
-    }, {withCredentials: true}).subscribe((object) => this.resolveEditRequest('offer edited'),
-      (object) => alert(object.status + ': ' + object.error.message));
+    let compareFrom: number;
+    let compareTo: number;
+    if (isNaN(Number(this.offerItem.dateTo))) {
+      compareTo = new Date(this.offerItem.dateTo).valueOf();
+    } else {
+      compareTo = Number(this.offerItem.dateTo);
+    }
+    if (isNaN(Number(this.offerItem.dateFrom))) {
+      compareFrom = new Date(this.offerItem.dateFrom).valueOf();
+    } else {
+      compareFrom = Number(this.offerItem.dateFrom);
+    }
+    if (compareFrom > compareTo) {
+      alert('Your start date is later than your end date. Please fix this before submitting.');
+    } else {
+      this.httpClient.put(this.variables.getUrl().concat('/offers/edit'), {
+        title: this.offerItem.title,
+        description: this.offerItem.description,
+        price: this.offerItem.price,
+        category: this.offerItem.category,
+        dateFrom: this.offerItem.dateFrom,
+        dateTo: this.offerItem.dateTo,
+        id: this.offerItem.id
+      }, {withCredentials: true}).subscribe((object) => this.resolveEditRequest('offer edited'),
+        (object) => alert(object.status + ': ' + object.error.message));
+    }
   }
 
   generateContactData(instances) {
@@ -107,7 +126,6 @@ export class OfferItemComponent implements OnInit {
       instances.phone,
       instances.email);
     this.hideContactData = false;
-    this.hideButton = true;
     return this.contactData;
   }
 
@@ -127,4 +145,11 @@ export class OfferItemComponent implements OnInit {
     }
   }
 
+  onDeny() {
+    this.httpClient.patch(this.variables.getUrl().concat('offers/notApproved'), {
+      id: this.offerItem.id,
+      message: this.reason
+    }, {withCredentials: true}).subscribe((object) => this.resolveRequest(this.offerItem.title + 'denied'),
+      (object) => alert(object.status + ': ' + object.error.message));
+    }
 }

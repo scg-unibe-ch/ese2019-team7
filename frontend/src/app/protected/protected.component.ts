@@ -31,5 +31,4 @@ export class ProtectedComponent implements OnInit {
       (object: any) => { this.variables.setAdminFalse(); this.variables.setLogin(false); this.router.navigate(['']); },
       (object: any) => { this.welcomeMessage = 'HTTP Error ' + object.status + ': ' + object.error.message; });
   }
-
 }
