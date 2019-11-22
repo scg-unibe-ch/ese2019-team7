@@ -34,7 +34,7 @@
                  placeholder="Enter your address"/>
         </div>
         <button type="submit" class="btn btn-success" [disabled]="!changeDataForm.form.valid"
-                (click)="onSave(); changeDataForm.reset()">Save changes
+                (click)="onSave()">Save changes
         </button>
       </form>
       <form (ngSubmit)="onChangePassword()" #changePasswordForm="ngForm" appPasswordValid>
@@ -69,7 +69,7 @@
     <p>Are you sure you want to terminate you account? This will also delete all your offers.</p>
       <button (click)="deleting=true" [hidden]="deleting">Terminate account</button>
       <div [hidden]="!deleting">
-        <button (click)="logOut(); onDelete()">Terminate account</button>
+        <button (click)="logOutDelete()">Terminate account</button>
         <button (click)="deleting=false">Cancel action</button>
       </div>
   </div>

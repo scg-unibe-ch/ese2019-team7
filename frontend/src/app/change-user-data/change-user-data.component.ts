@@ -26,14 +26,14 @@ export class ChangeUserDataComponent implements OnInit {
   ngOnInit() {
     this.variables.getLogin().subscribe(login => this.isLoggedIn = login);
     this.httpClient.get(this.variables.getUrl().concat('/user'), {withCredentials: true}).subscribe(
-      (instance: any) => this.model = new RegistrationUser(instance.username, '', '', instance.email, instance.tel, instance.address),
+      (instance: any) => this.model = new RegistrationUser(instance.username, '', '', instance.email, instance.phone, instance.address),
       (object: any) => {  alert('HTTP Error ' + object.status + ': ' + object.error.message); });
   }
 
   onSave() {
     this.httpClient.put(this.variables.getUrl().concat('/user/edit'), {
       email: this.model.email,
-      tel: this.model.tel,
+      phone: this.model.tel,
       address: this.model.address
     }, {withCredentials: true}).subscribe( this.answer, this.onSave_error);
   }
@@ -61,9 +61,9 @@ export class ChangeUserDataComponent implements OnInit {
     return (tel == null || tel.value === '' || (new RegExp('[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$').test(tel.value)));
   }
 
-  logOut() {
+  logOutDelete() {
     this.httpClient.get(this.variables.getUrl().concat('/logout'), {withCredentials: true}).subscribe(
-      (object: any) => { this.variables.setAdminFalse(); this.variables.setLogin(false); },
+      (object: any) => { this.variables.setAdminFalse(); this.variables.setLogin(false); this.onDelete(); },
       (object: any) => { alert('HTTP Error ' + object.status + ': ' + object.error.message); });
   }
 }

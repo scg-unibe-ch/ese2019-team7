@@ -61,16 +61,16 @@
       <div [hidden]="!showDeny">
         <form (ngSubmit)="onDeny(); showDeny=false" #reasonField="ngForm">
           <label for="reason">Are you sure you want to deny this form? Please provide a reason why.</label>
-          <input type="text" id="reason" [(ngModel)]="reason" name="reasonField" #reasonField="ngModel" required/>
-          <button type="submit" class="btn btn-success" [disabled]="!reasonField.form.valid" (click)="onDeny()">Deny offer
+          <input type="text" id="reason" [(ngModel)]="reason" name="reasonField" #reasonField="ngModel" required class="form-control" placeholder="reason"/>
+          <button type="submit" class="btn btn-success" [disabled]="!reasonField.valid" (click)="onDeny()">Deny offer
           </button>
           <button (click)="showDeny=false; reason=''">Cancel</button>
         </form>
       </div>
 
 
-      <div>
-        <form (ngSubmit)="onSubmit()" #editForm="ngForm" [hidden]="!editing">
+      <div [hidden]="!editing">
+        <form (ngSubmit)="onSubmit()" #editForm="ngForm">
           <p>Note: Fields with an asterisk (*) must be filled in, other fields may be left empty.</p>
           <div class="form-group">
             <label for="title">Title*</label>
