@@ -95,6 +95,7 @@ function updateOfferTests() {
 function searchOfferTests() {
   it('search Offer Test', searchOfferTest);
   it('search Offer not specifying the category', searchOfferTestNoCategory);
+  it('search Offer by usernames', searchInUserTest);
 }
 
 function deleteOfferTests() {
@@ -156,6 +157,7 @@ async function offerUpdateTest() {
 }
 
 async function searchOfferTest() {
+
   const req = {
     body: {
       category: 'catering',
@@ -185,13 +187,31 @@ async function searchOfferTestNoCategory() {
   assert.strictEqual(res.body.offers[1].title, 'Awful swiss house');
 }
 
+async function searchInUserTest() {
+  const entry = Db.Offer.findOne({where: {title: 'Awful swiss house'}});
+  await entry.setProvider(ueli);
+  const req = {
+    body: {
+      searchKey: '23',
+      attributes: ['provider.name']
+    },
+    session: {}
+  };
+  const res = tests.getRes(200);
+  await offersController.httpPerformSearch(req, res , Db);
+  assert.strictEqual(res.body.offers.length, 2);
+  assert.strictEqual(res.body.offers[1].title, 'Best Italian Food');
+  assert.strictEqual(res.body.offers[0].title, 'Best Swiss Food');
+}
+
 async function deleteOfferWrongUserTest() {
   const req = {
     body: {
       id: 1 // title: "Best Italian Food"
     },
     session: {
-      user: ueli // (no offers)
+      user: ueli, // (no offers)
+      admin: null
     }
   };
   const res = await tests.simHttpRequest(req, 403, Db, offersController.loadOffer, offersController.deleteOffer);
