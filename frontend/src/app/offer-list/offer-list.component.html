@@ -46,7 +46,7 @@
       <div class="form-group">
         <input type="checkbox" name="searchInTitle" [(ngModel)]="searchInTitle" checked /> Title
         <input type="checkbox" name="searchInDescription" [(ngModel)]="searchInDescription" /> Description
-        <input type="checkbox" name="searchInUsername" [(ngModel)]="searchInUsername" /> Username
+        <input type="checkbox" name="searchInUsername" [(ngModel)]="searchInUsername" [hidden]="!isLoggedIn"/> <span [hidden]="!isLoggedIn">Username</span>
       </div>
       <button mat-button type="submit" class="btn btn-success">Search</button>
     </form>

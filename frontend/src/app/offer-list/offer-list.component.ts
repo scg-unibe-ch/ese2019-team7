@@ -89,7 +89,7 @@ export class OfferListComponent implements OnInit {
       searchKey: this.searchKey,
       category: this.category,
       attributes,
-    }).subscribe((instances: any) => {
+    }, {withCredentials: true}).subscribe((instances: any) => {
       this.offerItems = this.generateOfferItems(instances);
     }, (object: any) => {alert('HTTP Error ' + object.status + ': ' + object.error.message); });
   }

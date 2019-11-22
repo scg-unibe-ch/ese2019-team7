@@ -47,7 +47,7 @@ export class VariablesService {
     this.isAdmin.next(false);
   }
 
-  private checkLoginStatus() {
+  public checkLoginStatus() {
     this.httpClient.get('http://localhost:3000/protected', {withCredentials: true}).subscribe(
       (object: any) => { this.setLogin(true); this.setAdmin(); },
       (object: any) => { this.setLogin(false); });
