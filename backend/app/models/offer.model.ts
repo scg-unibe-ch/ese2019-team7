@@ -9,12 +9,12 @@ export interface OfferAttributes {
 
   title: string;
   description: string;
-  public: boolean;
+  public?: boolean;
   category: 'entertainment' | 'catering' | 'location' | 'other';
   dateFrom: Date;
   dateTo: Date;
   price: number;
-  status: string;
+  status?: string;
   provider?: UserAttributes | UserAttributes['id'];
   createdAt?: Date;
   updatedAt?: Date;
