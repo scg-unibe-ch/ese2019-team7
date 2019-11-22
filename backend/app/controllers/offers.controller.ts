@@ -161,7 +161,8 @@ router.get('/notApproved', AdminAuthenticationController, async (req: Request, r
   getDatabase().Offer.findAll({
     attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo', 'status'],
     where: {
-      public: false
+      public: false,
+      status: 'validation in progress'
     }})
     .then((offers: OfferInstance[]) => res.status(200).json({ offers }))
     .catch(err => res.status(500).json({ message: err }));
