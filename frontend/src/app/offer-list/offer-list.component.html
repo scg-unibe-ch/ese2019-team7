@@ -13,7 +13,7 @@
 <div>
   <p [hidden]="isLoggedIn">Note: In order to see contact information, you must be logged in.</p>
   <div class="container">
-    <form (ngSubmit)="onSearch()" #searchForm="ngForm">
+    <form (ngSubmit)="onSearch()" #searchForm="ngForm" [hidden]="extended">
       <div class="form-group">
         <label for="category">Category: </label>
         <select class="form-control" id="category"
@@ -23,12 +23,34 @@
       </div>
       <div class="form-group">
         <label for="searchKey">Search: </label>
-        <input type="text" class="form-control" id="searchKey" [(ngModel)]="searchKey" name="search" #search="ngModel"
+        <input type="text" class="form-control" id="searchKey" [(ngModel)]="searchKey" name="search"
                placeholder="Search"/>
       </div>
-      <button mat-button type="submit" class="btn btn-success" [disabled]="!searchForm.form.valid">Search</button>
-      <!-- (click)="onSearch()"-->
+      <button mat-button type="submit" class="btn btn-success">Search</button>
     </form>
+    <button (click)="extended=true" [hidden]="extended">Extended search</button>
+    <form (ngSubmit)="onExtendedSearch()" #extendedForm="ngForm" [hidden]="!extended">
+      <div class="form-group">
+        <label for="categoryExtended">Category: </label>
+        <select class="form-control" id="categoryExtended"
+                [(ngModel)]="category" name="category">
+          <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="searchKeyExtended">Search: </label>
+        <input type="text" class="form-control" id="searchKeyExtended" [(ngModel)]="searchKey" name="search"
+               placeholder="Search"/>
+      </div>
+      <p>Search in:</p>
+      <div class="form-group">
+        <input type="checkbox" name="searchInTitle" [(ngModel)]="searchInTitle" checked /> Title
+        <input type="checkbox" name="searchInDescription" [(ngModel)]="searchInDescription" /> Description
+        <input type="checkbox" name="searchInUsername" [(ngModel)]="searchInUsername" /> Username
+      </div>
+      <button mat-button type="submit" class="btn btn-success">Search</button>
+    </form>
+    <button (click)="extended=false" [hidden]="!extended">Regular search</button>
   </div>
 
   <div class="container">

@@ -18,6 +18,10 @@ export class OfferListComponent implements OnInit {
   searchKey = '';
   category = '';
   isLoggedIn = false;
+  extended = false;
+  searchInTitle = true;
+  searchInDescription = false;
+  searchInUsername = false;
 
   constructor(
     private httpClient: HttpClient,
@@ -67,5 +71,26 @@ export class OfferListComponent implements OnInit {
     ).subscribe((instances: any) => {
       this.offerItems = this.generateOfferItems(instances);
     }, (object: any) => {  alert('HTTP Error ' + object.status + ': ' + object.error.message); });
+  }
+
+  onExtendedSearch() {
+    const attributes = [];
+    if (this.searchInTitle) {
+      attributes[attributes.length] = 'title';
+    }
+    if (this.searchInDescription) {
+      attributes[attributes.length] = 'description';
+    }
+    if (this.searchInUsername) {
+      attributes[attributes.length] = '$provider.name$';
+    }
+    console.log(attributes);
+    this.httpClient.put(this.variables.getUrl().concat('/offers/search'), {
+      searchKey: this.searchKey,
+      category: this.category,
+      attributes,
+    }).subscribe((instances: any) => {
+      this.offerItems = this.generateOfferItems(instances);
+    }, (object: any) => {alert('HTTP Error ' + object.status + ': ' + object.error.message); });
   }
 }
