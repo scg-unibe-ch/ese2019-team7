@@ -26,7 +26,7 @@ export class ChangeUserDataComponent implements OnInit {
   ngOnInit() {
     this.variables.getLogin().subscribe(login => this.isLoggedIn = login);
     this.httpClient.get(this.variables.getUrl().concat('/user'), {withCredentials: true}).subscribe(
-      (instance: any) => this.model = new RegistrationUser(instance.username, '', '', instance.email, instance.phone, instance.address),
+      (instance: any) => this.model = new RegistrationUser(instance.name, '', '', instance.email, instance.phone, instance.address),
       (object: any) => {  alert('HTTP Error ' + object.status + ': ' + object.error.message); });
   }
 
