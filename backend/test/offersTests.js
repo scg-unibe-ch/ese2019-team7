@@ -96,6 +96,7 @@ function searchOfferTests() {
   it('search Offer Test', searchOfferTest);
   it('search Offer not specifying the category', searchOfferTestNoCategory);
   it('search Offer by usernames', searchInUserTest);
+  it('search Offer by Description and Address', searchDescriptionAndAddress);
 }
 
 function deleteOfferTests() {
@@ -166,7 +167,7 @@ async function searchOfferTest() {
     session: {}
   };
   const res = tests.getRes(200);
-  await offersController.httpPerformSearch(req, res , Db, ['title']);
+  await offersController.search(req, res , Db);
   assert.notStrictEqual(res.body.offers, undefined);
   assert.notStrictEqual(res.body.offers, null);
   assert.strictEqual(res.body.offers.length, 1);
@@ -181,27 +182,51 @@ async function searchOfferTestNoCategory() {
     session: {}
   };
   const res = tests.getRes(200);
-  await offersController.httpPerformSearch(req, res , Db, ['title']);
+  await offersController.search(req, res , Db);
   assert.strictEqual(res.body.offers.length, 2);
   assert.strictEqual(res.body.offers[0].title, 'Best Swiss Food');
   assert.strictEqual(res.body.offers[1].title, 'Awful swiss house');
 }
 
 async function searchInUserTest() {
-  const entry = Db.Offer.findOne({where: {title: 'Awful swiss house'}});
+  const entry = await Db.Offer.findOne({where: {title: 'Awful swiss house'}});
+  assert.notStrictEqual(entry, null, 'entry should not be null');
   await entry.setProvider(ueli);
   const req = {
     body: {
-      searchKey: '23',
-      attributes: ['provider.name']
+      searchKey: 'ans',
+      attributes: ['$provider.name$']
     },
     session: {}
   };
   const res = tests.getRes(200);
-  await offersController.httpPerformSearch(req, res , Db);
+  await offersController.search(req, res , Db);
   assert.strictEqual(res.body.offers.length, 2);
-  assert.strictEqual(res.body.offers[1].title, 'Best Italian Food');
-  assert.strictEqual(res.body.offers[0].title, 'Best Swiss Food');
+  assert.strictEqual(res.body.offers[0].title, 'Best Italian Food');
+  assert.strictEqual(res.body.offers[1].title, 'Best Swiss Food');
+}
+
+async function searchDescriptionAndAddress() {
+  // Bern is in the description of awful swiss house
+  // Best Italian food belongs to Hans, who lives in bern
+  const entry = await Db.Offer.findOne({where: {title: 'Awful swiss house'}});
+  assert.notStrictEqual(entry, null, 'entry should not be null');
+  await entry.setProvider(ueli);
+  const entry2 = await Db.Offer.findOne({where: {title: 'Best Swiss Food'}});
+  assert.notStrictEqual(entry2, null, 'entry should not be null');
+  await entry2.setProvider(ueli);
+  const req = {
+    body: {
+      searchKey: 'Bern',
+      attributes: ['$provider.address$', 'description']
+    },
+    session: {}
+  };
+  const res = tests.getRes(200);
+  await offersController.search(req, res , Db);
+  assert.strictEqual(res.body.offers.length, 2);
+  assert.strictEqual(res.body.offers[0].title, 'Best Italian Food');
+  assert.strictEqual(res.body.offers[1].title, 'Awful swiss house');
 }
 
 async function deleteOfferWrongUserTest() {
