@@ -25,20 +25,22 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {}
 
   onSave() {
+    console.log(this.variables);
     this.httpClient.post(this.variables.getUrl().concat('/register'), {
       username: this.model.username,
       password: this.model.password1,
       email: this.model.email,
       tel: this.model.tel,
       address: this.model.address
-    }).subscribe( this.answer, this.onSave_error);
+    }, {withCredentials: true}).subscribe( (object: any) => this.answer(object, this.variables), this.onSave_error);
   }
 
   onSave_error(object: any) {
     alert(object.status + ': ' + object.error.message);
   }
 
-  answer(object: any) {
+  answer(object: any, variables: VariablesService) {
+    variables.checkLoginStatus();
     alert(object.message);
   }
 

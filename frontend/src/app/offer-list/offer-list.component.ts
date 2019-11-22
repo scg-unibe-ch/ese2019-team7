@@ -11,13 +11,17 @@ import {VariablesService} from '../variables.service';
 export class OfferListComponent implements OnInit {
 
   @Input()
-  offerItem: OfferItem = new OfferItem(0, '', '', '', '', '', '', false, false, false);
+  offerItem: OfferItem = new OfferItem(0, '', '', '', '', '', '', '', false, false, false);
   offerItems: OfferItem[] = [];
 
   categories: string[];
   searchKey = '';
   category = '';
   isLoggedIn = false;
+  extended = false;
+  searchInTitle = true;
+  searchInDescription = false;
+  searchInUsername = false;
 
   constructor(
     private httpClient: HttpClient,
@@ -41,6 +45,7 @@ export class OfferListComponent implements OnInit {
       instance.category,
       this.generateDateDisplay(instance.dateFrom),
       this.generateDateDisplay(instance.dateTo),
+      '',
       false,
       false,
       false));
@@ -66,5 +71,26 @@ export class OfferListComponent implements OnInit {
     ).subscribe((instances: any) => {
       this.offerItems = this.generateOfferItems(instances);
     }, (object: any) => {  alert('HTTP Error ' + object.status + ': ' + object.error.message); });
+  }
+
+  onExtendedSearch() {
+    const attributes = [];
+    if (this.searchInTitle) {
+      attributes[attributes.length] = 'title';
+    }
+    if (this.searchInDescription) {
+      attributes[attributes.length] = 'description';
+    }
+    if (this.searchInUsername) {
+      attributes[attributes.length] = '$provider.name$';
+    }
+    console.log(attributes);
+    this.httpClient.put(this.variables.getUrl().concat('/offers/search'), {
+      searchKey: this.searchKey,
+      category: this.category,
+      attributes,
+    }, {withCredentials: true}).subscribe((instances: any) => {
+      this.offerItems = this.generateOfferItems(instances);
+    }, (object: any) => {alert('HTTP Error ' + object.status + ': ' + object.error.message); });
   }
 }

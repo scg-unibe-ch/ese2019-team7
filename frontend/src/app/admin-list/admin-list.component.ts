@@ -3,6 +3,11 @@ import {HttpClient} from '@angular/common/http';
 import {OfferItem} from '../offer-item';
 import {VariablesService} from '../variables.service';
 
+/**
+ * Component for the list of offers an admin needs to do something with. Contains only functions for loading said offers,
+ * the actions are preformed on the individual OfferItem rather than in this component.
+ */
+
 @Component({
   selector: 'app-admin-list',
   templateUrl: './admin-list.component.html',
@@ -11,7 +16,7 @@ import {VariablesService} from '../variables.service';
 export class AdminListComponent implements OnInit {
 
   @Input()
-  offerItem: OfferItem = new OfferItem(0, '', '', '', '', '', '', true, true, false);
+  offerItem: OfferItem = new OfferItem(0, '', '', '', '', '', '', '', true, true, false);
   offerItems: OfferItem[] = [];
 
   isAdmin = false;
@@ -21,6 +26,9 @@ export class AdminListComponent implements OnInit {
     private variables: VariablesService
   ) { }
 
+  /**
+   * On Initializing, tries to load all offers the admin needs to approve; sets the admin flag to false if it gets a HTTP 401 (Unauthorized)
+   */
   ngOnInit() {
     this.httpClient.get(this.variables.getUrl().concat('/offers/notApproved'), {withCredentials: true}).subscribe((instances: any) => {
       this.isAdmin = true;
@@ -34,31 +42,33 @@ export class AdminListComponent implements OnInit {
     });
   }
 
+  /**
+   * Generates OfferItems for given input in the format needed for this component
+   * @param instances: An object that contains data of all offer Items (should come from the backend)
+   */
   generateOfferItems(instances: any) {
     return instances.offers.map((instance) => new OfferItem(
       instance.id,
       instance.title,
       instance.description,
-      this.generatePriceDisplay(instance.price),
+      this.generateDisplay(instance.price),
       instance.category,
-      this.generateDateDisplay(instance.dateFrom),
-      this.generateDateDisplay(instance.dateTo),
+      this.generateDisplay(instance.dateFrom),
+      this.generateDisplay(instance.dateTo),
+      instance.status,
       true,
       true,
       false));
   }
 
-  generatePriceDisplay(price: number) {
-    if (price == null) {
+  /**
+   * Sets the input to N/A if it is null (not provided in the offer), converts the number to a string
+   */
+  generateDisplay(input: number) {
+    if (input == null) {
       return 'N/A';
     } else {
-      return String(price);
+      return String(input);
     }
-  }
-
-  generateDateDisplay(date: number) {
-    if (date == null) {
-      return 'N/A';
-    } else {return String(date); }
   }
 }

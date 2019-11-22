@@ -64,37 +64,23 @@ router.get('/myOffers', AuthenticationController,  async (req: Request, res: Res
 });
 
 
-router.get('/search/title', searchTitle);
-router.get('/search/all', searchAll);
-router.put('/search', searchTitle);
-const defOpts = {
-  attributes: ['id', 'title', 'price', 'category'],
-  raw: true
-};
 
+router.put('/search', searchDef);
 
-export async function searchTitle(req: Request, res: Response) {
-  await httpPerformSearch(req, res, getDatabase(), ['title']);
+export async function searchDef(req: Request, res: Response) {
+  await search(req, res, getDatabase());
 }
 
-export async function searchAdvanced(req: Request, res: Response) {
-  await httpPerformSearch(req, res, getDatabase(), req.body.attributes);
-}
-
-export async function searchAll(req: Request, res: Response) {
-  await httpPerformSearch(req, res, getDatabase(), ['description', 'title']);
-}
-
-export async function httpPerformSearch(req: Request, res: Response, db: DbInterface, attributes: string[]) {
-  const results = await performSearch(req.body.searchKey, attributes, db, req.body.category);
+export async function search(req: Request, res: Response, db: DbInterface) {
+  const results = await performSearch(req.body.searchKey, req.body.attributes, db, req.body.category);
   res.status(200).send(results);
 }
 
-export async  function performSearch(search: string, attributes: string[], db: DbInterface, category: string) {
+export async  function performSearch(searchKey: string, attributes: string[] = ['title'], db: DbInterface, category: string) {
   const Op = db.Sequelize.Op;
   const cmd = attributes.map((attribute) => {
     const obj: any = {};
-    obj[attribute] = {[Op.like]: '%' + search + '%' };
+    obj[attribute] = {[Op.like]: '%' + searchKey + '%' };
     return obj;
   });
   let categoryCmd;

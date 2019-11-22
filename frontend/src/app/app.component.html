@@ -6,6 +6,7 @@
     <li [hidden]="!isAdmin"><a routerLink="../adminOffers">[Admin] Offers</a></li>
     <li [hidden]="isLoggedIn" style="float:right;"><a routerLink="../login">Sign in</a></li>
     <li [hidden]="isLoggedIn" style="float:right;"><a routerLink="../register">Register</a></li>
+    <li [hidden]="!isLoggedIn" style="float:right;"><a routerLink="../changeUserData">Change User Data</a></li>
     <li [hidden]="!isLoggedIn" style="float:right;"><button  class="logOut" (click)="logOut()">Log out</button></li>
   </ul>
 
