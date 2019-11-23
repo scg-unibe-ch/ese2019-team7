@@ -1,5 +1,4 @@
 import {Router, Request, Response} from 'express';
-import {getDatabase} from '../database';
 import {OfferAttributes, OfferInstance} from '../models/offer.model';
 import {DbInterface} from '../dbtypings/dbInterface';
 import {AuthenticationController} from './authentication.controller';
@@ -8,28 +7,29 @@ import {AdminAuthenticationController} from './adminAuthentication.controller';
 const router: Router = Router();
 
 function genOfferValues(obj: any) {
-  const offerValues = {
+  const offerValues: OfferAttributes = {
     title: obj.title,
     description: obj.description,
     price: obj.price,
     category: obj.category,
     dateFrom: obj.dateFrom,
-    dateTo: obj.dateTo,
+    dateTo: obj.dateTo
   };
   return offerValues;
 }
 
-router.get('/', async (req: Request, res: Response) => {
-  getDatabase().Offer.findAll({
+export async function listOffers(req: Request, res: Response) {
+  req.db.Offer.findAll({
     attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo'],
     where: {
       public: true
     }})
     .then((offers: OfferInstance[]) => res.status(200).json({ offers }))
     .catch(err => res.status(500).json({ message: err }));
+}
+router.get('/', listOffers);
 
-});
-router.put('/contact', AuthenticationController, loadOfferDef, async (req: Request, res: Response) => {
+export async function contact(req: Request, res: Response) {
   const offer: OfferInstance = req.body.offer;
   const provider = await offer.getProvider();
   if (provider !== null) {
@@ -42,39 +42,21 @@ router.put('/contact', AuthenticationController, loadOfferDef, async (req: Reque
   else {
     res.sendError('Could get associated provider of the offer ' + offer.title + '.:');
   }
+}
+router.put('/contact', AuthenticationController, loadOffer, contact);
 
-});
-/*
-router.get('/myOffers', AuthenticationController,  async (req: Request, res: Response) => {
-  getDatabase().Offer.findAll({
-    attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo'],
-    where: {
-      providerId:  req.session.user.id
-    }
-    })
-
-    .then((offers: OfferInstance[]) => res.status(200).json({ offers }))
-    .catch(err => res.status(500).json({ message: err }));
-});
-
- */
-router.get('/myOffers', AuthenticationController,  async (req: Request, res: Response) => {
+export async function myOffers(req: Request, res: Response) {
   const offers: OfferInstance[] =  await req.session.user.getOffers();
   res.status(200).json({ offers });
-});
-
-
-
-router.put('/search', searchDef);
-
-export async function searchDef(req: Request, res: Response) {
-  await search(req, res, getDatabase());
 }
+router.get('/myOffers', AuthenticationController, myOffers);
 
-export async function search(req: Request, res: Response, db: DbInterface) {
-  const results = await performSearch(req.body.searchKey, req.body.attributes, db, req.body.category);
+
+export async function search(req: Request, res: Response) {
+  const results = await performSearch(req.body.searchKey, req.body.attributes, req.db, req.body.category);
   res.status(200).send(results);
 }
+router.put('/search', search);
 
 export async  function performSearch(searchKey: string, attributes: string[] = ['title'], db: DbInterface, category: string) {
   const Op = db.Sequelize.Op;
@@ -102,15 +84,11 @@ export async  function performSearch(searchKey: string, attributes: string[] = [
   }
   return { offers };
 }
+
 router.get('/create', async (req: Request, res: Response) => {
   res.statusCode = 200;
 });
 
-router.post('/create', AuthenticationController, createDef);
-
-async function createDef(req: Request, res: Response) {
-  await create(req, res, getDatabase());
-}
 /**
  * Creation of a Offer. Format of the body should be as follow:
  * > { username: usr, password: pwd, address: adr, tel: phone, email: email }
@@ -119,16 +97,13 @@ async function createDef(req: Request, res: Response) {
  * Possible Http codes:
  * - **400:** Bad request format. Look above to see the correct format
  * - **201:** Created:
- * @param rawReq
- * @param rawRes
- * @param Offer Offer table of the database
  */
-export async function create(req: Request, res: Response, Db: any) {
+export async function create(req: Request, res: Response) {
 
   const offerValues = genOfferValues(req.body);
   let offer;
   try {
-    offer = await Db.Offer.build(offerValues);
+    offer = await req.db.Offer.build(offerValues);
   } catch (err) {
     res.status(400).send({message: '.'});
     return;
@@ -143,23 +118,28 @@ export async function create(req: Request, res: Response, Db: any) {
   res.status(201).send({message: 'Offer created'});
 
 }
-router.get('/notApproved', AdminAuthenticationController, async (req: Request, res: Response) => {
-  getDatabase().Offer.findAll({
+router.post('/create', AuthenticationController, create);
+
+
+export async function getNotApproved(req: Request, res: Response) {
+  req.db.Offer.findAll({
     attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo', 'status'],
     where: {
       public: false
     }})
     .then((offers: OfferInstance[]) => res.status(200).json({ offers }))
     .catch(err => res.status(500).json({ message: err }));
+}
+router.get('/notApproved', AdminAuthenticationController, getNotApproved);
 
-});
-router.patch('/notApproved', AuthenticationController, async (req: Request, res: Response) => {
+
+export async function patchNotApproved(req: Request, res: Response) {
   if (req.session.admin === null) {
     res.sendForbidden();
     return;
   }
   if (req.body.approve) {
-    getDatabase().Offer.update(
+    req.db.Offer.update(
       {
         public: true,
         status: 'approved'
@@ -171,7 +151,7 @@ router.patch('/notApproved', AuthenticationController, async (req: Request, res:
       .catch(err => res.status(500).json({message: err}));
   }
   else if(!req.body.approve){
-    getDatabase().Offer.update(
+    req.db.Offer.update(
       {
         status: 'Rejected reason: ' + req.body.message
       }, {
@@ -185,19 +165,16 @@ router.patch('/notApproved', AuthenticationController, async (req: Request, res:
   else{
     res.status(400).json({message: 'approve has to be set'});
   }
-
-});
-
-export async function loadOfferDef(req: Request, res: Response, next: Function) {
-  await loadOffer(req, res, next, getDatabase());
 }
+router.patch('/notApproved', AuthenticationController, patchNotApproved);
 
-export async function loadOffer(req: Request, res: Response, next: Function, Db: DbInterface) {
+
+export async function loadOffer(req: Request, res: Response, next: Function) {
   if (typeof (req.body.id) !== 'number') {
     res.status(400).send({message: 'Bad request'});
     return;
   }
-  const offerToLoad = await Db.Offer.findOne({where: {id: req.body.id}});
+  const offerToLoad = await req.db.Offer.findOne({where: {id: req.body.id}});
   if (offerToLoad === null) {
     res.sendBadRequest('Bad request: Offer Id nonexistent');
     return;
@@ -207,7 +184,7 @@ export async function loadOffer(req: Request, res: Response, next: Function, Db:
 }
 
 
-router.get('/edit', AuthenticationController, loadOfferDef, async (req: Request, res: Response) => {
+router.get('/edit', AuthenticationController, loadOffer, async (req: Request, res: Response) => {
   if (req.session.user.id !== req.body.offer.providerId) {
     res.sendForbidden();
     return;
@@ -215,18 +192,8 @@ router.get('/edit', AuthenticationController, loadOfferDef, async (req: Request,
   res.status(200).send(req.body.offer);
 });
 
-router.put('/edit', AuthenticationController, loadOfferDef, updateOfferDef);
-router.put('/delete', AuthenticationController , loadOfferDef, deleteOfferDef);
 
-
-async function deleteOfferDef(rawReq: any, rawRes: any) {
-  deleteOffer(rawReq, rawRes, getDatabase());
-}
-
-async function updateOfferDef(rawReq: any, rawRes: any) {
-  updateOffer(rawReq, rawRes, getDatabase().Offer);
-}
-export async function updateOffer(req: Request, res: Response, offer: any) {
+export async function updateOffer(req: Request, res: Response) {
   if (req.session.user.id !== req.body.offer.providerId) {
     res.sendForbidden();
     return;
@@ -243,16 +210,15 @@ export async function updateOffer(req: Request, res: Response, offer: any) {
   }
   res.status(201).send({message: 'Edited'});
 }
+router.put('/edit', AuthenticationController, loadOffer, updateOffer);
+
 /**
  * delete a Offer
  * Possible Http codes:
  * - **400:** Bad request format. Look above to see the correct format
  * - **201:** Created: registration successful
- * @param rawReq
- * @param rawRes
- * @param offer Offer table of the database
  */
-export async function deleteOffer(req: Request, res: Response, Db: DbInterface) {
+export async function deleteOffer(req: Request, res: Response) {
   if (req.session.user.id !== req.body.offer.providerId && req.session.admin === null) {
     res.sendForbidden();
     return;
@@ -260,7 +226,7 @@ export async function deleteOffer(req: Request, res: Response, Db: DbInterface) 
   await req.body.offer.destroy().catch((err: any) => res.status(500).send({message: 'Error while deleting offer'}));
   res.sendSuccess();
 }
-
+router.put('/delete', AuthenticationController , loadOffer, deleteOffer);
 
 
 export const OffersController: Router = router;

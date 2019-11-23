@@ -2,16 +2,18 @@ var LoginController = require('../build/controllers/login.controller.js')
 var assert = require('assert');
 var tests = require('./Tests.js');
 const bcrypt = require('bcrypt');
-var User;
+var Db;
 
 function setupMockDatabase() {
   //Setup environment for the tests here
-  User = {
-    findOne: function() {
-      return {
-        name: 'hans',
-        password: bcrypt.hashSync('123', 10)
-      };
+  Db = {
+    User: {
+      findOne: function () {
+        return {
+          name: 'hans',
+          password: bcrypt.hashSync('123', 10)
+        };
+      }
     }
   }
 }
@@ -38,7 +40,7 @@ function loginTests() {
 }
 
 async function databaseLoginTests() {
-  beforeEach(async () => User = (await tests.setupMemoryDatabase(users)).User);
+  beforeEach(async () => Db = (await tests.setupMemoryDatabase(users)));
   it('Database valid Login', validLoginTest);
   it('Wrong password', wrongPasswordTest);
 }
@@ -46,28 +48,31 @@ async function databaseLoginTests() {
 
 async function wrongPasswordTest() {
   const req = {
+    db: Db,
     body: {
       username: "hans",
       password: "1234"
     },
     session: {}
   };
-  await LoginController.login(req, tests.getRes(401), User); //Unauthorized
+  await LoginController.login(req, tests.getRes(401)); //Unauthorized
 }
 
 async function validLoginTest() {
   const req = {
+    db: Db,
     body: {
       username: "hans",
       password: "123"
     },
     session: {}
   };
-  await LoginController.login(req, tests.getRes(200), User);
+  await LoginController.login(req, tests.getRes(200));
 }
 
 async function alreadyLogdinTest() {
   const req = {
+    db: Db,
     body: {
       username: "hans",
       password: "123"
@@ -77,6 +82,6 @@ async function alreadyLogdinTest() {
     }
 
   };
-  await LoginController.login(req, tests.getRes(409), User);
+  await LoginController.login(req, tests.getRes(409));
 }
 
