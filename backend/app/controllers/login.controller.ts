@@ -1,5 +1,4 @@
 import {Router, Request, Response} from 'express';
-import {getDatabase} from '../database';
 
 
 
@@ -12,11 +11,7 @@ router.get('/', async (req: Request, res: Response) => {
 });
 
 
-router.put('/', logindef);
-
-async function logindef(rawReq: any, rawRes: any) {
-  login(rawReq, rawRes, getDatabase().User);
-}
+router.put('/', login);
 
 /**
  * Log in the user. Format of the body should be as follow:
@@ -31,7 +26,7 @@ async function logindef(rawReq: any, rawRes: any) {
  * @param rawRes
  * @param User User table of the database
  */
-export async function login(rawReq: any, rawRes: any, User: any) {
+export async function login(rawReq: any, rawRes: any) {
   const req: Request & {session: any} = rawReq;
   const res: Response = rawRes;
   const name = req.body.username;
@@ -44,7 +39,7 @@ export async function login(rawReq: any, rawRes: any, User: any) {
     res.status(409).send({message: 'Please first logout before trying to login.'});
     return;
   }
-  const user = await User.findOne({where: {name : name }});
+  const user = await req.db.User.findOne({where: {name : name }});
   if (user == null ) {
     res.status(401).send({message: 'Invalid Username, Password combination '}); // Unauthorized
     return;

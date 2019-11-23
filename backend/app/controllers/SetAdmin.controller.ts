@@ -1,6 +1,5 @@
 import {Router, Request, Response} from 'express';
 import {AuthenticationController} from './authentication.controller';
-import {getDatabase} from '../database';
 
 
 const router: Router = Router();
@@ -10,11 +9,8 @@ router.get('/', async (req: Request, res: Response) => {
   res.statusCode = 200;
 });
 
-router.post('/', setAdminDef);
+router.post('/', setAdmin);
 
-async function setAdminDef(rawReq: any, rawRes: any) {
-  setAdmin(rawReq, rawRes, getDatabase());
-}
 /**
  * Creation of a Admin.
  * Possible Http codes:
@@ -24,11 +20,15 @@ async function setAdminDef(rawReq: any, rawRes: any) {
  * @param rawRes
  * @param Admin Admin table of the database
  */
-export async function setAdmin(rawReq: any, rawRes: any, Db: any) {
+export async function setAdmin(rawReq: any, rawRes: any) {
   const req: Request = rawReq;
   const res: Response = rawRes;
 
-  const user = await Db.User.findOne({where: {id: req.body.id }});
+  const user = await req.db.User.findOne({where: {id: req.body.id }});
+  if (user === null) {
+    res.sendBadRequest('Id does not belong to any user.')
+    return;
+  }
 
   const adminRights = {
     setPublic: req.body.setPublic,
@@ -38,7 +38,7 @@ export async function setAdmin(rawReq: any, rawRes: any, Db: any) {
   };
   let admin;
   try {
-    admin = await Db.Admin.create(adminRights);
+    admin = await req.db.Admin.create(adminRights);
   } catch (err) {
     res.status(400).send({message: '.'});
     return;

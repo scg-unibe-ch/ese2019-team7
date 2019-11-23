@@ -1,12 +1,12 @@
 import {Router, Request, Response} from 'express';
 import {AuthenticationController} from './authentication.controller';
-import {loadOfferDef} from './offers.controller';
+import {loadOffer} from './offers.controller';
 import {OfferInstance} from '../models/offer.model';
 
 const router: Router = Router();
 
 
-router.put('/', AuthenticationController, loadOfferDef, async (req: Request, res: Response) => {
+router.put('/', AuthenticationController, loadOffer, async (req: Request, res: Response) => {
   const offer: OfferInstance = req.body.offer;
   const provider = await offer.getProvider();
   if (provider !== null) {

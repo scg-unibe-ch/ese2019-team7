@@ -1,9 +1,5 @@
 import {Router, Request, Response} from 'express';
-import {getDatabase} from '../database';
-import {OfferAttributes, OfferInstance} from '../models/offer.model';
-import {DbInterface} from '../dbtypings/dbInterface';
 import {AuthenticationController} from './authentication.controller';
-import {AdminAuthenticationController} from './adminAuthentication.controller';
 
 
 const router: Router = Router();
@@ -16,7 +12,7 @@ function genUserValues(obj: any) {
   };
   return userValues;
 }
-router.get('/', AuthenticationController, loadUserDef, async (req: Request, res: Response) => {
+router.get('/', AuthenticationController, loadUser, async (req: Request, res: Response) => {
 
   const provider = req.session.user
     res.status(200).send({
@@ -26,20 +22,14 @@ router.get('/', AuthenticationController, loadUserDef, async (req: Request, res:
       address: provider.address
     });
 });
-router.put('/edit', AuthenticationController, loadUserDef, updateUserDef);
-router.delete('/', AuthenticationController , loadUserDef, deleteUserDef);
-async function deleteUserDef(rawReq: any, rawRes: any) {
-  deleteUser(rawReq, rawRes, getDatabase());
-}
+router.put('/edit', AuthenticationController, loadUser, updateUser);
+router.delete('/', AuthenticationController , loadUser, deleteUser);
 
-async function updateUserDef(rawReq: any, rawRes: any) {
-  updateUser(rawReq, rawRes, getDatabase().User);
-}
-export async function updateUser(req: Request, res: Response, offer: any) {
+export async function updateUser(req: Request, res: Response) {
 
-  const user = req.session.user
+  const user = req.session.user;
   user.set(genUserValues(req.body));
-  //offerToUpdate.set('public', false);
+  // offerToUpdate.set('public', false);
   try {
     await user.save();
   } catch (err) {
@@ -57,7 +47,7 @@ export async function updateUser(req: Request, res: Response, offer: any) {
  * @param rawRes
  * @param offer Offer table of the database
  */
-export async function deleteUser(req: Request, res: Response, Db: DbInterface) {
+export async function deleteUser(req: Request, res: Response) {
   if (req.session.user.id === null && req.session.admin === null) {
     res.sendForbidden();
     return;
@@ -65,16 +55,13 @@ export async function deleteUser(req: Request, res: Response, Db: DbInterface) {
   await req.session.user.destroy().catch((err: any) => res.status(500).send({message: 'Error while deleting offer'}));
   res.sendSuccess();
 }
-export async function loadUserDef(req: Request, res: Response, next: Function) {
-  await loadUser(req, res, next, getDatabase());
-}
 
-export async function loadUser(req: Request, res: Response, next: Function, Db: DbInterface) {
+export async function loadUser(req: Request, res: Response, next: Function) {
   if (typeof (req.session.user.id) !== 'number') {
     res.status(400).send({message: 'Bad request'});
     return;
   }
-  const userToLoad = await Db.User.findOne({where: {id: req.session.user.id}});
+  const userToLoad = await req.db.User.findOne({where: {id: req.session.user.id}});
   if (userToLoad === null) {
     res.sendBadRequest('Bad request: Offer Id nonexistent');
     return;

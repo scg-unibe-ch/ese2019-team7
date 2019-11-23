@@ -1,20 +1,14 @@
 import {Router, Request, Response} from 'express';
-import {DbInterface} from '../dbtypings/dbInterface';
-import {getDatabase} from '../database';
 
 const router: Router = Router();
 
-router.use(checkAuthenticationDef);
+router.use(checkAuthentication);
 
 
-async function checkAuthenticationDef(req: Request, res: Response, next: Function) {
-  await checkAuthentication(req, res, next, getDatabase());
-}
-
-async function checkAuthentication(req: Request, res: Response, next: Function, Db: DbInterface) {
+async function checkAuthentication(req: Request, res: Response, next: Function) {
   if (req.session.user) {
     try {
-      const user = await Db.User.findOne( { where: {id: req.session.user.id, adminId: 1 }, rejectOnEmpty: true});
+      const user = await req.db.User.findOne( { where: {id: req.session.user.id, adminId: 1 }, rejectOnEmpty: true});
       if(user != null) req.session.user = user;
       else throw 'err';
     }

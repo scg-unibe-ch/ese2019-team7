@@ -1,5 +1,4 @@
 import {Router, Request, Response} from 'express';
-import {getDatabase} from '../database';
 
 const bcrypt = require('bcrypt');
 
@@ -10,11 +9,8 @@ router.get('/', async (req: Request, res: Response) => {
 });
 
 
-router.post('/', registerDef)
+router.post('/', register)
 
-async function registerDef(rawReq: any, rawRes: any) {
-  register(rawReq, rawRes, getDatabase().User);
-}
 /**
  * register of a user. Format of the body should be as follow:
  * > { username: usr, password: pwd, address: adr, tel: phone, email: email }
@@ -29,9 +25,7 @@ async function registerDef(rawReq: any, rawRes: any) {
  * @param rawRes
  * @param User User table of the database
  */
-export async function register(rawReq: any, rawRes: any, User: any) {
-  const req: Request = rawReq;
-  const res: Response = rawRes;
+export async function register(req: Request, res: Response) {
   if (!(req.body.username && req.body.password && req.body.email)) res.sendStatus(400); // Bad Request
   const userValues = {
     address: req.body.address,
@@ -42,7 +36,7 @@ export async function register(rawReq: any, rawRes: any, User: any) {
   };
 
   try {
-    await User.create(userValues);
+    await req.db.User.create(userValues);
   } catch (err) {
     res.status(409).send({message: ' Username already exist.'});
     return;

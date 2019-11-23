@@ -125,12 +125,13 @@ function offerDetailsTests() {
 async function createOfferTest() {
   const req = {
     body: defValidBody,
+    db: Db,
     session: {
       user: hans
     }
   };
 
-  await offersController.create(req, tests.getRes(201), Db);
+  await offersController.create(req, tests.getRes(201));
   let createdOffer;
   createdOffer = await Db.Offer.findOne({where: {title : 'Big beautiful house' }});
   assert.strictEqual(createdOffer.description, req.body.description, 'Saved description defer from expected value');
@@ -140,6 +141,7 @@ async function createOfferTest() {
 
 async function offerUpdateTest() {
   const req = {
+    db: Db,
     body: {
       id: 1,
       ...defValidBody
@@ -149,7 +151,7 @@ async function offerUpdateTest() {
     }
   };
 
-  await tests.simHttpRequest(req, 201, Db, offersController.loadOffer, offersController.updateOffer);
+  await tests.simHttpRequest(req, 201, offersController.loadOffer, offersController.updateOffer);
   let createdOffer;
   createdOffer = await Db.Offer.findOne({where: {title : 'Big beautiful house' }});
   assert.strictEqual(createdOffer.description, req.body.description, 'Saved description defer from expected value');
@@ -160,6 +162,7 @@ async function offerUpdateTest() {
 async function searchOfferTest() {
 
   const req = {
+    db: Db,
     body: {
       category: 'catering',
       searchKey: 'swiss'
@@ -167,7 +170,7 @@ async function searchOfferTest() {
     session: {}
   };
   const res = tests.getRes(200);
-  await offersController.search(req, res , Db);
+  await offersController.search(req, res);
   assert.notStrictEqual(res.body.offers, undefined);
   assert.notStrictEqual(res.body.offers, null);
   assert.strictEqual(res.body.offers.length, 1);
@@ -176,13 +179,14 @@ async function searchOfferTest() {
 
 async function searchOfferTestNoCategory() {
   const req = {
+    db: Db,
     body: {
       searchKey: 'swiss'
     },
     session: {}
   };
   const res = tests.getRes(200);
-  await offersController.search(req, res , Db);
+  await offersController.search(req, res);
   assert.strictEqual(res.body.offers.length, 2);
   assert.strictEqual(res.body.offers[0].title, 'Best Swiss Food');
   assert.strictEqual(res.body.offers[1].title, 'Awful swiss house');
@@ -193,6 +197,7 @@ async function searchInUserTest() {
   assert.notStrictEqual(entry, null, 'entry should not be null');
   await entry.setProvider(ueli);
   const req = {
+    db: Db,
     body: {
       searchKey: 'ans',
       attributes: ['$provider.name$']
@@ -200,7 +205,7 @@ async function searchInUserTest() {
     session: {}
   };
   const res = tests.getRes(200);
-  await offersController.search(req, res , Db);
+  await offersController.search(req, res);
   assert.strictEqual(res.body.offers.length, 2);
   assert.strictEqual(res.body.offers[0].title, 'Best Italian Food');
   assert.strictEqual(res.body.offers[1].title, 'Best Swiss Food');
@@ -216,6 +221,7 @@ async function searchDescriptionAndAddress() {
   assert.notStrictEqual(entry2, null, 'entry should not be null');
   await entry2.setProvider(ueli);
   const req = {
+    db: Db,
     body: {
       searchKey: 'Bern',
       attributes: ['$provider.address$', 'description']
@@ -223,7 +229,7 @@ async function searchDescriptionAndAddress() {
     session: {}
   };
   const res = tests.getRes(200);
-  await offersController.search(req, res , Db);
+  await offersController.search(req, res);
   assert.strictEqual(res.body.offers.length, 2);
   assert.strictEqual(res.body.offers[0].title, 'Best Italian Food');
   assert.strictEqual(res.body.offers[1].title, 'Awful swiss house');
@@ -231,6 +237,7 @@ async function searchDescriptionAndAddress() {
 
 async function deleteOfferWrongUserTest() {
   const req = {
+    db: Db,
     body: {
       id: 1 // title: "Best Italian Food"
     },
@@ -239,13 +246,14 @@ async function deleteOfferWrongUserTest() {
       admin: null
     }
   };
-  const res = await tests.simHttpRequest(req, 403, Db, offersController.loadOffer, offersController.deleteOffer);
+  const res = await tests.simHttpRequest(req, 403, offersController.loadOffer, offersController.deleteOffer);
   const allOffers = await Db.Offer.findAll({});
   assert.strictEqual(allOffers.length, 4);
 }
 
 async function deleteInexistentOfferTest() {
   const req = {
+    db: Db,
     body: {
       id: 26 // inexistent offer
     },
@@ -253,13 +261,14 @@ async function deleteInexistentOfferTest() {
       user: hans // (has offers)
     }
   };
-  const res = await tests.simHttpRequest(req, 400, Db, offersController.loadOffer, offersController.deleteOffer);
+  const res = await tests.simHttpRequest(req, 400, offersController.loadOffer, offersController.deleteOffer);
   const allOffers = await Db.Offer.findAll({});
   assert.strictEqual(allOffers.length, 4);
 }
 
 async function deleteOfferTest() {
   const req = {
+    db: Db,
     body: {
       id: 1 // title: "Best Italian Food"
     },
@@ -267,13 +276,14 @@ async function deleteOfferTest() {
       user: hans // (has offers)
     }
   };
-  const res = await tests.simHttpRequest(req, 200, Db, offersController.loadOffer, offersController.deleteOffer);
+  const res = await tests.simHttpRequest(req, 200, offersController.loadOffer, offersController.deleteOffer);
   const allOffers = await Db.Offer.findAll({});
   assert.strictEqual(allOffers.length, 3);
 }
 
 async function setPublicNoAdminTest() {
   const req = {
+    db: Db,
     body: {
       id: 1 // title: "Best Italian Food"
     },
@@ -282,16 +292,17 @@ async function setPublicNoAdminTest() {
     }
   };
   const res = tests.getRes(401);
-  await offersController.setPulic(req, res , Db);
+  await offersController.setPulic(req, res);
   const firstOffer = await Db.Offer.findOne({where: {id: 1}});
   assert.strictEqual(firstOffer.public, false);
 }
 
 async function adminOffersTest() {
   const req = {
+    db: Db,
     body: {},
     session: {}
   };
   const res = tests.getRes(401);
-  await offersController.adminOffers(req, res , Db);
+  await offersController.adminOffers(req, res);
 }

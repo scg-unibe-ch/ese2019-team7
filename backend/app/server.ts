@@ -4,6 +4,7 @@ import {LogoutController} from './controllers/logout.controller';
 import {AuthenticationController} from './controllers/authentication.controller';
 import express from 'express';
 import { createModels } from './models/index.model';
+import {Request, Response} from 'express';
 
 import {OffersController} from './controllers/offers.controller';
 import {getDatabase} from './database';
@@ -56,6 +57,13 @@ app.use(function (req: any, res, next) {
     res.status(500).send('Internal Server Error: sessions not working.');
     return;
   }
+  next();
+});
+
+// Set Database in request
+app.use( async (req: Request, res: Response, next: Function) => {
+  req.db = getDatabase();
+  if(req.db === null || req.db === undefined) res.sendError('Error loading database.')
   next();
 });
 

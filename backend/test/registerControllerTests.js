@@ -2,7 +2,7 @@ var RegisterController = require('../build/controllers/register.controller.js')
 var assert = require('assert');
 var tests = require('./Tests.js');
 const bcrypt = require('bcrypt');
-var User;
+var Db;
 
 const users = [{
   name: 'hans',
@@ -18,7 +18,7 @@ function registerControllerTests() {
 }
 
 async function databaseRegisterTests() {
-  beforeEach(async () => User = (await tests.setupMemoryDatabase(users)).User);
+  beforeEach(async () => Db = (await tests.setupMemoryDatabase(users)));
   it('Username already exists', usernameAlreadyExistsTest);
   it('valid Register', validRegisterTest);
 }
@@ -26,6 +26,7 @@ async function databaseRegisterTests() {
 async function usernameAlreadyExistsTest() {
 
   const req = {
+    db: Db,
     body: {
       username: "hans",
       password: "123",
@@ -33,12 +34,13 @@ async function usernameAlreadyExistsTest() {
     },
     session: {}
   };
-  await RegisterController.register(req, tests.getRes(409), User);
+  await RegisterController.register(req, tests.getRes(409));
 }
 
 async function validRegisterTest() {
 
   const req = {
+    db: Db,
     body: {
       username: "uelii",
       password: "1234",
@@ -46,5 +48,5 @@ async function validRegisterTest() {
     },
     session: {}
   };
-  await RegisterController.register(req, tests.getRes(201), User);
+  await RegisterController.register(req, tests.getRes(201));
 }
