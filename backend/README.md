@@ -6,10 +6,6 @@
 1. run `npm install`
 1. To compile the TypeScript code to JavaScript, run `npm run tsc`. After that, this folder should have a `build` folder containing a bunch of JavaScript files
 1. Run `node build/server.js`. The command line output should say something like `Listening at http://localhost:3000/`
-1. Test your installation by opening the following endpoints (i.e. "pages") in your browser:
-    - [http://localhost:3000/welcome](http://localhost:3000/welcome)
-    - [http://localhost:3000/welcome/BurtMacklin](http://localhost:3000/welcome/BurtMacklin) (or substitute any other name at the end)
-    - Additionally the app contains an example for todolist and todoitem, CRUD (Create, Read, Update, Delete) operations can be performed on these two models. You can use frontend app to make these requests.
 
 ## Explanations
 The inline comments in the .ts files of this scaffolding should help you understand most of what's going on. Here are a few additional explanations:

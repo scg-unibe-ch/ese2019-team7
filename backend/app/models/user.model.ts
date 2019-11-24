@@ -69,7 +69,7 @@ export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize
 
   const User = sequelize.define<UserInstance, UserAttributes>('User', attributes);
   User.associate = models => {
-    User.hasMany(models.Offer, {foreignKey: 'providerId'});
+    User.hasMany(models.Offer, {foreignKey: 'providerId', onDelete: 'cascade'});
     User.belongsTo(models.Admin, {foreignKey: 'adminId'});
   };
 
