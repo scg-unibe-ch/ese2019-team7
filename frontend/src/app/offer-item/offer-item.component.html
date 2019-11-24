@@ -72,13 +72,13 @@
     </div>
 
     <div [hidden]="!showDeny">
-      <form (ngSubmit)="onDeny(); showDeny=false" #reasonField="ngForm">
+      <form #reasonField="ngForm">
         <label for="reason">Are you sure you want to deny this form? Please provide a reason why.</label>
         <input type="text" id="reason" [(ngModel)]="reason" name="reasonField" #reasonField="ngModel" required
                class="form-control" placeholder="reason"/>
         <button type="submit" class="btn btn-success" [disabled]="!reasonField.valid" (click)="onDeny()">Deny offer
         </button>
-        <button (click)="showDeny=false; reason=''">Cancel</button>
+        <button type="submit" (click)="showDeny=false; reason=''">Cancel</button>
       </form>
     </div>
 
