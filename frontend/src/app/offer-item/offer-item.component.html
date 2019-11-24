@@ -71,14 +71,14 @@
       </button>
     </div>
 
-    <div [hidden]="!showDeny">
+    <div style="padding:10px" [hidden]="!showDeny">
       <form #reasonField="ngForm">
-        <label for="reason">Are you sure you want to deny this form? Please provide a reason why.</label>
+        <label for="reason"> Are you sure you want to deny this request? Please provide a reason why.</label>
         <input type="text" id="reason" [(ngModel)]="reason" name="reasonField" #reasonField="ngModel" required
-               class="form-control" placeholder="reason"/>
-        <button type="submit" class="btn btn-success" [disabled]="!reasonField.valid" (click)="onDeny()">Deny offer
+               class="form-control" placeholder="Reason"/>
+        <button type="submit" style="background-color:#b81700; float:left; margin-top:20px;" class="btn btn-success" [disabled]="!reasonField.valid" (click)="onDeny()">Deny offer
         </button>
-        <button type="submit" (click)="showDeny=false; reason=''">Cancel</button>
+        <button type="submit" style="background-color:#ffeb06; float:right; color:black; font-weight: bold; margin-top:20px;" (click)="showDeny=false; reason=''">Cancel</button>
       </form>
     </div>
 

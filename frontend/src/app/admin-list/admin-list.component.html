@@ -1,15 +1,12 @@
-
-
-
 <div [hidden]="isAdmin">
   You have no administrator rights to access this feature.
 </div>
 
-<div style="overflow-y: scroll; max-height:800px">
-  <div class="container">
-    <div [hidden]="!isAdmin">
-      <app-offer-item [offerItem]="offerItem" *ngFor="let offerItem of offerItems"></app-offer-item>
-      <div [hidden]="!(offerItems.length == 0)">Nothing to display</div>
-    </div>
+
+<div class="container">
+  <div [hidden]="!isAdmin">
+    <app-offer-item [offerItem]="offerItem" *ngFor="let offerItem of offerItems"></app-offer-item>
+    <div [hidden]="!(offerItems.length == 0)">Nothing to display</div>
   </div>
 </div>
+

@@ -57,4 +57,19 @@ a {
   color:red;
 }
 
+.smallButton {
+  background-color: #7365b8;
+  color: white;
+  margin-bottom: 30px;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 20%;
+  opacity: 0.9;
+}
+
+.smallButton:hover {
+  opacity: 1;
+}
+
 

@@ -1,4 +1,4 @@
-<div style="overflow-y: scroll; max-height:90%">
+
   <div class="container">
     <div>
       <div [hidden]="isLoggedIn">
@@ -62,13 +62,12 @@
         <button type="submit" class="btn btn-success" [disabled]="!offerCreationForm.form.valid"
                 (click)="onSave()">Create offer
         </button>
-        <button (click)="showClear=true">Clear form</button>
+        <button class="smallButton" style="background-color:#b80218" (click)="showClear=true">Clear form</button>
       </form>
       <div [hidden]="!showClear">
         <p>Are you sure you want to clear the form?</p>
-        <button (click)="offerCreationForm.reset(); showClear=false">Clear form</button>
-        <button (click)="showClear=false">Cancel</button>
+        <button class="smallButton" style="float:left; background-color:#b80218"  (click)="offerCreationForm.reset(); showClear=false">Clear form</button>
+        <button class="smallButton" style="background-color:#ffeb06; float:right; color:black; font-weight: bold" (click)="showClear=false">Cancel</button>
       </div>
     </div>
   </div>
-</div>
