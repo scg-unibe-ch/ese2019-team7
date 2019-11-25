@@ -75,6 +75,9 @@ export class OfferListComponent implements OnInit {
 
   onExtendedSearch() {
     const attributes = [];
+    if (!this.isLoggedIn) {
+      this.searchInUsername = false;
+    }
     if (this.searchInTitle) {
       attributes[attributes.length] = 'title';
     }
@@ -84,7 +87,6 @@ export class OfferListComponent implements OnInit {
     if (this.searchInUsername) {
       attributes[attributes.length] = '$provider.name$';
     }
-    console.log(attributes);
     this.httpClient.put(this.variables.getUrl().concat('/offers/search'), {
       searchKey: this.searchKey,
       category: this.category,
