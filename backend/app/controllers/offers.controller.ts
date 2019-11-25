@@ -73,7 +73,6 @@ export async  function performSearch(searchKey: string, attributes: string[] = [
     offers = await db.Offer.findAll({
       include: [ {model: db.User, as: 'provider', attributes: ['name', 'address', 'phone']} ],
       attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo'],
-      raw: true,
       where: {
         public: true,
         [Op.or]: cmd,

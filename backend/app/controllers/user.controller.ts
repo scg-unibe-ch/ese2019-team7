@@ -23,7 +23,7 @@ router.get('/', AuthenticationController, loadUser, async (req: Request, res: Re
     });
 });
 router.put('/edit', AuthenticationController, loadUser, updateUser);
-router.delete('/', AuthenticationController , loadUser, deleteUser);
+router.delete('/', AuthenticationController , loadUser, deleteUser, logout);
 
 export async function updateUser(req: Request, res: Response) {
 
@@ -47,12 +47,18 @@ export async function updateUser(req: Request, res: Response) {
  * @param rawRes
  * @param offer Offer table of the database
  */
-export async function deleteUser(req: Request, res: Response) {
+export async function deleteUser(req: Request, res: Response, next: Function) {
   if (req.session.user.id === null && req.session.admin === null) {
     res.sendForbidden();
     return;
   }
   await req.session.user.destroy().catch((err: any) => res.status(500).send({message: 'Error while deleting offer'}));
+  next();
+}
+
+async function logout(rawReq: any, res: Response) {
+  const req: Request & {session: any} = rawReq;
+  req.session.user = undefined;
   res.sendSuccess();
 }
 
