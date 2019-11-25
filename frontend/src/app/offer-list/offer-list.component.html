@@ -1,5 +1,6 @@
 <div>
-  <p style="margin-left: 26%; margin-top: 7%; font-weight:bold; color:red" [hidden]="isLoggedIn">Note: In order to see contact information, you must be logged in.</p>
+  <p style="margin-left: 26%; margin-top: 7%; font-weight:bold; color:red" [hidden]="isLoggedIn">Note: In order to see
+    contact information, you must be logged in.</p>
   <div class="container">
     <form (ngSubmit)="onSearch()" #searchForm="ngForm" [hidden]="extended">
       <div class="form-group">
@@ -16,7 +17,7 @@
       </div>
       <button mat-button type="submit" class="btn btn-success">Search</button>
     </form>
-    <button (click)="extended=true" [hidden]="extended">Extended search</button>
+    <button id="extended_search" (click)="extended=true" [hidden]="extended">Extended search</button>
     <form (ngSubmit)="onExtendedSearch()" #extendedForm="ngForm" [hidden]="!extended">
       <div class="form-group">
         <label for="categoryExtended">Category: </label>
@@ -32,13 +33,15 @@
       </div>
       <p>Search in:</p>
       <div class="form-group">
-        <input type="checkbox" name="searchInTitle" [(ngModel)]="searchInTitle" checked /> Title
-        <input type="checkbox" name="searchInDescription" [(ngModel)]="searchInDescription" /> Description
-        <input type="checkbox" name="searchInUsername" [(ngModel)]="searchInUsername" [hidden]="!isLoggedIn"/> <span [hidden]="!isLoggedIn">Username</span>
+        <input type="checkbox" name="searchInTitle" [(ngModel)]="searchInTitle" checked/> Title
+        <input type="checkbox" name="searchInDescription" [(ngModel)]="searchInDescription"/> Description
+        <input type="checkbox" name="searchInUsername" [(ngModel)]="searchInUsername" [hidden]="!isLoggedIn"/> <span
+        [hidden]="!isLoggedIn"> Username</span>
       </div>
+      <br> <br> <br>
       <button mat-button type="submit" class="btn btn-success">Search</button>
     </form>
-    <button (click)="extended=false" [hidden]="!extended">Regular search</button>
+    <button id="regular_search" (click)="extended=false" [hidden]="!extended">Regular search</button>
   </div>
 
   <div class="container">
