@@ -41,27 +41,20 @@ export class OfferListComponent implements OnInit {
       instance.id,
       instance.title,
       instance.description,
-      this.generatePriceDisplay(instance.price),
+      this.generateDisplay(instance.price),
       instance.category,
-      this.generateDateDisplay(instance.dateFrom),
-      this.generateDateDisplay(instance.dateTo),
+      this.generateDisplay(instance.dateFrom),
+      this.generateDisplay(instance.dateTo),
       '',
       false,
       false,
       false));
   }
 
-  generatePriceDisplay(price: number) {
-    if (price == null) {
+  generateDisplay(input: string) {
+    if (input == null) {
       return 'N/A';
-    } else {
-      return String(price);
-    }
-  }
-  generateDateDisplay(date: string) {
-    if (date == null) {
-      return 'N/A';
-    } else {return String(date); }
+    } else {return String(input); }
   }
 
   onSearch() {
@@ -74,6 +67,17 @@ export class OfferListComponent implements OnInit {
   }
 
   onExtendedSearch() {
+    const attributes = this.generateAttributes();
+    this.httpClient.put(this.variables.getUrl().concat('/offers/search'), {
+      searchKey: this.searchKey,
+      category: this.category,
+      attributes,
+    }, {withCredentials: true}).subscribe((instances: any) => {
+      this.offerItems = this.generateOfferItems(instances);
+    }, (object: any) => {alert('HTTP Error ' + object.status + ': ' + object.error.message); });
+  }
+
+  private generateAttributes() {
     const attributes = [];
     if (!this.isLoggedIn) {
       this.searchInUsername = false;
@@ -87,12 +91,6 @@ export class OfferListComponent implements OnInit {
     if (this.searchInUsername) {
       attributes[attributes.length] = '$provider.name$';
     }
-    this.httpClient.put(this.variables.getUrl().concat('/offers/search'), {
-      searchKey: this.searchKey,
-      category: this.category,
-      attributes,
-    }, {withCredentials: true}).subscribe((instances: any) => {
-      this.offerItems = this.generateOfferItems(instances);
-    }, (object: any) => {alert('HTTP Error ' + object.status + ': ' + object.error.message); });
+    return attributes;
   }
 }

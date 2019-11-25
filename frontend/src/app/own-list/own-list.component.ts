@@ -38,27 +38,21 @@ export class OwnListComponent implements OnInit {
       instance.id,
       instance.title,
       instance.description,
-      this.generatePriceDisplay(instance.price),
+      this.generateDisplay(instance.price),
       instance.category,
-      this.generateDateDisplay(instance.dateFrom),
-      this.generateDateDisplay(instance.dateTo),
+      this.generateDisplay(instance.dateFrom),
+      this.generateDisplay(instance.dateTo),
       instance.status,
       true,
       false,
       true));
   }
 
-  generatePriceDisplay(price: number) {
-    if (price == null) {
+  generateDisplay(input: any) {
+    if (input == null) {
       return 'N/A';
     } else {
-      return String(price);
+      return String(input);
     }
-  }
-
-  generateDateDisplay(date: number) {
-    if (date == null) {
-      return 'N/A';
-    } else {return String(date); }
   }
 }
