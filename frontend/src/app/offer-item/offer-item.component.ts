@@ -90,18 +90,8 @@ export class OfferItemComponent implements OnInit {
   onSave() {
     this.offerItem.dateFrom = this.checkDate(this.offerItem.dateFrom);
     this.offerItem.dateTo = this.checkDate(this.offerItem.dateTo);
-    let compareFrom: number;
-    let compareTo: number;
-    if (isNaN(Number(this.offerItem.dateTo))) {
-      compareTo = new Date(this.offerItem.dateTo).valueOf();
-    } else {
-      compareTo = Number(this.offerItem.dateTo);
-    }
-    if (isNaN(Number(this.offerItem.dateFrom))) {
-      compareFrom = new Date(this.offerItem.dateFrom).valueOf();
-    } else {
-      compareFrom = Number(this.offerItem.dateFrom);
-    }
+    const compareTo = this.generateCompare(this.offerItem.dateTo);
+    const compareFrom = this.generateCompare(this.offerItem.dateFrom);
     if (compareFrom > compareTo) {
       alert('Your start date is later than your end date. Please fix this before submitting.');
     } else {
@@ -115,6 +105,14 @@ export class OfferItemComponent implements OnInit {
         id: this.offerItem.id
       }, {withCredentials: true}).subscribe((object) => this.resolveEditRequest('offer edited'),
         (object) => alert(object.status + ': ' + object.error.message));
+    }
+  }
+
+  private generateCompare(compareString: string) {
+    if (isNaN(Number(compareString))) {
+      return new Date(compareString).valueOf();
+    } else {
+      return Number(compareString);
     }
   }
 
