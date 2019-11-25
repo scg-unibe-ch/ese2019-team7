@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {RegistrationUser} from '../registration-user';
 import {HttpClient} from '@angular/common/http';
 import {VariablesService} from '../variables.service';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -13,7 +14,8 @@ export class ChangeUserDataComponent implements OnInit {
 
   constructor(
     private httpClient: HttpClient,
-    private variables: VariablesService
+    private variables: VariablesService,
+    private router: Router
   ) { }
 
   model = new RegistrationUser('', '', '', '');
@@ -47,14 +49,20 @@ export class ChangeUserDataComponent implements OnInit {
   }
 
   onDelete() {
-    this.variables.setAdminFalse();
-    this.variables.setLogin(false);
-    this.httpClient.delete(this.variables.getUrl().concat('/user'), {withCredentials: true}).subscribe(this.answer, this.onSave_error);
+    this.httpClient.delete(this.variables.getUrl().concat('/user'),
+      {withCredentials: true}).subscribe((object: any) => this.answerDelete(object), this.onSave_error);
   }
 
 
   onSave_error(object: any) {
     alert(object.status + ': ' + object.error.message);
+  }
+
+  answerDelete(object: any) {
+    this.variables.setAdminFalse();
+    this.variables.setLogin(false);
+    this.answer(object);
+    this.router.navigate(['offers']);
   }
 
   answer(object: any) {

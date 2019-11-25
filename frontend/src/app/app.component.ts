@@ -38,13 +38,14 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.variables.checkLoginStatus();
     this.variables.getLogin().subscribe(login => this.isLoggedIn = login);
     this.variables.getAdmin().subscribe(admin => this.isAdmin = admin);
   }
 
   logOut() {
     this.httpClient.get(this.variables.getUrl().concat('/logout'), {withCredentials: true}).subscribe(
-      (object: any) => { this.variables.setAdminFalse(); this.variables.setLogin(false); },
+      (object: any) => { this.variables.setAdminFalse(); this.variables.setLogin(false); this.router.navigate(['offers']); },
       (object: any) => { alert('HTTP Error ' + object.status + ': ' + object.error.message); });
   }
 
