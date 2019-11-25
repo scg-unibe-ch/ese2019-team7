@@ -21,6 +21,7 @@ export class ChangeUserDataComponent implements OnInit {
   submitted = false;
   isLoggedIn: boolean;
   deleting: boolean;
+  passwordOld = '';
   onSubmit() {this.submitted = true; }
 
   ngOnInit() {
@@ -39,8 +40,9 @@ export class ChangeUserDataComponent implements OnInit {
   }
 
   onChangePassword() {
-    this.httpClient.post(this.variables.getUrl().concat('/changePassword'), {
-      password: this.model.password1,
+    this.httpClient.put(this.variables.getUrl().concat('/user/changePassword'), {
+      password: this.passwordOld,
+      passwordNew: this.model.password1,
     }, {withCredentials: true}).subscribe( this.answer, this.onSave_error);
   }
 

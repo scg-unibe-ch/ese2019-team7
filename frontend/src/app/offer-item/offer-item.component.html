@@ -20,54 +20,65 @@
           <td><span class="status">{{offerItem.status}}</span></td>
         </tr>
       </table>
-      <button (click)="hideContactData=false; getContactInfo()" [hidden]="!hideContactData || !isLoggedIn">Show Contact Data</button>
+      <button (click)="hideContactData=false; getContactInfo()" [hidden]="!hideContactData || !isLoggedIn">Show Contact
+        Data
+      </button>
       <button (click)="hideContactData=true" [hidden]="hideContactData || !isLoggedIn">Hide Contact Data</button>
-       <div class="contactData" [hidden]="hideContactData">
-          <table>
+      <div class="contactData" [hidden]="hideContactData">
+        <table>
           <tr>
             <th>Username</th>
-            <th>{{contactData.username}}</th>
+            <td>{{contactData.username}}</td>
           </tr>
           <tr>
             <th>Tel</th>
-            <th>{{contactData.tel}}</th>
+            <td>{{contactData.tel}}</td>
           </tr>
           <tr>
             <th>E-Mail</th>
-            <th>{{contactData.email}}</th>
+            <td>{{contactData.email}}</td>
           </tr>
-          </table>
-        </div>
-        <button style="background-color:#b81700" (click)="showDelete=true"
-                [hidden]="!isAdmin && (!offerItem.canBeDeleted || !isLoggedIn)">Delete
-        </button>
-        <button style="background-color:#0ab84b" (click)="showSetPublic=true"
-                [hidden]="!offerItem.canBeSetPublic || !isAdmin">Set Public
-        </button>
-        <button (click)="showDeny=true" [hidden]="!offerItem.canBeSetPublic || !isAdmin">Deny request</button>
-        <button (click)="onEdit()" [hidden]="!offerItem.canBeEdited || !isLoggedIn">Edit</button>
+        </table>
+      </div>
+      <button style="background-color:#b81700; float:right;" (click)="showDelete=true"
+              [hidden]="!isAdmin && (!offerItem.canBeDeleted || !isLoggedIn)">Delete
+      </button>
+      <button style="background-color:#ffeb06; float:right; color:black; font-weight: bold" (click)="showDeny=true"
+              [hidden]="!offerItem.canBeSetPublic || !isAdmin">Deny request
+      </button>
+      <button style="background-color:#0ab84b; float:right;" (click)="showSetPublic=true"
+              [hidden]="!offerItem.canBeSetPublic || !isAdmin">Set Public
+      </button>
+      <button (click)="onEdit()" [hidden]="!offerItem.canBeEdited || !isLoggedIn">Edit</button>
     </div>
 
     <div [hidden]="!showDelete">
-      <p>Are you sure you want to delete {{offerItem.title}}?</p>
-      <button (click)="onDelete(); showDelete=false">Delete</button>
-      <button (click)="showDelete=false">Cancel</button>
+      <p style="font-weight: bold; padding: 10px;">Are you sure you want to delete {{offerItem.title}}?</p>
+      <button style="background-color:#b81700; float:left;" (click)="onDelete(); showDelete=false">Delete</button>
+      <button style="background-color:#ffeb06; float:right; color:black; font-weight: bold" (click)="showDelete=false">
+        Cancel
+      </button>
     </div>
 
     <div [hidden]="!showSetPublic">
-      <p>Are you sure you want to set {{offerItem.title}} to public? This can be undone only by deleting the offer, or
+      <p style="font-weight: bold; padding: 10px;">Are you sure you want to set {{offerItem.title}} to public? This can
+        be undone only by deleting the offer, or
         by the user changing it.</p>
-      <button (click)="onSetPublic(); showSetPublic=false">Set public</button>
-      <button (click)="showSetPublic=false">Cancel</button>
+      <button style="background-color:#0ab84b; float:left;" (click)="onSetPublic(); showSetPublic=false">Set public
+      </button>
+      <button style="background-color:#ffeb06; float:right; color:black; font-weight: bold"
+              (click)="showSetPublic=false">Cancel
+      </button>
     </div>
 
-    <div [hidden]="!showDeny">
-      <form (ngSubmit)="onDeny(); showDeny=false" #reasonField="ngForm">
-        <label for="reason">Are you sure you want to deny this form? Please provide a reason why.</label>
-        <input type="text" id="reason" [(ngModel)]="reason" name="reasonField" #reasonField="ngModel" required class="form-control" placeholder="reason"/>
-        <button type="submit" class="btn btn-success" [disabled]="!reasonField.valid" (click)="onDeny()">Deny offer
+    <div style="padding:10px" [hidden]="!showDeny">
+      <form #reasonField="ngForm">
+        <label for="reason"> Are you sure you want to deny this request? Please provide a reason why.</label>
+        <input type="text" id="reason" [(ngModel)]="reason" name="reasonField" #reasonField="ngModel" required
+               class="form-control" placeholder="Reason"/>
+        <button type="submit" style="background-color:#b81700; float:left; margin-top:20px;" class="btn btn-success" [disabled]="!reasonField.valid" (click)="onDeny()">Deny offer
         </button>
-        <button (click)="showDeny=false; reason=''">Cancel</button>
+        <button type="submit" style="background-color:#ffeb06; float:right; color:black; font-weight: bold; margin-top:20px;" (click)="showDeny=false; reason=''">Cancel</button>
       </form>
     </div>
 
@@ -99,21 +110,29 @@
                  #price="ngModel"/>
         </div>
         <div class="form-group">
-          <label for="dateFrom">From:</label>
-          <input [matDatepicker]="myDatepicker1" type="text" class="form-control" id="dateFrom"
-                 [(ngModel)]="offerItem.dateFrom" name="dateFrom" #dateFrom="ngModel">
-          <mat-datepicker-toggle matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
+          <label for="dateFrom">From:</label><br>
+          <mat-datepicker-toggle style="float:left; padding:13px;" matSuffix
+                                 [for]="myDatepicker1"></mat-datepicker-toggle>
+          <input style="width: 70%; float: left;" [matDatepicker]="myDatepicker1" type="text" class="form-control"
+                 id="dateFrom"
+                 [(ngModel)]="offerItem.dateFrom" name="dateFrom" #dateFrom="ngModel"> <br>
           <mat-datepicker #myDatepicker1></mat-datepicker>
+          <br>
         </div>
+        <br>
         <div class="form-group">
-          <label for="dateTo">To:</label>
-          <input [matDatepicker]="myDatepicker2" type="text" class="form-control" id="dateTo"
-                 [(ngModel)]="offerItem.dateTo" name="dateTo" #dateTo="ngModel">
-          <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
+          <br><label for="dateTo">To:</label><br>
+          <mat-datepicker-toggle style="float:left; padding:13px;" matSuffix
+                                 [for]="myDatepicker2"></mat-datepicker-toggle>
+          <input style="width: 70%; float: left;" [matDatepicker]="myDatepicker2" type="text" class="form-control"
+                 id="dateTo"
+                 [(ngModel)]="offerItem.dateTo" name="dateTo" #dateTo="ngModel"> <br>
           <mat-datepicker #myDatepicker2></mat-datepicker>
+          <br>
         </div>
+        <br>
         <div class="form-group">
-          <label for="category">Category</label>
+          <br><label for="category">Category</label>
           <select class="form-control" id="category"
                   [(ngModel)]="offerItem.category" name="category" required>
             <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>

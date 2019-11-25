@@ -4,6 +4,8 @@ import {AuthenticationController} from './authentication.controller';
 
 const router: Router = Router();
 
+const bcrypt = require('bcrypt');
+
 function genUserValues(obj: any) {
   const userValues = {
   phone: obj.phone,
@@ -24,6 +26,23 @@ router.get('/', AuthenticationController, loadUser, async (req: Request, res: Re
 });
 router.put('/edit', AuthenticationController, loadUser, updateUser);
 router.delete('/', AuthenticationController , loadUser, deleteUser, logout);
+
+
+
+router.put('/changePassword', AuthenticationController, loadUser, changePassword);
+
+export async function changePassword(req: Request, res: Response) {
+  const user = req.session.user;
+  const pword = req.body.password
+ if (!bcrypt.compareSync(pword, user.password)) {
+    res.status(401).send({message: 'Wrong  Password'}); // Unauthorized
+    return;
+  }
+ await user.update({password: bcrypt.hashSync(req.body.passwordNew, 10) })
+   .catch((err: any) => res.status(500).send({message: 'Error while changing Password'})),
+res.sendSuccess();
+
+}
 
 export async function updateUser(req: Request, res: Response) {
 
@@ -52,7 +71,7 @@ export async function deleteUser(req: Request, res: Response, next: Function) {
     res.sendForbidden();
     return;
   }
-  await req.session.user.destroy().catch((err: any) => res.status(500).send({message: 'Error while deleting offer'}));
+  await req.session.user.destroy().catch((err: any) => res.status(500).send({message: 'Error while deleting user'}));
   next();
 }
 
@@ -69,7 +88,7 @@ export async function loadUser(req: Request, res: Response, next: Function) {
   }
   const userToLoad = await req.db.User.findOne({where: {id: req.session.user.id}});
   if (userToLoad === null) {
-    res.sendBadRequest('Bad request: Offer Id nonexistent');
+    res.sendBadRequest('Bad request: User Id nonexistent');
     return;
   }
   req.session.user = userToLoad;
