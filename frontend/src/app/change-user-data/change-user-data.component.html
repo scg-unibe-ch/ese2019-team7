@@ -76,7 +76,7 @@
   <button style="width:100%; background-color:red" type="submit" class="btn btn-success" (click)="deleting=true" [hidden]="deleting">Terminate account</button>
   <div [hidden]="!deleting">
     <p style="font-weight:bold;">Are you sure you want to terminate you account? This will also delete all your offers.</p>
-    <button class="smallButton" style="float:left; background-color:#b80218" (click)="logOutDelete()">Terminate account</button>
+    <button class="smallButton" style="float:left; background-color:#b80218" (click)="onDelete()">Terminate account</button>
     <button class="smallButton" style="background-color:#ffeb06; float:right; color:black; font-weight: bold" (click)="deleting=false">Cancel action</button>
   </div>
 </div>

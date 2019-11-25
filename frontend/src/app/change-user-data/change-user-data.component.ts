@@ -47,6 +47,8 @@ export class ChangeUserDataComponent implements OnInit {
   }
 
   onDelete() {
+    this.variables.setAdminFalse();
+    this.variables.setLogin(false);
     this.httpClient.delete(this.variables.getUrl().concat('/user'), {withCredentials: true}).subscribe(this.answer, this.onSave_error);
   }
 
@@ -61,11 +63,5 @@ export class ChangeUserDataComponent implements OnInit {
 
   validTel(tel: any) {
     return (tel == null || tel.value === '' || (new RegExp('[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$').test(tel.value)));
-  }
-
-  logOutDelete() {
-    this.httpClient.get(this.variables.getUrl().concat('/logout'), {withCredentials: true}).subscribe(
-      (object: any) => { this.variables.setAdminFalse(); this.variables.setLogin(false); this.onDelete(); },
-      (object: any) => { alert('HTTP Error ' + object.status + ': ' + object.error.message); });
   }
 }
