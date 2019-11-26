@@ -46,7 +46,7 @@ export class OfferItemComponent implements OnInit {
     this.httpClient.put(this.variables.getUrl().concat('/offers/delete'), {
       id: this.offerItem.id,
     }, {withCredentials: true}).subscribe(
-      (object) => this.resolveRequest(this.offerItem.title + ' deleted'),
+      (object) => this.alertAndReload(this.offerItem.title + ' deleted'),
       (object) => alert(object.status + ': ' + object.error.message));
   }
 
@@ -55,19 +55,18 @@ export class OfferItemComponent implements OnInit {
       id: this.offerItem.id,
       approve: true
     }, {withCredentials: true}).subscribe(
-      (object) => this.resolveRequest(this.offerItem.title + ' has been set public'),
+      (object) => this.alertAndReload(this.offerItem.title + ' has been set public'),
       (object) => alert(object.status + ': ' + object.error.message));
   }
 
-  // TODO rename
-  resolveRequest(display: string) {
+  alertAndReload(display: string) {
     alert(display);
     window.location.reload();
   }
 
   resolveEditRequest(display: string) {
     this.editing = false;
-    this.resolveRequest(display);
+    this.alertAndReload(display);
   }
 
   onSubmit() { }
@@ -149,7 +148,7 @@ export class OfferItemComponent implements OnInit {
       id: this.offerItem.id,
       message: this.reason,
       approve: false,
-    }, {withCredentials: true}).subscribe((object) => this.resolveRequest(this.offerItem.title + 'denied'),
+    }, {withCredentials: true}).subscribe((object) => this.alertAndReload(this.offerItem.title + 'denied'),
       (object) => console.log(object) /*alert(object.status + ': ' + object.error.message)*/);
     }
 }

@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {OfferItem} from '../offer-item';
 import {VariablesService} from '../variables.service';
+import {FunctionsService} from '../functions.service';
 
 @Component({
   selector: 'app-own-list',
@@ -17,7 +18,7 @@ export class OwnListComponent implements OnInit {
   isLoggedIn = false;
 
   constructor(
-    private httpClient: HttpClient, private variables: VariablesService
+    private httpClient: HttpClient, private variables: VariablesService, private functions: FunctionsService
   ) { }
 
   ngOnInit() {
@@ -38,21 +39,13 @@ export class OwnListComponent implements OnInit {
       instance.id,
       instance.title,
       instance.description,
-      this.generateDisplay(instance.price),
+      this.functions.generateDisplay(instance.price),
       instance.category,
-      this.generateDisplay(instance.dateFrom),
-      this.generateDisplay(instance.dateTo),
+      this.functions.generateDisplay(instance.dateFrom),
+      this.functions.generateDisplay(instance.dateTo),
       instance.status,
       true,
       false,
       true));
-  }
-
-  generateDisplay(input: any) {
-    if (input == null) {
-      return 'N/A';
-    } else {
-      return String(input);
-    }
   }
 }

@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {OfferItem} from '../offer-item';
 import {VariablesService} from '../variables.service';
+import {FunctionsService} from '../functions.service';
 
 /**
  * Component for the list of offers an admin needs to do something with. Contains only functions for loading said offers,
@@ -23,7 +24,8 @@ export class AdminListComponent implements OnInit {
 
   constructor(
     private httpClient: HttpClient,
-    private variables: VariablesService
+    private variables: VariablesService,
+    private functions: FunctionsService
   ) { }
 
   /**
@@ -51,24 +53,13 @@ export class AdminListComponent implements OnInit {
       instance.id,
       instance.title,
       instance.description,
-      this.generateDisplay(instance.price),
+      this.functions.generateDisplay(instance.price),
       instance.category,
-      this.generateDisplay(instance.dateFrom),
-      this.generateDisplay(instance.dateTo),
+      this.functions.generateDisplay(instance.dateFrom),
+      this.functions.generateDisplay(instance.dateTo),
       instance.status,
       true,
       true,
       false));
-  }
-
-  /**
-   * Sets the input to N/A if it is null (not provided in the offer), converts the number to a string
-   */
-  generateDisplay(input: number) {
-    if (input == null) {
-      return 'N/A';
-    } else {
-      return String(input);
-    }
   }
 }

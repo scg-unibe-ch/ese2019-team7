@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {OfferCreationForm} from '../offerCreationForm';
 import { VariablesService } from '../variables.service';
+import {FunctionsService} from '../functions.service';
 
 @Component({
   selector: 'app-offer-creation-form',
@@ -11,7 +12,8 @@ import { VariablesService } from '../variables.service';
 export class OfferCreationFormComponent implements OnInit {
 
   constructor(    private httpClient: HttpClient,
-                  private variables: VariablesService
+                  private variables: VariablesService,
+                  private functions: FunctionsService
   ) {
   }
 
@@ -21,6 +23,9 @@ export class OfferCreationFormComponent implements OnInit {
   isLoggedIn: boolean;
   showClear = false;
 
+  /**
+   * Sets some instance variables
+   */
   ngOnInit() {
     this.categories = this.variables.getCategories();
     this.variables.getLogin().subscribe(login => this.isLoggedIn = login);
@@ -28,6 +33,9 @@ export class OfferCreationFormComponent implements OnInit {
 
   onSubmit() { }
 
+  /**
+   * validates the dates (End date may not be prior to Start date), if these are accepted, sends a created form to the backend.
+   */
   onSave() {
     this.model.dateFrom = this.checkDate(this.model.dateFrom);
     this.model.dateTo = this.checkDate(this.model.dateTo);
@@ -41,25 +49,20 @@ export class OfferCreationFormComponent implements OnInit {
         category: this.model.category,
         dateFrom: this.model.dateFrom,
         dateTo: this.model.dateTo,
-      }, {withCredentials: true}).subscribe(this.answer, this.onSave_error);
+      }, {withCredentials: true}).subscribe(this.functions.answer, this.functions.onSave_error);
       const resetForm = document.getElementById('offerCreationForm') as HTMLFormElement;
       resetForm.reset();
     }
   }
 
+  /**
+   * changes a date to null if it is 0, as 0 is equivalent to no input
+   */
   checkDate(date: number) {
     if (date === 0) {
       return null;
     } else {
       return date;
     }
-  }
-
-  onSave_error(object: any) {
-    alert(object.status + ': ' + object.error.message);
-  }
-
-  answer(object: any) {
-    alert(object.message);
   }
 }

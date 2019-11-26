@@ -25,16 +25,22 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {}
 
+  /**
+   * Sends a login check to the backend.
+   */
   onSave() {
     this.httpClient.put(this.variables.getUrl().concat('/login'), {
       username: this.model.username,
       password: this.model.password
     }, {withCredentials: true}).subscribe(
-      (object) => this.successfulLogin(object),
+      (object) => this.successfulLogin(),
       (object) => alert(object.status + ': ' + object.error.message));
   }
 
-  successfulLogin(object) {
+  /**
+   * Updates variables upon successful login, navigates to offers page
+   */
+  successfulLogin() {
     this.variables.setLogin(true);
     this.router.navigate(['offers']);
   }

@@ -16,7 +16,6 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { PasswordValidatorDirective } from './passwordValidator.directive';
 import { EmailValidatorDirective } from './emailValidator.directive';
-import { ProtectedComponent } from './protected/protected.component';
 import { OfferCreationFormComponent } from './offer-creation-form/offer-creation-form.component';
 import { OfferListComponent } from './offer-list/offer-list.component';
 import {OfferItemComponent} from './offer-item/offer-item.component';
@@ -37,7 +36,6 @@ import {ChangeUserDataComponent} from './change-user-data/change-user-data.compo
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'protected', component: ProtectedComponent },
   { path: 'createOffer', component: OfferCreationFormComponent },
   { path: 'offers', component: OfferListComponent},
   { path: 'myOffers', component: OwnListComponent},
@@ -53,7 +51,6 @@ const appRoutes: Routes = [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    ProtectedComponent,
     PasswordValidatorDirective,
     EmailValidatorDirective,
     OfferCreationFormComponent,

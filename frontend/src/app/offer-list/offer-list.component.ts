@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {OfferItem} from '../offer-item';
 import {VariablesService} from '../variables.service';
+import {FunctionsService} from '../functions.service';
 
 @Component({
   selector: 'app-offer-list',
@@ -25,9 +26,13 @@ export class OfferListComponent implements OnInit {
 
   constructor(
     private httpClient: HttpClient,
-    private variables: VariablesService
+    private variables: VariablesService,
+    private functions: FunctionsService
   ) { }
 
+  /**
+   * Sets some instance variables and loads relevant offers from backend.
+   */
   ngOnInit() {
     this.categories = this.variables.getCategories();
     this.variables.getLogin().subscribe(login => this.isLoggedIn = login);
@@ -36,27 +41,9 @@ export class OfferListComponent implements OnInit {
     }, (object: any) => {  alert('HTTP Error ' + object.status + ': ' + object.error.message); });
   }
 
-  generateOfferItems(instances: any) {
-    return instances.offers.map((instance) => new OfferItem(
-      instance.id,
-      instance.title,
-      instance.description,
-      this.generateDisplay(instance.price),
-      instance.category,
-      this.generateDisplay(instance.dateFrom),
-      this.generateDisplay(instance.dateTo),
-      '',
-      false,
-      false,
-      false));
-  }
-
-  generateDisplay(input: string) {
-    if (input == null) {
-      return 'N/A';
-    } else {return String(input); }
-  }
-
+  /**
+   * preforms a simple search request to the backend; loads search results on success.
+   */
   onSearch() {
     this.httpClient.put(this.variables.getUrl().concat('/offers/search'),  {
       searchKey: this.searchKey,
@@ -66,6 +53,10 @@ export class OfferListComponent implements OnInit {
     }, (object: any) => {  alert('HTTP Error ' + object.status + ': ' + object.error.message); });
   }
 
+  /**
+   * Preforms an extended search request to the backend, loads search results on success.
+   * Note that credentials are required here, as a search for user name is only allowed for logged in users.
+   */
   onExtendedSearch() {
     const attributes = this.generateAttributes();
     this.httpClient.put(this.variables.getUrl().concat('/offers/search'), {
@@ -77,6 +68,30 @@ export class OfferListComponent implements OnInit {
     }, (object: any) => {alert('HTTP Error ' + object.status + ': ' + object.error.message); });
   }
 
+  /**
+   * generates offerItems in the format necessary for this component.
+   * @param instances: The offer items returned from the backend.
+   */
+  generateOfferItems(instances: any) {
+    return instances.offers.map((instance) => new OfferItem(
+      instance.id,
+      instance.title,
+      instance.description,
+      this.functions.generateDisplay(instance.price),
+      instance.category,
+      this.functions.generateDisplay(instance.dateFrom),
+      this.functions.generateDisplay(instance.dateTo),
+      '',
+      false,
+      false,
+      false));
+  }
+
+  /**
+   * Generates an array of attributes in the format required by backend from the booleans set in the form.
+   * Note that username is set to false if logged out in order to prevent the form from becoming unusable if logging out
+   * while the username option is selected.
+   */
   private generateAttributes() {
     const attributes = [];
     if (!this.isLoggedIn) {
