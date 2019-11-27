@@ -32,7 +32,8 @@ export class RegisterComponent implements OnInit {
   }
 
   /**
-   * Sends a registration request to backend. Checks if user is logged in upon success.
+   * Sends a registration request to backend. Checks if user is logged in upon success,
+   * and if he was not logged in before redirects him to the offers page.
    */
   onSave() {
     this.httpClient.post(this.variables.getUrl().concat('/register'), {
