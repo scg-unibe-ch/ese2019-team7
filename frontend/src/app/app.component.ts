@@ -1,8 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 
-import { Platform } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {VariablesService} from './variables.service';
@@ -20,9 +17,6 @@ export class AppComponent implements OnInit {
   isAdmin = false;
 
   constructor(
-    private platform: Platform,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
     private httpClient: HttpClient,
     private router: Router,
     private variables: VariablesService
