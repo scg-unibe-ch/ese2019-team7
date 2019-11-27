@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {VariablesService} from '../variables.service';
+import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -8,30 +10,32 @@ import {VariablesService} from '../variables.service';
 })
 export class NavigationBarComponent implements OnInit {
 
-  constructor(private variables: VariablesService) { }
+  isLoggedIn = false;
+  isAdmin = false;
 
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router,
+    private variables: VariablesService
+  ) {
+  }
+
+  /**
+   * initializes variables.
+   */
   ngOnInit() {
-    // Get the container element
-    let listContainer = document.getElementById('ul');
+    this.variables.checkLoginStatus();
+    this.variables.getLogin().subscribe(login => this.isLoggedIn = login);
+    this.variables.getAdmin().subscribe(admin => this.isAdmin = admin);
+  }
 
-// Get all buttons with class="li" inside the container
-    let entries = listContainer.getElementsByClassName('li');
-
-// Loop through the list entries and add the active class to the current/clicked entry
-    for (let i = 0; i < entries.length; i++) {
-      entries[i].addEventListener('click', function() {
-        let current = document.getElementsByClassName('active');
-
-        // If there's no active class
-        if (current.length > 0) {
-          current[0].className = current[0].className.replace(' active', '');
-        }
-
-        // Add the active class to the current/clicked list entry
-        this.className += ' active';
-      });
-    }}
-
-
+  /**
+   * Sends a logout request to the backend.
+   */
+  logOut() {
+    this.httpClient.get(this.variables.getUrl().concat('/logout'), {withCredentials: true}).subscribe(
+      (object: any) => { this.variables.setAdminFalse(); this.variables.setLogin(false); this.router.navigate(['offers']); },
+      (object: any) => { alert('HTTP Error ' + object.status + ': ' + object.error.message); });
+  }
 
 }

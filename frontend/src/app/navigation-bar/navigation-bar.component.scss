@@ -1,9 +1,8 @@
-/* Navigation bar styling*/
 ul {
   list-style-type: none;
-  position: fixed;
   top: 0;
   width: 100%;
+  position: fixed;
   overflow: hidden;
   background-color: #9a0daf;
 }
@@ -47,3 +46,4 @@ li a:hover {
 .logOut:focus {
   border: none;
 }
+

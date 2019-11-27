@@ -1,0 +1,5 @@
+scrolling more obvious
+red color invalid date
+edit button more prominent
+better validation of email and tel => not really doing anything, we've got the admin for contingency anyway
+2038 problem? => not a problem

@@ -30,7 +30,6 @@ const appRoutes: Routes = [
   { path: 'offers', component: OfferListComponent},
   { path: 'myOffers', component: OwnListComponent},
   { path: 'adminOffers', component: AdminListComponent},
-  { path: 'navigation', component: NavigationBarComponent},
   { path: 'changeUserData', component: ChangeUserDataComponent},
   { path: '', redirectTo: '/offers', pathMatch: 'full'}
 //  { path: '**', component: PageNotFoundComponent }

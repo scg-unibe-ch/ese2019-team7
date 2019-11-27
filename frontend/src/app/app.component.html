@@ -1,18 +1,4 @@
-<nav>
-  <ul>
-    <li><a routerLink="../offers">View offers</a></li>
-    <li [hidden]="!isLoggedIn"><a routerLink="../createOffer">Publish an offer</a></li>
-    <li [hidden]="!isLoggedIn"><a routerLink="../myOffers">My offers</a></li>
-    <li [hidden]="!isAdmin"><a routerLink="../adminOffers">[Admin] Offers</a></li>
-    <li [hidden]="isLoggedIn" style="float:right;"><a routerLink="../login">Sign in</a></li>
-    <li [hidden]="isLoggedIn" style="float:right;"><a routerLink="../register">Register</a></li>
-    <li [hidden]="!isLoggedIn" style="float:right;"><a routerLink="../changeUserData">Change User Data</a></li>
-    <li [hidden]="!isLoggedIn" style="float:right;">
-      <button class="logOut" (click)="logOut()">Log out</button>
-    </li>
-  </ul>
-</nav>
-
+<app-navigation-bar></app-navigation-bar>
 <div>
   <router-outlet></router-outlet>
 </div>
