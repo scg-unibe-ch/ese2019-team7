@@ -43,6 +43,7 @@ export class ChangeUserDataComponent implements OnInit {
    */
   onSave() {
     this.httpClient.put(this.variables.getUrl().concat('/user/edit'), {
+      username: this.model.username,
       email: this.model.email,
       phone: this.model.tel,
       address: this.model.address

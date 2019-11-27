@@ -5,7 +5,14 @@
   <div [hidden]="deleting">
     <p>Note: Fields with an asterisk (*) must be filled in, other fields may be left empty.</p>
     <form (ngSubmit)="onSubmit()" #changeDataForm="ngForm" appEmailValid>
-      <p style="font-weight:bold;">Username: {{model.username}}</p>
+      <div class="form-group">
+        <label for="tel">Username</label>
+        <input type="text" class="form-control" id="username" [(ngModel)]="model.username" name="username" #username="ngModel"
+               placeholder="Enter your username" required/>
+        <div [hidden]="model.username !== '' && model.username !== null" class="alert alert-danger">
+          This is not a valid username.
+        </div>
+      </div>
       <div class="cross-validation" [class.cross-validation-error]="changeDataForm.errors?.emailInvalid">
         <div class="form-group">
           <label for="email">E-Mail address*</label>
@@ -23,7 +30,7 @@
         <label for="tel">Phone number</label>
         <input type="tel" class="form-control" id="tel" [(ngModel)]="model.tel" name="tel" #tel="ngModel"
                placeholder="Enter your phone number" pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$"/>
-        <div [hidden]="tel.pristine || validTel(tel)" class="alert alert-danger">
+        <div [hidden]="tel.pristine || functions.validTel(tel)" class="alert alert-danger">
           This is not a valid telephone number.
         </div>
       </div>
