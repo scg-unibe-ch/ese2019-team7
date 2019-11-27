@@ -30,7 +30,6 @@ export class RegisterComponent implements OnInit {
    * Sends a registration request to backend. Checks if user is logged in upon success.
    */
   onSave() {
-    console.log(this.variables);
     this.httpClient.post(this.variables.getUrl().concat('/register'), {
       username: this.model.username,
       password: this.model.password1,
