@@ -31,7 +31,9 @@ export class OfferItemComponent implements OnInit {
   showSetPublic = false;
   reason = '';
 
-
+  /**
+   * Initializes the offer item and various variables used by different functions.
+   */
   ngOnInit() {
     this.original = this.offerItem.clone();
     this.editing = false;
@@ -42,6 +44,9 @@ export class OfferItemComponent implements OnInit {
     this.categories = this.variables.getCategories();
   }
 
+  /**
+   * Sends a delete request to the backend.
+   */
   onDelete() {
     this.httpClient.put(this.variables.getUrl().concat('/offers/delete'), {
       id: this.offerItem.id,
@@ -50,6 +55,9 @@ export class OfferItemComponent implements OnInit {
       (object) => alert(object.status + ': ' + object.error.message));
   }
 
+  /**
+   * Sends a request to the backend to set the offer to public.
+   */
   onSetPublic() {
     this.httpClient.patch(this.variables.getUrl().concat('/offers/notApproved'), {
       id: this.offerItem.id,
@@ -59,11 +67,17 @@ export class OfferItemComponent implements OnInit {
       (object) => alert(object.status + ': ' + object.error.message));
   }
 
+  /**
+   * alerts a message and reloads the page.
+   */
   alertAndReload(display: string) {
     alert(display);
     window.location.reload();
   }
 
+  /**
+   * Sets editing to false, alert a message and reload the page.
+   */
   resolveEditRequest(display: string) {
     this.editing = false;
     this.alertAndReload(display);
@@ -71,6 +85,9 @@ export class OfferItemComponent implements OnInit {
 
   onSubmit() { }
 
+  /**
+   * Changes visible N/As to null so that the fields can be edited.
+   */
   onEdit() {
     if (this.offerItem.dateFrom === 'N/A') {
       this.offerItem.dateFrom = null;
@@ -81,17 +98,27 @@ export class OfferItemComponent implements OnInit {
     this.editing = true;
   }
 
+  /**
+   * reverts changes made by the user and closes editing window.
+   */
   onCancel() {
     this.editing = false;
     this.offerItem = this.original.clone();
   }
 
+  /**
+   * Changes the format of different values input by the user to the format needed by the database.
+   * Sends an edit request to the backend, after checking that the dates are in order.
+   */
   onSave() {
     this.offerItem.dateFrom = this.checkDate(this.offerItem.dateFrom);
     this.offerItem.dateTo = this.checkDate(this.offerItem.dateTo);
     const compareTo = this.generateCompare(this.offerItem.dateTo);
     const compareFrom = this.generateCompare(this.offerItem.dateFrom);
-    if (compareFrom > compareTo) {
+    this.offerItem.price = this.checkPrice(this.offerItem.price);
+    console.log(compareFrom);
+    console.log(compareTo);
+    if (compareTo !== 0 && compareFrom !== 0 && compareFrom > compareTo) {
       alert('Your start date is later than your end date. Please fix this before submitting.');
     } else {
       this.httpClient.put(this.variables.getUrl().concat('/offers/edit'), {
@@ -107,6 +134,20 @@ export class OfferItemComponent implements OnInit {
     }
   }
 
+  /**
+   * Sets the price to null if it is empty
+   */
+  private checkPrice(price: string) {
+    if (price === '') {
+      return null;
+    } else {
+      return price;
+    }
+  }
+
+  /**
+   * formats dates to numbers, so that they can be compared.
+   */
   private generateCompare(compareString: string) {
     if (isNaN(Number(compareString))) {
       return new Date(compareString).valueOf();
@@ -115,6 +156,9 @@ export class OfferItemComponent implements OnInit {
     }
   }
 
+  /**
+   * generates the contact data and makes it visible
+   */
   generateContactData(instances) {
     if (instances.phone == null) {
       instances.phone = 'N/A';
@@ -127,6 +171,9 @@ export class OfferItemComponent implements OnInit {
     return this.contactData;
   }
 
+  /**
+   * sends a request for the contact data of this offer item to the backend.
+   */
   getContactInfo() {
     this.httpClient.put(this.variables.getUrl().concat('/offers/contact'), {
       id: this.offerItem.id,
@@ -135,6 +182,9 @@ export class OfferItemComponent implements OnInit {
     }, (object: any) => {  alert('HTTP Error ' + object.status + ': ' + object.error.message); });
   }
 
+  /**
+   * sets the date to null if it is epoch.
+   */
   checkDate(date: string) {
     if (date === '1970-01-01T00:00:00.000Z') {
       return null;
@@ -143,12 +193,15 @@ export class OfferItemComponent implements OnInit {
     }
   }
 
+  /**
+   * Sends a denial request to the backend.
+   */
   onDeny() {
     this.httpClient.patch(this.variables.getUrl().concat('/offers/notApproved'), {
       id: this.offerItem.id,
       message: this.reason,
       approve: false,
-    }, {withCredentials: true}).subscribe((object) => this.alertAndReload(this.offerItem.title + 'denied'),
-      (object) => console.log(object) /*alert(object.status + ': ' + object.error.message)*/);
+    }, {withCredentials: true}).subscribe((object) => this.alertAndReload(this.offerItem.title + ' denied'),
+      (object) => alert(object.status + ': ' + object.error.message));
     }
 }

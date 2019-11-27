@@ -1,5 +1,9 @@
 export class RegistrationUser {
 
+  /**
+   * Data object for the registration form
+   */
+
   constructor(
     public username: string,
     public password1: string,

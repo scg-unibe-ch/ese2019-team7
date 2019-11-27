@@ -21,6 +21,9 @@ export class OwnListComponent implements OnInit {
     private httpClient: HttpClient, private variables: VariablesService, private functions: FunctionsService
   ) { }
 
+  /**
+   * Generates the list of offers if the user is logged in.
+   */
   ngOnInit() {
     this.variables.getLogin().subscribe(login => {
       this.isLoggedIn = login;
@@ -34,6 +37,9 @@ export class OwnListComponent implements OnInit {
     });
   }
 
+  /**
+   * Generates the offers in the format needed for this component.
+   */
   generateOfferItems(instances: any) {
     return instances.offers.map((instance) => new OfferItem(
       instance.id,

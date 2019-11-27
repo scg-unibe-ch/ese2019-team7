@@ -1,5 +1,8 @@
 export class OfferCreationForm {
 
+  /**
+   * Data object for the offer creation form.
+   */
   constructor(
     public title: string,
     public description: string,

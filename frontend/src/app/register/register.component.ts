@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {RegistrationUser} from '../registration-user';
 import {HttpClient} from '@angular/common/http';
 import {VariablesService} from '../variables.service';
+import {FunctionsService} from '../functions.service';
 
 
 @Component({
@@ -13,7 +14,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private httpClient: HttpClient,
-    private variables: VariablesService
+    private variables: VariablesService,
+    private functions: FunctionsService
   ) { }
 
   model = new RegistrationUser('', '', '', '');
@@ -24,6 +26,9 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {}
 
+  /**
+   * Sends a registration request to backend. Checks if user is logged in upon success.
+   */
   onSave() {
     console.log(this.variables);
     this.httpClient.post(this.variables.getUrl().concat('/register'), {
@@ -32,19 +37,8 @@ export class RegisterComponent implements OnInit {
       email: this.model.email,
       tel: this.model.tel,
       address: this.model.address
-    }, {withCredentials: true}).subscribe( (object: any) => this.answer(object, this.variables), this.onSave_error);
-  }
-
-  onSave_error(object: any) {
-    alert(object.status + ': ' + object.error.message);
-  }
-
-  answer(object: any, variables: VariablesService) {
-    variables.checkLoginStatus();
-    alert(object.message);
-  }
-
-  validTel(tel: any) {
-    return (tel == null || tel.value === '' || (new RegExp('[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$').test(tel.value)));
+    }, {withCredentials: true}).subscribe( (object: any) => {
+      this.variables.checkLoginStatus();
+      this.functions.answer(object); }, this.functions.onSave_error);
   }
 }

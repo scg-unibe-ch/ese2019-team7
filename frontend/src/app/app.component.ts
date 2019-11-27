@@ -27,22 +27,20 @@ export class AppComponent implements OnInit {
     private router: Router,
     private variables: VariablesService
   ) {
-    this.initializeApp();
   }
 
-  initializeApp() {
-    this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
-    });
-  }
-
+  /**
+   * initializes variables.
+   */
   ngOnInit() {
     this.variables.checkLoginStatus();
     this.variables.getLogin().subscribe(login => this.isLoggedIn = login);
     this.variables.getAdmin().subscribe(admin => this.isAdmin = admin);
   }
 
+  /**
+   * Sends a logout request to the backend.
+   */
   logOut() {
     this.httpClient.get(this.variables.getUrl().concat('/logout'), {withCredentials: true}).subscribe(
       (object: any) => { this.variables.setAdminFalse(); this.variables.setLogin(false); this.router.navigate(['offers']); },

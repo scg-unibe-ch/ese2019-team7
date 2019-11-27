@@ -1,3 +1,7 @@
+/**
+ * Checks if two passwords are identical.
+ */
+
 import { Directive } from '@angular/core';
 import { AbstractControl, FormGroup, NG_VALIDATORS, ValidationErrors, Validator, ValidatorFn } from '@angular/forms';
 

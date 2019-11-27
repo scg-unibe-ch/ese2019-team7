@@ -1,3 +1,7 @@
+/**
+ * Object for storing contact data
+ */
+
 export class ContactData {
 
   constructor(
