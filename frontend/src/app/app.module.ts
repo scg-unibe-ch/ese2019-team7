@@ -19,7 +19,7 @@ import { OwnListComponent } from './own-list/own-list.component';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { ChangeUserDataComponent } from './change-user-data/change-user-data.component';
 
-import { MatDatepickerModule } from '@angular/material';
+import {MatDatepickerModule, MatFormFieldModule} from '@angular/material';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -59,11 +59,13 @@ const appRoutes: Routes = [
     FormsModule,
     MatDatepickerModule,
     MatMomentDateModule,
+    MatFormFieldModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(
       appRoutes,
       {enableTracing: true} // <-- debugging purposes only
     ),
+    MatFormFieldModule,
   ],
   providers: [
     {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}},

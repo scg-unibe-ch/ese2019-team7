@@ -1,3 +1,33 @@
+# Prerequisites
+- You should have [Node.js](https://nodejs.org/en/) and NPM installed (NPM is installed automatically with latest versions of Node.js) which are needed by both [frontend](https://github.com/JoelNiklaus/ESE-2019-Scaffolding/tree/master/frontend) and [backend](https://github.com/JoelNiklaus/ESE-2019-Scaffolding/tree/master/backend) projects. You can verify whether you have both by running `node -v` and `npm -v` in terminal or command prompt.
+- You should have [Angular CLI](https://cli.angular.io/) globally installed on your machine (`npm install -g @angular/cli`).
+- You should have [Ionic](https://ionicframework.com/) globally installed on your machine (`npm install -g ionic`).
+- Get your WebStorm student license [from here](https://www.jetbrains.com/shop/eform/students) 
+
+## Getting started
+- Clone this repo on your machine and immediately delete `.git` folder.
+
+## Understanding project structure
+- The main project folder contains two subfolders: frontend and backend. These two are projects on their own which you will run independently. 
+- The backend folder contains an express project that serves as a REST API, exposes endpoints to accept HTTP requests. For received HTTP requests, it in turn returns JSON data.
+- The frontend folder contains an Angular project, which makes HTTP requests to the backend and processes the JSON data received i.e. make changes if required and display it on the UI.
+- Projects are separated in this way because in the future one can easily replace either of them if the team decides to use another technology e.g. React JS for frontend or Django REST framework for backend.
+
+# Front-End Scaffolding
+
+## Initial Setup
+1. Install [Node.js](https://nodejs.org/en/) (must be done already, as it is a part of prerequisite!)
+2. `cd` into this frontend folder with your terminal or command prompt
+3. Run `npm install` which will install all the required dependencies
+4. Run just `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+## A quick introduction to modules, components and services in Angular
+[Architecture](https://angular.io/guide/architecture)
+
+## Build
+
+Run `ng build` to build the project.
+
 # Back-End Scaffolding
 
 ## Initial Setup
@@ -30,3 +60,5 @@ So far, you need to recompile your TypeScript code and restart your express appl
 1. Install nodemon on your system (`npm install -g nodemon`), then run the express application using `nodemon build/server.js` (instead of `node build/server.js`). Similar to the `--watch` command above, this will restart your Node application (and thus, your server) every time a JavaScript file has changed on disk.
 
 As long as you let these two processes run in two separate shells, your Node server should always be running and be up to date with your latest changes, every time you save one of your TypeScript files.
+
+# ese2019-team7

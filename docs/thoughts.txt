@@ -1,0 +1,7 @@
+General thoughts:
+
+- Frontend tests fail, as they are pregenerated test and haven't been configured to mock data properly; none of the reasons the tests fail happen in production.
+- Price field accepting any value is a business decision, as this allows for compensation in the form of none-monetary items or services.
+- The content of any field the user may think of as important can be added to the description; if there is a trend in what is added, it should be feasable to add new fields.
+- the user supports address input, the input for this however has been commented out in the name of data privacy, as it is not used anywhere.
+- the admin account is named admin. At the moment there is no simple way of adding another admin.

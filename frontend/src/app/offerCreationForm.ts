@@ -6,7 +6,7 @@ export class OfferCreationForm {
   constructor(
     public title: string,
     public description: string,
-    public price: number,
+    public price: string,
     public category: string,
     public dateFrom: number,
     public dateTo: number
