@@ -25,7 +25,8 @@ router.post('/', register)
  * @param rawRes
  * @param User User table of the database
  */
-export async function register(req: Request, res: Response) {
+export async function register(rawReq: Request, res: Response) {
+  const req: Request & {session: any} = rawReq;
   if (!(req.body.username && req.body.password && req.body.email)) res.sendStatus(400); // Bad Request
   const userValues = {
     address: req.body.address,
@@ -34,14 +35,22 @@ export async function register(req: Request, res: Response) {
     password: bcrypt.hashSync(req.body.password, 10),
     eMail: req.body.email
   };
+  var user;
 
   try {
-    await req.db.User.create(userValues);
+   user = await req.db.User.create(userValues);
   } catch (err) {
     res.status(409).send({message: ' Username already exist.'});
     return;
   }
-  res.status(201).send({message: 'Registration complete'});
+  if(req.session.user != null) {
+    res.status(201).send({message: 'Registration complete'});
+    return;
+  }
+  else{
+    req.session.user = user;
+    res.status(200).send(user);
+  }
 }
 
 
