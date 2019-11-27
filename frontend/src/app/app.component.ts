@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   }
 
   /**
-   * initializes variables.
+   * Checks if the user is logged in on initial loading of the page.
    */
   ngOnInit() {
     this.variables.checkLoginStatus();
