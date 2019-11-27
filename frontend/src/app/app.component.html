@@ -7,11 +7,12 @@
     <li [hidden]="isLoggedIn" style="float:right;"><a routerLink="../login">Sign in</a></li>
     <li [hidden]="isLoggedIn" style="float:right;"><a routerLink="../register">Register</a></li>
     <li [hidden]="!isLoggedIn" style="float:right;"><a routerLink="../changeUserData">Change User Data</a></li>
-    <li [hidden]="!isLoggedIn" style="float:right;"><button  class="logOut" (click)="logOut()">Log out</button></li>
+    <li [hidden]="!isLoggedIn" style="float:right;">
+      <button class="logOut" (click)="logOut()">Log out</button>
+    </li>
   </ul>
-
-  <!-- <li [hidden]="isLoggedIn" style="float:right; "><a routerLink="../login">Sign in</a></li>
-  <li [hidden]="isLoggedIn" style="float:right; "><a routerLink="../protected">Log out</a></li> -->
 </nav>
 
-<div><router-outlet> </router-outlet> </div>
+<div>
+  <router-outlet></router-outlet>
+</div>

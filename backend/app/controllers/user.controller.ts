@@ -1,5 +1,6 @@
 import {Router, Request, Response} from 'express';
 import {AuthenticationController} from './authentication.controller';
+import {getDatabase} from "../database";
 
 
 const router: Router = Router();
@@ -8,6 +9,7 @@ const bcrypt = require('bcrypt');
 
 function genUserValues(obj: any) {
   const userValues = {
+  name: obj.username,
   phone: obj.phone,
   eMail: obj.email,
   address: obj.address
@@ -47,8 +49,13 @@ res.sendSuccess();
 export async function updateUser(req: Request, res: Response) {
 
   const user = req.session.user;
+  if(user.id !== undefined){
+  await getDatabase().Offer.update(
+    {public: false, status: 'validation in progress'},
+    {where: {providerId: user.id}});
+  }
   user.set(genUserValues(req.body));
-  // offerToUpdate.set('public', false);
+
   try {
     await user.save();
   } catch (err) {
@@ -60,7 +67,7 @@ export async function updateUser(req: Request, res: Response) {
 /**
  * delete a User
  * Possible Http codes:
- * - **400:** Bad request format. Look above to see the correct format
+ * - **500:** something terrible happend
  * - **200:**Ok
  * @param rawReq
  * @param rawRes
