@@ -116,11 +116,11 @@
                  id="dateFrom"
                  [(ngModel)]="offerItem.dateFrom" name="dateFrom" #dateFrom="ngModel"> <br />
           <mat-datepicker #myDatepicker1></mat-datepicker>
-          <br />
+          <br /><br><br>
           <div [hidden]="dateFrom.valid" class="alert alert-danger">
-            This date is invalid
+            Invalid date. Choose a valid date to proceed.
             <br />
-          </div>
+          </div><br>
         </div>
         <br />
         <div class="form-group">
@@ -131,11 +131,12 @@
                  id="dateTo"
                  [(ngModel)]="offerItem.dateTo" name="dateTo" #dateTo="ngModel"> <br />
           <mat-datepicker #myDatepicker2></mat-datepicker>
-          <br />
+          <br /><br>
+          <br>
           <div [hidden]="dateTo.valid" class="alert alert-danger">
-            This date is invalid
+            Invalid date. Choose a valid date to proceed.
             <br />
-          </div>
+          </div><br>
         </div>
         <br />
         <div class="form-group">

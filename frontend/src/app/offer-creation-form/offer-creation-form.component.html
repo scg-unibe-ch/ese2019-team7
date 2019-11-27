@@ -40,10 +40,11 @@
           <br />
         </div>
         <br />
+        <br>
         <div [hidden]="dateFrom.valid" class="alert alert-danger">
-          This date is invalid
+          Invalid date. Choose a valid date to proceed.
           <br />
-        </div>
+        </div><br>
         <div class="form-group">
           <br><label for="dateTo">To:</label><br>
           <mat-datepicker-toggle style="float:left; padding:13px;" matSuffix
@@ -55,10 +56,11 @@
           <br />
         </div>
         <br />
+        <br>
         <div [hidden]="dateTo.valid" class="alert alert-danger">
-          This date is invalid
+          Invalid date. Choose a valid date to proceed.
           <br />
-        </div>
+        </div><br>
         <div class="form-group">
           <br><label for="category">Category*</label>
           <select class="form-control" id="category"
