@@ -3,7 +3,7 @@
 </div>
 <div class="container" [hidden]="!isLoggedIn">
   <div [hidden]="deleting">
-    <p style="font-weight:bold; color:red">Note: After changing your user data all your offers will need to be reevaluated.</p>
+    <p style="font-weight:bold; color:red">Note: After changing your user data, all your offers will need to be reevaluated.</p>
     <p>Note: Fields with an asterisk (*) must be filled in, other fields may be left empty.</p>
     <form (ngSubmit)="onSubmit()" #changeDataForm="ngForm" appEmailValid>
       <div class="form-group">

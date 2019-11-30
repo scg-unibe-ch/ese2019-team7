@@ -23,11 +23,6 @@ input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, inp
   outline: none;
 }
 
-/* Overwrite default styles of hr */
-hr {
-  border: 1px solid #f1f1f1;
-  margin-bottom: 25px;
-}
 
 /* Set a style for the submit/register button */
 .btn-success {
