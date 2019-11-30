@@ -5,26 +5,14 @@
   margin-left: 25%;
 }
 
-#category {
+#category,#categoryExtended {
   width: 100%;
   padding: 16px;
   background-color: #f1f1f1;
 }
 
-#categoryExtended {
-  width: 100%;
-  padding: 16px;
-  background-color: #f1f1f1;
-}
 
-#arrow_signifier {
-  background-image: url(arrowSignifier.png);
-  background-repeat: no-repeat;
-  background-color: ffffff;
-}
-
-
-
+/* Styling of the search button */
 .btn-success {
   background-color: #9a0daf;
   color: white;
@@ -40,6 +28,7 @@
   opacity: 1;
 }
 
+/* Styling of the button for switching from the regular search to the extended search */
 #extended_search {
   background-color: #0ab84b;
   color: white;
@@ -55,6 +44,7 @@
   opacity: 1;
 }
 
+/* Styling of the button for switching from the extended search to the regular search  */
 #regular_search {
   background-color: #7365b8;
   color: white;
@@ -82,10 +72,6 @@ input[type=text] {
 input[type=text]:focus {
   background-color: #ddd;
   outline: none;
-}
-
-.app-offer-item {
-
 }
 
 
