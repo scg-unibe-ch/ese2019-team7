@@ -1,27 +1,7 @@
-.container {
-  padding: 16px;
-  width: 50%;
-  margin-top: 6%;
-  margin-left: 25%;
-}
-
 #category,#categoryExtended {
   width: 100%;
   padding: 16px;
   background-color: #f1f1f1;
-}
-
-
-/* Styling of the search button */
-.btn-success {
-  background-color: #9a0daf;
-  color: white;
-  margin-bottom: 30px;
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  opacity: 0.9;
 }
 
 .btn-success:hover {
@@ -36,8 +16,13 @@
   padding: 16px 20px;
   border: none;
   cursor: pointer;
-  width: 20%;
   opacity: 0.9;
+}
+
+@media only screen and (min-width: 1081px) {
+  #extended_search {
+    width: 20%;
+  }
 }
 
 #extended_search:hover {
@@ -49,11 +34,18 @@
   background-color: #7365b8;
   color: white;
   margin-bottom: 30px;
-  padding: 16px 20px;
+  padding: 16px;
   border: none;
   cursor: pointer;
-  width: 20%;
   opacity: 0.9;
+}
+
+@media only screen and (min-width: 1081px) {
+  #regular_search {
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 20%;
+  }
 }
 
 #regular_search:hover {

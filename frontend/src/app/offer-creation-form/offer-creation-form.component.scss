@@ -2,10 +2,6 @@
 
 /* Add padding to containers */
 .container {
-  padding: 16px;
-  width: 50%;
-  margin-top: 6%;
-  margin-left: 25%;
   margin-bottom: 15%;
 }
 
@@ -48,18 +44,6 @@ input[type=int]:focus {
   color:red;
 }
 
-/* Set a style for  the submit button */
-.btn-success {
-  background-color: #9a0daf;
-  color: white;
-  padding: 16px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  opacity: 0.9;
-}
-
 .btn-success:hover {
   opacity:1;
 }
@@ -82,9 +66,15 @@ a {
   padding: 16px 20px;
   border: none;
   cursor: pointer;
-  width: 20%;
   opacity: 0.9;
 }
+
+@media only screen and (min-width: 1081px){
+  .smallButton {
+    width: 20%;
+  }
+}
+
 
 .smallButton:hover {
   opacity: 1;

@@ -15,7 +15,7 @@
         <input type="text" class="form-control" id="searchKey" [(ngModel)]="searchKey" name="search"
                placeholder="Search"/>
       </div>
-      <button mat-button type="submit" class="btn btn-success">Search</button>
+      <button type="submit" class="btn btn-success">Search</button>
     </form>
     <button id="extended_search" (click)="extended=true" [hidden]="extended">Extended search</button>
     <form (ngSubmit)="onExtendedSearch()" #extendedForm="ngForm" [hidden]="!extended">
@@ -39,7 +39,7 @@
         [hidden]="!isLoggedIn"> Username</span>
       </div>
       <br> <br> <br>
-      <button mat-button type="submit" class="btn btn-success">Search</button>
+      <button type="submit" class="btn btn-success">Search</button>
     </form>
     <button id="regular_search" (click)="extended=false" [hidden]="!extended">Regular search</button>
     <p style="font-weight: bold">Scroll down to see the search results.</p>
