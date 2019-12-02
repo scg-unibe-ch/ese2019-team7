@@ -1,7 +1,18 @@
+@media only screen and (min-width: 481px) {
+  div {
+    overflow-y: scroll;
+    margin-top: 4%;
+    //margin-bottom: 10%;
+    height: 100% - 8%;
+    background-color: #ffffff;
+  }
+}
+
 div {
   overflow-y: scroll;
-  margin-top: 4%;
+  margin-top: 25%;
   //margin-bottom: 10%;
   height: 100% - 8%;
-  background-color:#ffffff;
+  background-color: #ffffff;
 }
+
