@@ -9,14 +9,29 @@ ul {
 
 li {
   float: left;
+  display: inline-block;
+  overflow-x:auto;
 }
 
-li a {
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
+@media only screen and (min-width: 481px) {
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+
+  }
 }
 
 li a:hover {
@@ -31,7 +46,7 @@ li a:hover {
 .logOut {
   display: block;
   color: white;
-  background-color:#9d55af;
+  background-color: #9d55af;
   font-size: 16px;
   text-align: center;
   padding: 15px 16px;
@@ -48,5 +63,63 @@ li a:hover {
 }
 
 .staff {
-  float:right;
+  float: right;
+}
+
+/* Dropdown menu*/
+@media only screen and (min-width: 481px) {
+  .dropbtn {
+    display:none;
+  }
+
+}
+@media only screen and (max-width: 480px) {
+
+
+  .dropbtn {
+    float:left;
+    left: 0;
+    height: 30px;
+    width: 30px;
+    background-image:url('dropdown-icon.png');
+    background-repeat:no-repeat;
+    background-color: #ffffff;
+    border: none;
+    cursor: pointer;
+  }
+
+
+
+  .dropdown {
+    position: relative;
+    display: block;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #9a0daf;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+
+  .dropdown-content a {
+    color: #ffffff;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  .dropdown-content a:hover {
+    background-color: #f1f1f1
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+  }
 }

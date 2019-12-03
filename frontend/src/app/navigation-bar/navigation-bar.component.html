@@ -1,14 +1,19 @@
 <nav>
   <ul>
-    <li><a routerLink="../offers">View offers</a></li>
-    <li [hidden]="!isLoggedIn"><a routerLink="../createOffer">Publish an offer</a></li>
-    <li [hidden]="!isLoggedIn"><a routerLink="../myOffers">My offers</a></li>
-    <li [hidden]="!isAdmin"><a routerLink="../adminOffers">[Admin] Offers</a></li>
-    <li [hidden]="isLoggedIn" class="staff"><a routerLink="../login">Sign in</a></li>
-    <li [hidden]="isLoggedIn" class="staff"><a routerLink="../register">Register</a></li>
-    <li [hidden]="!isLoggedIn" class="staff"><a routerLink="../changeUserData">Change User Data</a></li>
-    <li [hidden]="!isLoggedIn" class="staff">
-      <button class="logOut" (click)="logOut()">Log out</button>
-    </li>
+    <div class="dropdown">
+      <li><button class="dropbtn"></button></li>
+      <div class="dropdown-content">
+      <li><a routerLink="../offers">View offers</a></li>
+      <li [hidden]="!isLoggedIn"><a routerLink="../createOffer">Publish an offer</a></li>
+      <li [hidden]="!isLoggedIn"><a routerLink="../myOffers">My offers</a></li>
+      <li [hidden]="!isAdmin"><a routerLink="../adminOffers">[Admin] Offers</a></li>
+      </div>
+      <li [hidden]="isLoggedIn" class="staff"><a routerLink="../login">Sign in</a></li>
+      <li [hidden]="isLoggedIn" class="staff"><a routerLink="../register">Register</a></li>
+      <li [hidden]="!isLoggedIn" class="staff"><a routerLink="../changeUserData">Change User Data</a></li>
+      <li [hidden]="!isLoggedIn" class="staff">
+        <button class="logOut" (click)="logOut()">Log out</button>
+      </li>
+    </div>
   </ul>
 </nav>
