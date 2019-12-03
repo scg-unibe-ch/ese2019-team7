@@ -26,14 +26,4 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.variables.checkLoginStatus();
   }
-
-  /* Toggle between showing and hiding the navigation menu links when the user clicks on the bar icon */
-   toggleFunction() {
-    let x = document.getElementById('links');
-    if (x.style.display === 'block') {
-      x.style.display = 'none';
-    } else {
-      x.style.display = 'block';
-    }
-  }
 }

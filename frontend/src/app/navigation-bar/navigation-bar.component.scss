@@ -1,3 +1,4 @@
+/* Unordered list styling - general navbar outlook is defined here*/
 ul {
   list-style-type: none;
   top: 0;
@@ -13,27 +14,16 @@ li {
   overflow-x: auto;
 }
 
-@media only screen and (min-width: 481px) {
-  li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-  }
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
 }
 
-@media only screen and (max-width: 480px) {
-  li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-
-  }
-}
-
+/* Change link color once it is hovered at */
 li a:hover {
   background-color: #ffffff;
   color: black;
@@ -43,6 +33,7 @@ li a:hover {
   background-color: #9d55af;
 }
 
+/* Make the log-out button a little special */
 .logOut {
   display: block;
   color: white;
@@ -62,11 +53,13 @@ li a:hover {
   border: none;
 }
 
+/* Navigation through service elements (log-in, user data, register, log-out). Place these elements on the right */
 .staff {
   float: right;
 }
 
 /* Dropdown menu styling */
+
 /* Hide the links inside the navigation menu (except for logo/home) */
 #mobile #links {
   display: none;
@@ -74,37 +67,35 @@ li a:hover {
 
 /* Style navigation menu links */
 #mobile a {
+  background-color: #9a0daf;
   color: white;
   padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
+  font-size: 16px;
   display: block;
 }
 
-/* Style the hamburger menu */
-#mobile a.icon {
-  background: black;
-  display: block;
-  position: absolute;
-  right: 0;
-  top: 0;
-}
 
-/* Add a grey background color on mouse-over */
+/* Another background color on mouse-over */
 #mobile a:hover {
   background-color: #ddd;
   color: black;
 }
 
-#mobile .btn {height: 30px;
+/* Dropdown toggling button */
+#mobile .btn {
+  float: left;
+  left: 0;
+  height: 30px;
   width: 30px;
-  background-image:url('dropdown-icon.png');
-  background-repeat:no-repeat;
+  background-image: url('dropdown-icon.png');
+  background-repeat: no-repeat;
+  background-color: #9a0daf;
+  border: none;
+  cursor: pointer;
 }
 
 
-
-/* Vertical and horizontal menu toggling */
+/* Vertical and horizontal menu choice - only one menu is visible depending on the screen size. */
 
 
 @media only screen and (min-width: 481px) {

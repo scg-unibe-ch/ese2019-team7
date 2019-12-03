@@ -2,20 +2,17 @@
   div {
     overflow-y: scroll;
     margin-top: 4%;
-    //margin-bottom: 10%;
     height: 100% - 8%;
     background-color: #ffffff;
   }
 }
 
+/* Mobile version needs different dimensions to display all the content properly */
 @media only screen and (max-width: 480px) {
   div {
     overflow-y: scroll;
     margin-top: 21%;
-    padding-top:25px;
-    padding-left: 8px;
-    padding-right: 8px;
-    padding-bottom: 30px;
+    padding: 25px 8px 30px 8px;
     height: 100% - 8%;
     background-color: #ffffff;
   }

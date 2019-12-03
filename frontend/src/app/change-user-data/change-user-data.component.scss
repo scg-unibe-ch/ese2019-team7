@@ -15,6 +15,7 @@ input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, inp
   outline: none;
 }
 
+/* Indicate when the submit button is hovered at */
 .btn-success:hover {
   opacity:1;
 }
@@ -33,11 +34,12 @@ input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, inp
   opacity: 0.9;
 }
 
-@media only screen and (min-width: 1081px){
+@media only screen and (min-width: 481px){
   .smallButton {
     width: 20%;
   }
 }
+
 .smallButton:hover {
   opacity: 1;
 }

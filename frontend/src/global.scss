@@ -42,6 +42,7 @@
   }
 }
 
+/* The most common submit button */
 .btn-success {
   background-color: #9a0daf;
   color: white;
@@ -56,11 +57,12 @@
   opacity: 1;
 }
 
+/* Every warning is displayed in red */
 .alert-danger {
   color:red;
 }
 
-@media only screen and (min-width: 1081px) {
+@media only screen and (min-width: 481px) {
   .container {
     padding: 16px;
     width: 50%;
@@ -68,6 +70,7 @@
   }
 }
 
+/* Main content of a page */
 .container {
   margin-top: 6%;
 }

@@ -8,7 +8,7 @@
   font-weight: bold;
   padding: 15px;
 }
-
+/* Table containing offer data */
 table {
   width: 100%;
 }
@@ -20,6 +20,7 @@ th, td {
   border-bottom: 1px solid #1e2023;
 }
 
+/* Make every two neighbouring table rows of different color for easier distinction */
 tr:nth-child(odd) {background-color: #e5aef1;}
 
 tr:hover {background-color: #9d55af;}
@@ -43,6 +44,7 @@ input[type=int]:focus {
   width: 100%;
 }
 
+/* Description field styling */
 #description {
   padding: 15px;
   margin: 0;
@@ -52,6 +54,7 @@ input[type=int]:focus {
   background: #f1f1f1;
 }
 
+/* Category field styling */
 #category {
   width:100%;
   padding: 16px;

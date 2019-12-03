@@ -38,4 +38,13 @@ export class NavigationBarComponent implements OnInit {
       (object: any) => { alert('HTTP Error ' + object.status + ': ' + object.error.message); });
   }
 
+  /* Toggle between showing and hiding the navigation menu links when the user clicks on the bar icon */
+  toggleFunction() {
+    let x = document.getElementById('links');
+    if (x.style.display === 'block') {
+      x.style.display = 'none';
+    } else {
+      x.style.display = 'block';
+    }
+  }
 }

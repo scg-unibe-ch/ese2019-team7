@@ -1,7 +1,5 @@
 <nav>
-  <!-- Load an icon library -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+  <!-- Two navbars created for an easier specification -->
   <div id="desktop">
     <ul>
       <li><a routerLink="../offers">View offers</a></li>
@@ -19,17 +17,16 @@
   </div>
   <div id="mobile">
     <!-- Main navigation links (hidden by default) -->
-    <div id="links">
-      <a routerLink="../offers">View offers</a>
-      <a [hidden]="!isLoggedIn" routerLink="../createOffer">Publish an offer</a>
-      <a [hidden]="!isLoggedIn" routerLink="../myOffers">My offers</a>
-      <a [hidden]="!isAdmin" routerLink="../adminOffers">[Admin] Offers</a>
-    </div>
-    <!-- "Bar icon" to toggle the main navigation links -->
-    <button class="btn">
-    </button>
-    <!-- Service navigation links -->
     <ul>
+      <div id="links">
+        <a routerLink="../offers">View offers</a>
+        <a [hidden]="!isLoggedIn" routerLink="../createOffer">Publish an offer</a>
+        <a [hidden]="!isLoggedIn" routerLink="../myOffers">My offers</a>
+        <a [hidden]="!isAdmin" routerLink="../adminOffers">[Admin] Offers</a>
+      </div>
+      <!-- "Bar icon" to toggle the main navigation links -->
+      <button class="btn" (click)="toggleFunction()"> </button>
+      <!-- Service navigation links -->
       <li [hidden]="isLoggedIn" class="staff"><a routerLink="../login">Sign in</a></li>
       <li [hidden]="isLoggedIn" class="staff"><a routerLink="../register">Register</a></li>
       <li [hidden]="!isLoggedIn" class="staff"><a routerLink="../changeUserData">User</a></li>
