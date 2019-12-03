@@ -2,7 +2,6 @@ import {Router, Request, Response} from 'express';
 import {OfferAttributes, OfferInstance} from '../models/offer.model';
 import {DbInterface} from '../dbtypings/dbInterface';
 import {AuthenticationController} from './authentication.controller';
-import {AdminAuthenticationController} from './adminAuthentication.controller';
 
 const router: Router = Router();
 
@@ -121,6 +120,10 @@ router.post('/create', AuthenticationController, create);
 
 
 export async function getNotApproved(req: Request, res: Response) {
+  if(req.session.admin == null) {
+    res.sendForbidden();
+    return;
+  }
   try {
     const offers: OfferInstance[] = await req.db.Offer.findAll({
       attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo', 'status'],
@@ -135,7 +138,7 @@ export async function getNotApproved(req: Request, res: Response) {
     res.status(500).json({ message: err });
   }
 }
-router.get('/notApproved', AdminAuthenticationController, getNotApproved);
+router.get('/notApproved', AuthenticationController, getNotApproved);
 
 
 export async function patchNotApproved(req: Request, res: Response) {

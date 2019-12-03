@@ -308,5 +308,5 @@ async function notAnAdminNotApprovedTest() {
       user: hans
     }
   };
-  await tests.simHttpRequest(req, 401, offersController.getNotApproved);
+  await tests.simHttpRequest(req, 403, authenticationController.checkAuthentication, offersController.getNotApproved);
 }
