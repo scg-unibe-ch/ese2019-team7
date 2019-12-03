@@ -8,11 +8,13 @@
   }
 }
 
-div {
-  overflow-y: scroll;
-  margin-top: 25%;
-  //margin-bottom: 10%;
-  height: 100% - 8%;
-  background-color: #ffffff;
+@media only screen and (max-width: 480px) {
+  div {
+    overflow-y: scroll;
+    margin-top: 50%;
+    //margin-bottom: 10%;
+    height: 100% - 8%;
+    background-color: #ffffff;
+  }
 }
 

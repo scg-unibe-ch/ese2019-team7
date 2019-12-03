@@ -8,6 +8,7 @@
   opacity: 1;
 }
 
+
 /* Styling of the button for switching from the regular search to the extended search */
 #extended_search {
   background-color: #0ab84b;
@@ -19,7 +20,7 @@
   opacity: 0.9;
 }
 
-@media only screen and (min-width: 1081px) {
+@media only screen and (min-width: 481px) {
   #extended_search {
     width: 20%;
   }
@@ -40,7 +41,7 @@
   opacity: 0.9;
 }
 
-@media only screen and (min-width: 1081px) {
+@media only screen and (min-width: 481px) {
   #regular_search {
     padding-left: 20px;
     padding-right: 20px;
