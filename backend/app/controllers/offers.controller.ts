@@ -1,7 +1,7 @@
 import {Router, Request, Response} from 'express';
 import {OfferAttributes, OfferInstance} from '../models/offer.model';
 import {DbInterface} from '../dbtypings/dbInterface';
-import {AuthenticationController} from './authentication.controller';
+import {AuthenticationController, checkAuthentication} from './authentication.controller';
 
 const router: Router = Router();
 
@@ -52,6 +52,15 @@ router.get('/myOffers', AuthenticationController, myOffers);
 
 
 export async function search(req: Request, res: Response) {
+  if (req.session.user) {
+    await checkAuthentication(req, res, () => {});
+  }
+  else {
+    if (req.body.attributes && req.body.attributes.some((attr: String) => attr.startsWith('$'))) {
+      res.sendForbidden();
+      return;
+    }
+  }
   const results = await performSearch(req.body.searchKey, req.body.attributes, req.db, req.body.category);
   res.status(200).send(results);
 }
@@ -70,7 +79,7 @@ export async  function performSearch(searchKey: string, attributes: string[] = [
   let offers: OfferAttributes[];
   try {
     offers = await db.Offer.findAll({
-      include: [ {model: db.User, as: 'provider', attributes: ['name', 'address', 'phone']} ],
+      include: [ {model: db.User, as: 'provider', attributes: []} ],
       attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo'],
       where: {
         public: true,

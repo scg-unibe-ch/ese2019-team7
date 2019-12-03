@@ -206,7 +206,9 @@ async function searchInUserTest() {
       searchKey: 'ans',
       attributes: ['$provider.name$']
     },
-    session: {}
+    session: {
+      user: hans
+    }
   };
   const res = tests.getRes(200);
   await offersController.search(req, res);
@@ -230,7 +232,9 @@ async function searchDescriptionAndAddress() {
       searchKey: 'Bern',
       attributes: ['$provider.address$', 'description']
     },
-    session: {}
+    session: {
+      user: hans
+    }
   };
   const res = tests.getRes(200);
   await offersController.search(req, res);
