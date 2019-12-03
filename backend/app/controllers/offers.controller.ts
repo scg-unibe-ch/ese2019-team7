@@ -121,14 +121,19 @@ router.post('/create', AuthenticationController, create);
 
 
 export async function getNotApproved(req: Request, res: Response) {
-  req.db.Offer.findAll({
-    attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo', 'status'],
-    where: {
-      public: false,
-      status: 'validation in progress'
-    }})
-    .then((offers: OfferInstance[]) => res.status(200).json({ offers }))
-    .catch(err => res.status(500).json({ message: err }));
+  try {
+    const offers: OfferInstance[] = await req.db.Offer.findAll({
+      attributes: ['id', 'title', 'description', 'price', 'category', 'dateFrom', 'dateTo', 'status'],
+      where: {
+        public: false,
+        status: 'validation in progress'
+      }
+    });
+    res.status(200).json({ offers });
+  }
+  catch(err) {
+    res.status(500).json({ message: err });
+  }
 }
 router.get('/notApproved', AdminAuthenticationController, getNotApproved);
 

@@ -1,9 +1,12 @@
-var offersController = require('../build/controllers/offers.controller')
+
+var authenticationController = require('../build/controllers/authentication.controller');
+var offersController = require('../build/controllers/offers.controller');
 var assert = require('assert');
 var tests = require('./Tests.js');
 var Db;
 var hans;
 var ueli;
+var admin;
 
 const users = [{
   name: 'hans',
@@ -72,6 +75,7 @@ function offersTests() {
     Db = (await tests.setupMemoryDatabase(users, offers));
     hans = await Db.User.findOne({where: {name : 'hans' }});
     ueli = await Db.User.findOne({where: {name : 'ueli' }});
+    admin = await Db.User.findOne({where: {name : 'admin' }});
   });
 
   describe('#create()', createOfferTests);
@@ -111,7 +115,7 @@ function setPublicTests() {
 }
 
 function adminOffersTests() {
-  it('try to see admin tests while not being logged in', adminOffersTest);
+  it('try to see not approved Offers while not being an admin', notAnAdminNotApprovedTest);
 }
 
 function myOffersTests() {
@@ -285,24 +289,24 @@ async function setPublicNoAdminTest() {
   const req = {
     db: Db,
     body: {
-      id: 1 // title: "Best Italian Food"
+      id: 4 // title: 'A cool catering offer'
     },
     session: {
-      user: users[0] // Hans (has offers)
+      user: hans // Hans (has offers)
     }
   };
-  const res = tests.getRes(401);
-  await offersController.setPulic(req, res);
-  const firstOffer = await Db.Offer.findOne({where: {id: 1}});
-  assert.strictEqual(firstOffer.public, false);
+  await tests.simHttpRequest(req, 403, authenticationController.checkAuthentication, offersController.patchNotApproved);
+  const lastOffer = await Db.Offer.findOne({where: {id: 4}});
+  assert.strictEqual(lastOffer.public, false);
 }
 
-async function adminOffersTest() {
+async function notAnAdminNotApprovedTest() {
   const req = {
     db: Db,
     body: {},
-    session: {}
+    session: {
+      user: hans
+    }
   };
-  const res = tests.getRes(401);
-  await offersController.adminOffers(req, res);
+  await tests.simHttpRequest(req, 401, offersController.getNotApproved);
 }

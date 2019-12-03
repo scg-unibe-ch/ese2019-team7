@@ -5,7 +5,7 @@ const router: Router = Router();
 
 router.use(checkAuthentication);
 
-async function checkAuthentication(req: Request, res: Response, next: Function) {
+export async function checkAuthentication(req: Request, res: Response, next: Function) {
   if (req.session.user) {
     try {
       const user = await req.db.User.findOne({where: {id: req.session.user.id }, rejectOnEmpty: true});
@@ -17,7 +17,8 @@ async function checkAuthentication(req: Request, res: Response, next: Function) 
     }
     const admin: AdminInstance | null = await req.session.user.getAdmin();
     req.session.admin = admin;
-    next();
+    // express doesn't use a promise for the next function, but the test framework does, so await is still necessary
+    await next();
   } else {
     res.status(401).send({ message: 'Unauthenticated'});
   }

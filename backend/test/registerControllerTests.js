@@ -48,5 +48,5 @@ async function validRegisterTest() {
     },
     session: {}
   };
-  await RegisterController.register(req, tests.getRes(201));
+  await RegisterController.register(req, tests.getRes(200));
 }

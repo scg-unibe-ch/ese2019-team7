@@ -46,6 +46,7 @@ exports.setupMemoryDatabase = async function(users, offers) {
   await Promise.all(users.map(
     async (user) => { user.password = bcrypt.hashSync(user.password, 10); await db.User.create(user); })
   );
+  // Create offers
   if(offers) {
     const firstUser = await db.User.findOne({where: {id: 1}});
     await Promise.all(offers.map(
@@ -61,6 +62,11 @@ exports.setupMemoryDatabase = async function(users, offers) {
       })
     );
   }
+  // Create admin
+  const adminUser = await db.User.create({name: 'admin', password: 'admin', eMail: 'admin@admin.ch'});
+  const admin = await db.Admin.create();
+  await adminUser.setAdmin(admin);
+
   await db.sequelize.sync();
   return db;
 };
