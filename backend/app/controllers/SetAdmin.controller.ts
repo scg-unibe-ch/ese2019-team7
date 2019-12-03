@@ -4,12 +4,9 @@ import {AuthenticationController} from './authentication.controller';
 
 const router: Router = Router();
 
-router.use(AuthenticationController);
 router.get('/', async (req: Request, res: Response) => {
   res.statusCode = 200;
 });
-
-router.post('/', setAdmin);
 
 /**
  * Creation of a Admin.
@@ -20,10 +17,11 @@ router.post('/', setAdmin);
  * @param rawRes
  * @param Admin Admin table of the database
  */
-export async function setAdmin(rawReq: any, rawRes: any) {
-  const req: Request = rawReq;
-  const res: Response = rawRes;
-
+export async function setAdmin(req: Request, res: Response) {
+  if (req.session.admin == null  || req.session.admin.createAdmins === false) {
+    res.sendForbidden();
+    return;
+  }
   const user = await req.db.User.findOne({where: {id: req.body.id }});
   if (user === null) {
     res.sendBadRequest('Id does not belong to any user.')
@@ -52,7 +50,7 @@ export async function setAdmin(rawReq: any, rawRes: any) {
   }
   res.status(201).send({message: 'Admin set'});
 }
-
+router.post('/', AuthenticationController, setAdmin);
 
 
 export const setAdminController: Router = router;

@@ -120,7 +120,7 @@ router.post('/create', AuthenticationController, create);
 
 
 export async function getNotApproved(req: Request, res: Response) {
-  if(req.session.admin == null) {
+  if (req.session.admin == null) {
     res.sendForbidden();
     return;
   }
@@ -142,7 +142,7 @@ router.get('/notApproved', AuthenticationController, getNotApproved);
 
 
 export async function patchNotApproved(req: Request, res: Response) {
-  if (req.session.admin === null) {
+  if (req.session.admin == null  || req.session.admin.setPublic === false) {
     res.sendForbidden();
     return;
   }
@@ -227,7 +227,7 @@ router.put('/edit', AuthenticationController, loadOffer, updateOffer);
  * - **201:** Created: registration successful
  */
 export async function deleteOffer(req: Request, res: Response) {
-  if (req.session.user.id !== req.body.offer.providerId && req.session.admin === null) {
+  if (req.session.user.id !== req.body.offer.providerId && (req.session.admin == null || req.session.admin.deleteOffers === false)) {
     res.sendForbidden();
     return;
   }

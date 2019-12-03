@@ -34,11 +34,11 @@ export const AdminFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequeliz
     },
     deleteOffers: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: true
     },
     deleteUsers: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: true
     },
     setPublic: {
       type: DataTypes.BOOLEAN,
