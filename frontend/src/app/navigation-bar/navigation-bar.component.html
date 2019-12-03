@@ -1,19 +1,41 @@
 <nav>
-  <ul>
-    <div class="dropdown">
-      <li><button class="dropbtn"></button></li>
-      <div class="dropdown-content">
+  <!-- Load an icon library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <div id="desktop">
+    <ul>
       <li><a routerLink="../offers">View offers</a></li>
       <li [hidden]="!isLoggedIn"><a routerLink="../createOffer">Publish an offer</a></li>
       <li [hidden]="!isLoggedIn"><a routerLink="../myOffers">My offers</a></li>
       <li [hidden]="!isAdmin"><a routerLink="../adminOffers">[Admin] Offers</a></li>
-      </div>
       <li [hidden]="isLoggedIn" class="staff"><a routerLink="../login">Sign in</a></li>
       <li [hidden]="isLoggedIn" class="staff"><a routerLink="../register">Register</a></li>
-      <li [hidden]="!isLoggedIn" class="staff"><a routerLink="../changeUserData">Change User Data</a></li>
+      <li [hidden]="!isLoggedIn" class="staff"><a routerLink="../changeUserData">Change User Data</a>
+      </li>
       <li [hidden]="!isLoggedIn" class="staff">
         <button class="logOut" (click)="logOut()">Log out</button>
       </li>
+    </ul>
+  </div>
+  <div id="mobile">
+    <!-- Main navigation links (hidden by default) -->
+    <div id="links">
+      <a routerLink="../offers">View offers</a>
+      <a [hidden]="!isLoggedIn" routerLink="../createOffer">Publish an offer</a>
+      <a [hidden]="!isLoggedIn" routerLink="../myOffers">My offers</a>
+      <a [hidden]="!isAdmin" routerLink="../adminOffers">[Admin] Offers</a>
     </div>
-  </ul>
+    <!-- "Bar icon" to toggle the main navigation links -->
+    <button class="btn">
+    </button>
+    <!-- Service navigation links -->
+    <ul>
+      <li [hidden]="isLoggedIn" class="staff"><a routerLink="../login">Sign in</a></li>
+      <li [hidden]="isLoggedIn" class="staff"><a routerLink="../register">Register</a></li>
+      <li [hidden]="!isLoggedIn" class="staff"><a routerLink="../changeUserData">User</a></li>
+      <li [hidden]="!isLoggedIn" class="staff">
+        <button class="logOut" (click)="logOut()">Log out</button>
+      </li>
+    </ul>
+  </div>
 </nav>
