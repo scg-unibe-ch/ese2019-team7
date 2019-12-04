@@ -65,4 +65,10 @@ As long as you let these two processes run in two separate shells, your Node ser
 # Note regarding ports
 The frontend must be running on port 4200 and the backend on port 3000, no matter what enviroment the programms are running in.
 
+# Using the program
+A regular user can see offers, but can't do anything with them.
+A logged in user can see offers as well as contact data of the user submitting the offer. If the user wishes to purches the offer, he must contact the user by the means provided outside of the platform.
+A logged in user can also create an offer, which needs to be validated by the admin, however.
+An admin has all the powers a regular user has, but can also validate offers, or deny them with a reason. He can also delete offers that are not his own; whis option is mainly to delete obvious nonsense offers, rather than sending them back to the user to change and resubmit - or to remove fraudulent offers that have already been set to public.
+
 # ese2019-team7

@@ -3,5 +3,9 @@ General thoughts:
 - Frontend tests fail, as they are pregenerated test and haven't been configured to mock data properly; none of the reasons the tests fail happen in production.
 - Price field accepting any value is a business decision, as this allows for compensation in the form of none-monetary items or services.
 - The content of any field the user may think of as important can be added to the description; if there is a trend in what is added, it should be feasable to add new fields.
-- the user supports address input, the input for this however has been commented out in the name of data privacy, as it is not used anywhere.
+- the backend supports address data, the input for this however has been commented out in the name of privacy, as it is not used anywhere.
 - the admin account is named admin. At the moment there is no simple way of adding another admin.
+- when changing offer data, the offer needs to be reevaluuated. This is to prevent a user from adding inappropriate content to a accepted offer. The same happens for user data, which sends all validated offers for reevaluation.
+- automatic validation of email and telephone number are spotty, but as they are only relevant if an offer is created, the admin can review them manually.
+- There are some consideration which have not been implemented, as it is unknown how much of an issue the current state poses. For example, there is no way to ban a user flooding the queue with nonsense offers, something which might pose a problem in the future. There is also no search function for own offers and no mass deletion; it is not known if these will be needed. Also, instructions for the user are minimal, as it is not known, how the platform would be used at a large scale, as the usability test only covered a basic use case. This in particular pretains to the use of fields like price and avaliability.
+- a user changing his data also resets all his denied offers to validation. This is because the reason for denial may lie with his user data - but if it didn't this could cause a mass request for validation of already denied offers. It is unknown how large this issue is.
