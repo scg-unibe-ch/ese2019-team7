@@ -18,12 +18,6 @@
   <div id="mobile">
     <!-- Main navigation links (hidden by default) -->
     <ul>
-      <div id="links">
-        <a routerLink="../offers">View offers</a>
-        <a [hidden]="!isLoggedIn" routerLink="../createOffer">Publish an offer</a>
-        <a [hidden]="!isLoggedIn" routerLink="../myOffers">My offers</a>
-        <a [hidden]="!isAdmin" routerLink="../adminOffers">[Admin] Offers</a>
-      </div>
       <!-- "Bar icon" to toggle the main navigation links -->
       <button class="btn" (click)="toggleFunction()"> </button>
       <!-- Service navigation links -->
@@ -33,6 +27,12 @@
       <li [hidden]="!isLoggedIn" class="staff">
         <button class="logOut" (click)="logOut()">Log out</button>
       </li>
+      <div id="links">
+        <a routerLink="../offers">View offers</a>
+        <a [hidden]="!isLoggedIn" routerLink="../createOffer">Publish an offer</a>
+        <a [hidden]="!isLoggedIn" routerLink="../myOffers">My offers</a>
+        <a [hidden]="!isAdmin" routerLink="../adminOffers">[Admin] Offers</a>
+      </div>
     </ul>
   </div>
 </nav>
