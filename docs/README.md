@@ -20,6 +20,7 @@
 2. `cd` into this frontend folder with your terminal or command prompt
 3. Run `npm install` which will install all the required dependencies
 4. Run just `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+5. For a mobile view, run `ionic serve --port 4200 --lab`
 
 ## A quick introduction to modules, components and services in Angular
 [Architecture](https://angular.io/guide/architecture)
@@ -51,14 +52,17 @@ To add a new endpoint that logically belongs to an existing controller, you simp
 
 If you need to define a new controller, there are a few things you need to do:
 1. create a new file `<mycontroller>.controller.ts` in the `controllers` folder. Check out our example controllers to see what to do within that file.
-1. go to the `controllers/index.ts` file and export your new controller, as described in that `index.ts` file
-1. in `server.ts`, mount the new controller analogous to the ones that are already in there (using `app.use(...)`)
+2. go to the `controllers/index.ts` file and export your new controller, as described in that `index.ts` file
+3. in `server.ts`, mount the new controller analogous to the ones that are already in there (using `app.use(...)`)
 
 ## Streamline Your Development
 So far, you need to recompile your TypeScript code and restart your express application after every change. This can get annoying really quickly, but can streamline this process by doing two things:
 1. Instead of `npm run tsc`, use `npm run tsc -- --watch`. This will automatically recompile your TypeScript code to JavaScript every time a TypeScript file has changed on disk, as long as this command is running (i.e. until you abort it or close the shell). Don't forget to check that shell for compiler errors!
-1. Install nodemon on your system (`npm install -g nodemon`), then run the express application using `nodemon build/server.js` (instead of `node build/server.js`). Similar to the `--watch` command above, this will restart your Node application (and thus, your server) every time a JavaScript file has changed on disk.
+2. Install nodemon on your system (`npm install -g nodemon`), then run the express application using `nodemon build/server.js` (instead of `node build/server.js`). Similar to the `--watch` command above, this will restart your Node application (and thus, your server) every time a JavaScript file has changed on disk.
 
 As long as you let these two processes run in two separate shells, your Node server should always be running and be up to date with your latest changes, every time you save one of your TypeScript files.
+
+# Note regarding ports
+The frontend must be running on port 4200 and the backend on port 3000, no matter what enviroment the programms are running in.
 
 # ese2019-team7
