@@ -8,12 +8,39 @@ const bcrypt = require('bcrypt');
 
 let database: DbInterface;
 
-export const initDatabase = async () => {
-  const db  = await initTestDatabase(createModels());
-  database = db;
+export const initDatabase = async (loadTestDb: boolean) => {
+  if (loadTestDb) {
+    const db  = await initTestDatabase(createModels('testDb.sqlite'));
+    database = db;
+  } else {
+    database = createModels('db.sqlite');
+    await database.sequelize.sync();
+
+    // Create admin if the admin list is empty (every database needs an admin)
+    const adminsNb: number = await database.Admin.count();
+    if (adminsNb === 0) {
+      await createAdmin(database);
+    }
+  }
+
 };
 
-async function setupDatabase(users: UserAttributes[], offers: any, db: DbInterface): Promise<DbInterface> {
+async function createAdmin(db: DbInterface) {
+  const adminAttributes = {
+    name: 'admin',
+    password: 'admin',
+    eMail: 'example@example.com',
+    phone: '+41313333333',
+    address: 'Viktoriaplatz 12, 3013 Bern'
+  };
+  adminAttributes.password = bcrypt.hashSync(adminAttributes.password, 10);
+  const adminUser = await db.User.create(adminAttributes);
+
+  const admin = await db.Admin.create();
+  await adminUser.setAdmin(admin);
+}
+
+async function setupTestDatabase(users: UserAttributes[], offers: any, db: DbInterface): Promise<DbInterface> {
   await db.sequelize.sync({force: true});
   // await needed?
   await Promise.all(users.map(
@@ -99,7 +126,7 @@ async function initTestDatabase(db: DbInterface) {
     dateFrom: undefined,
     dateTo: undefined
   }];
-  return await setupDatabase(users, offers, db);
+  return await setupTestDatabase(users, offers, db);
 }
 
 export const getDatabase = (): DbInterface => database;
