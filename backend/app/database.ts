@@ -36,8 +36,9 @@ async function createAdmin(db: DbInterface) {
   adminAttributes.password = bcrypt.hashSync(adminAttributes.password, 10);
   const adminUser = await db.User.create(adminAttributes);
 
-  const admin = await db.Admin.create();
-  await adminUser.setAdmin(admin);
+  const admin = await db.Admin.build();
+  await admin.setUser(adminUser, {save: false});
+  await admin.save();
 }
 
 async function setupTestDatabase(users: UserAttributes[], offers: any, db: DbInterface): Promise<DbInterface> {
@@ -67,9 +68,9 @@ async function setupTestDatabase(users: UserAttributes[], offers: any, db: DbInt
   try {
     let dbadmin;
     dbadmin = await db.User.findOne({where: {id: 2}});;
-    if (dbadmin != null) await admin.setUser(dbadmin, {save: false});
+    if (dbadmin != null) await admin.setUser(dbadmin);
     // @ts-ignore
-    await admin.save();
+    //await admin.save();
   } catch (e) {
     throw e;
     // throw new assert.AssertionError({actual: 'Failed to create offer', expected: 'create offer', message: e.message});
