@@ -11,7 +11,7 @@ export interface AdminAttributes {
   deleteOffers: boolean;
   deleteUsers: boolean;
   createAdmins: boolean;
-  user?: UserAttributes | UserAttributes['id'];
+  userId?: UserAttributes | UserAttributes['id'];
 
 
   createdAt?: Date;
@@ -24,6 +24,9 @@ export interface AdminInstance extends Sequelize.Instance<AdminAttributes>, Admi
   createUser: Sequelize.HasManyCreateAssociationMixin<UserAttributes, UserInstance>;
   removeUser: Sequelize.HasManyRemoveAssociationMixin<UserInstance, UserInstance['id']>;
   hasUser: Sequelize.HasManyHasAssociationMixin<UserInstance, UserInstance['id']>;*/
+  getUser: Sequelize.BelongsToGetAssociationMixin<UserInstance>;
+  setUser: Sequelize.BelongsToSetAssociationMixin<UserInstance, UserInstance['id']>;
+  createUser: Sequelize.BelongsToCreateAssociationMixin<UserAttributes, UserInstance>;
 }
 export const AdminFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes)
   : Sequelize.Model<AdminInstance, AdminAttributes> => {
@@ -49,7 +52,7 @@ export const AdminFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequeliz
 
   const Admin = sequelize.define<AdminInstance, AdminAttributes>('Admin', attributes);
   Admin.associate = (models: Models) => {
-    Admin.hasOne(models.User, {foreignKey: 'id'});
+    Admin.belongsTo(models.User, {foreignKey: 'id'});
   };
 
   return Admin;

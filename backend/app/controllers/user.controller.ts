@@ -26,11 +26,41 @@ router.get('/', AuthenticationController, loadUser, async (req: Request, res: Re
       address: provider.address
     });
 });
+/**
+ * change User data
+ * no password change
+ * the offers of the user are set to unvalidated state
+ * Possible Http codes:
+ * - **500:** something terrible happend
+ * - **200:**Ok
+ * @param rawReq
+ * @param rawRes
+ *
+ */
 router.put('/edit', AuthenticationController, loadUser, updateUser);
+/**
+ * delete a User
+ * Possible Http codes:
+ * - **500:** something terrible happend
+ * - **200:**Ok
+ * @param rawReq
+ * @param rawRes
+ * @param offer Offer table of the database
+ */
 router.delete('/', AuthenticationController , loadUser, deleteUser, logout);
 
 
-
+/**
+ * change  password
+ * requires the old Password and The new one
+ * Possible Http codes:
+ * - **500:** something terrible happend
+ * -**401:** wrong password
+ * - **200:**Ok
+ * @param rawReq
+ * @param rawRes
+ * @param offer Offer table of the database
+ */
 router.put('/changePassword', AuthenticationController, loadUser, changePassword);
 
 export async function changePassword(req: Request, res: Response) {
@@ -64,15 +94,7 @@ export async function updateUser(req: Request, res: Response) {
   }
   res.status(201).send({message: 'Edited'});
 }
-/**
- * delete a User
- * Possible Http codes:
- * - **500:** something terrible happend
- * - **200:**Ok
- * @param rawReq
- * @param rawRes
- * @param offer Offer table of the database
- */
+
 export async function deleteUser(req: Request, res: Response, next: Function) {
   if (req.session.user.id === null && req.session.admin === null) {
     res.sendForbidden();

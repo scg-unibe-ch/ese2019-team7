@@ -35,11 +35,12 @@ async function setupDatabase(users: UserAttributes[], offers: any, db: DbInterfa
       })
     );
   }
-  const admin = await db.User.findOne({where: {id: 2}});
+  var admin = await db.Admin.create();
+  //await db.User.findOne({where: {id: 2}});
   try {
     let dbadmin;
-    dbadmin = await db.Admin.create();
-    if (admin != null) await admin.setAdmin(dbadmin, {save: false});
+    dbadmin = await db.User.findOne({where: {id: 2}});;
+    if (dbadmin != null) await admin.setUser(dbadmin, {save: false});
     // @ts-ignore
     await admin.save();
   } catch (e) {

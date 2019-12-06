@@ -1,5 +1,6 @@
 import {Router, Request, Response} from 'express';
 import {AdminInstance} from '../models/admin.model';
+import {getDatabase} from "../database";
 
 const router: Router = Router();
 
@@ -15,7 +16,7 @@ export async function checkAuthentication(req: Request, res: Response, next: Fun
     catch (e) {
       res.status(500).send('Internal Server Error: failed to find authenticated user');
     }
-    const admin: AdminInstance | null = await req.session.user.getAdmin();
+    const admin: AdminInstance | null = await getDatabase().Admin.findOne({where: { userId: req.session.user.id}});
     req.session.admin = admin;
     // express doesn't use a promise for the next function, but the test framework does, so await is still necessary
     await next();
