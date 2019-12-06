@@ -6,3 +6,5 @@
 /tslint.json/
 /docs/
 /db3.sqlite
+/db.sqlite
+/testDb.sqlite
