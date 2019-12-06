@@ -1,6 +1,6 @@
 import {Router, Request, Response} from 'express';
 import {AuthenticationController} from './authentication.controller';
-import {getDatabase} from "../database";
+import {getDatabase} from '../database';
 
 
 const router: Router = Router();
@@ -53,6 +53,7 @@ router.delete('/', AuthenticationController , loadUser, deleteUser, logout);
 /**
  * change  password
  * requires the old Password and The new one
+ * and valid user credentials
  * Possible Http codes:
  * - **500:** something terrible happend
  * -**401:** wrong password
