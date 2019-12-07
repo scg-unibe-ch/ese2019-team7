@@ -35,8 +35,42 @@ Run `ng build` to build the project.
 1. Install [Node.js](https://nodejs.org/en/) (must be done already, as it is a part of prerequisite!)
 1. `cd` into this backend folder with your shell (note: if you're on Windows, you can for example use [Git Bash](https://git-scm.com/download/win) as a shell)
 1. run `npm install`
-1. To compile the TypeScript code to JavaScript, run `npm run tsc`. After that, this folder should have a `build` folder containing a bunch of JavaScript files
-1. Run `node build/server.js`. The command line output should say something like `Listening at http://localhost:3000/`
+
+## Build
+
+Run `npm run tsc` to compile the TypeScript code to Javascript. After that, this folder should have a `build` folder containing a bunch of JavaScript files
+
+Note: The tests in the test folder are directly written in javascript, but you still
+need to compile before being able to run the tests.
+
+## Run the tests
+
+1. Compile the backend with `npm run tsc`
+1. Run `npm test` to execute all backend tests
+
+## Run the backend
+
+### Run with the production database
+
+In this mode, `db.sqlite` is used as the database (or created if it doesn't exist).
+The database isn't altered, except if an admin doesn't exist. In this case, a default admin
+is created with `username: admin` and `password: admin`.
+
+1. Compile the backend with `npm run tsc`
+2. Run `node build/server.js` to execute the backend. The command line output should say something like `Listening at http://localhost:3000/`
+
+### Run with a test database
+
+In this mode, a database `testDb.sqlite` is created and filled with test offers and 
+two test users. If the database already existed, it's content will be destroyed and
+replaced by the test data. This mode is useful for demonstrations.
+
+Credentials for the created users:
+- username: admin, password: admin
+- username: 123, password: 123
+
+1. Compile the backend with `npm run tsc`
+1. Run `node build/server.js testdb` to execute the backend with the test Database
 
 ## Explanations
 The inline comments in the .ts files of this scaffolding should help you understand most of what's going on. Here are a few additional explanations:
@@ -48,11 +82,11 @@ The inline comments in the .ts files of this scaffolding should help you underst
 - whenever you change something, make sure to recompile the TypeScript code (`npm run tsc`) and restart the express application (`node build/server.js`). Check out the last section of this README for tips on how to easily streamline this process.
 
 ## Adding a New Endpoint or Controller
-To add a new endpoint that logically belongs to an existing controller, you simply have to add a new route to that controller's Router. See `welcome.controller.ts` for examples.
+To add a new endpoint that logically belongs to an existing controller, you simply have to add a new route to that controller's Router.
 
 If you need to define a new controller, there are a few things you need to do:
 1. create a new file `<mycontroller>.controller.ts` in the `controllers` folder. Check out our example controllers to see what to do within that file.
-2. go to the `controllers/index.ts` file and export your new controller, as described in that `index.ts` file
+2. Import your new controller in `server.ts`
 3. in `server.ts`, mount the new controller analogous to the ones that are already in there (using `app.use(...)`)
 
 ## Streamline Your Development
