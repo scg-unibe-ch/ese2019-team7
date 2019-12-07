@@ -66,7 +66,8 @@ app.use(function (req, res, next) {
 
 // Session handling
 app.use(cookieParser());
-app.use(session({secret: 'lkdshfiohadfio',
+app.use(session({
+  secret: 'lkdshfiohadfio',
   resave: true,
   saveUninitialized: true, }));
 app.use(function (req: any, res, next) {

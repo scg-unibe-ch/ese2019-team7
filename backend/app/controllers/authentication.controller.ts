@@ -1,6 +1,6 @@
 import {Router, Request, Response} from 'express';
 import {AdminInstance} from '../models/admin.model';
-import {getDatabase} from "../database";
+import {getDatabase} from '../database';
 
 const router: Router = Router();
 

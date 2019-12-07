@@ -2,7 +2,6 @@ import * as Sequelize from 'sequelize';
 
 import { SequelizeAttributes } from '../dbtypings/sequelizeAttributes';
 import {UserAttributes, UserInstance} from './user.model';
-import {DbInterface} from '../dbtypings/dbInterface';
 import {Models} from 'sequelize';
 
 export interface AdminAttributes {

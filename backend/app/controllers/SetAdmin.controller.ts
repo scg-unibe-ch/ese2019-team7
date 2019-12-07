@@ -36,13 +36,13 @@ export async function setAdmin(req: Request, res: Response) {
   };
   let admin;
   try {
-    admin = await req.db.Admin.create(adminRights);
+    admin = await req.db.Admin.build(adminRights);
   } catch (err) {
     res.status(400).send({message: '.'});
     return;
   }
   try {
-    await user.setAdmin(admin, {save: false});
+    await admin.setUser(user, {save: false});
     await user.save();
   } catch (e) {
     res.status(500).send({message: 'Internal Server error: Could not assign admin to user.\n' + e.message});
