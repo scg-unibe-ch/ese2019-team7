@@ -127,7 +127,13 @@ export async function create(req: Request, res: Response) {
 }
 router.post('/create', AuthenticationController, create);
 
-
+/**
+ * return all Offers that are not validated yet
+ * needs admin credentials
+ * Possible Http codes:
+ * - **200:** OK
+ * -**500:** Database could not load the Offers
+ */
 export async function getNotApproved(req: Request, res: Response) {
   if (req.session.admin == null) {
     res.sendForbidden();
@@ -148,23 +154,34 @@ export async function getNotApproved(req: Request, res: Response) {
   }
 }
 router.get('/notApproved', AuthenticationController, getNotApproved);
-
+/**
+ * Approves or Reject an offer
+ * Format of the body should be as follow:
+ * > { id: Offer ID, approve: true|false message: message}
+ * message is only set if approve is false
+ * needs admin credentials
+ * Possible Http codes:
+ * - **400:** Bad request format. Look above to see the correct format
+ * - **200:** OK
+ * -**500:** Database Error
+ */
 
 export async function patchNotApproved(req: Request, res: Response) {
   if (req.session.admin == null  || req.session.admin.setPublic === false) {
     res.sendForbidden();
     return;
+  }const offerToApprove = await req.db.Offer.findOne({where: {id: req.body.id}});
+  if (offerToApprove === null) {
+    res.sendBadRequest('Bad request: Offer Id nonexistent');
+    return;
   }
   if (req.body.approve) {
-    req.db.Offer.update(
+   await offerToApprove.update(
       {
         public: true,
         status: 'approved'
-      }, {
-        where: {
-          id: req.body.id
-        }
-      }).then(e => res.status(200).json({message: 'Offer approved'}))
+      }
+      ).then(e => res.status(200).json({message: 'Offer approved'}))
       .catch(err => res.status(500).json({message: err}));
   }
   else if(!req.body.approve){
@@ -209,18 +226,26 @@ router.get('/edit', AuthenticationController, loadOffer, async (req: Request, re
   res.status(200).send(req.body.offer);
 });
 
-
+/**
+ * Edit of a Offer. Format of the body should be as follow:
+ * > { username: usr, address: adr, tel: phone, email: email }
+ *address and tel are optional.
+ *
+ * Possible Http codes:
+ * - **400:** Bad request format. Look above to see the correct format
+ * - **201:** Edited
+ */
 export async function updateOffer(req: Request, res: Response) {
   if (req.session.user.id !== req.body.offer.providerId) {
     res.sendForbidden();
     return;
   }
-  const offerToUpdate: OfferInstance = req.body.offer;
-  offerToUpdate.set(genOfferValues(req.body));
-  offerToUpdate.set('public', false);
-  offerToUpdate.set('status', 'validation in progress');
+
+  req.body.offer.set(genOfferValues(req.body));
+  req.body.offer.set('public', false);
+  req.body.offer.set('status', 'validation in progress');
   try {
-    await offerToUpdate.save();
+    await req.body.offer.save();
   } catch (err) {
     res.sendBadRequest(err.message);
     return;
@@ -233,7 +258,7 @@ router.put('/edit', AuthenticationController, loadOffer, updateOffer);
  * delete a Offer
  * Possible Http codes:
  * - **400:** Bad request format. Look above to see the correct format
- * - **201:** Created: registration successful
+ * - **201:** Deleted
  */
 export async function deleteOffer(req: Request, res: Response) {
   if (req.session.user.id !== req.body.offer.providerId && (req.session.admin == null || req.session.admin.deleteOffers === false)) {
