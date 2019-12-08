@@ -13,7 +13,6 @@ import {LogoutController} from './controllers/logout.controller';
 import {OffersController} from './controllers/offers.controller';
 import {protectedController} from './controllers/protected.controller';
 import {notFoundController} from './controllers/notFound.controller';
-import {ContactController} from './controllers/contact.controller';
 import {AdminProtectedController} from './controllers/adminProdected.controller';
 import {UserController} from './controllers/user.controller';
 
@@ -95,7 +94,6 @@ app.use('/user', UserController);
 app.use('/adminprotected', AdminProtectedController);
 app.use('/logout', LogoutController);
 app.use('/protected', protectedController);
-app.use('/contact', ContactController);
 app.use(notFoundController);
 
 initDatabase(useTestDb).then(() => {

@@ -7,8 +7,7 @@ router.use(AuthenticationController);
 router.get('/', testAuthentication);
 
 
-async function testAuthentication(rawReq: any, res: Response) {
-  const req: Request & {session: any} = rawReq;
+async function testAuthentication(req: Request, res: Response) {
   res.status(200).send({ message: 'You are successfully authenticated, mister ' + req.session.user.name});
 }
 

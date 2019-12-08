@@ -77,9 +77,6 @@ The inline comments in the .ts files of this scaffolding should help you underst
 - While the application is just JavaScript code running in Node.js (see next point), the actual source code is written in TypeScript (.ts). TypeScript is essentially "JavaScript with types", and will be compiled to JavaScript to run in Node.js. Bottom line: only edit the .ts files, since all JavaScript files in this backend are compiler-generated and will be overwritten as soon as you recompile the application.
 - Since this is the backend, the JavaScript code compiled from TypeScript will not be running in a web browser. Instead, we use [Node.js](https://nodejs.org) as our JavaScript runtime. You can think of Node.js as something similar to the Java Virtual Machine to run your compiled Java program, or a Python interpreter to run your Python code.
 - Because we want to build a web server, we are using the [Express.js](http://expressjs.com/) JavaScript web framework to help us with handling requests and providing responses. If you study the import statements in this scaffolding, you can see Express.js how is being used here.
-- This scaffolding only contains a couple of GET endpoints. However, when you develop a REST API, you will also need other HTTP request methods, such as POST, PUT, and DELETE. You can find more on that [here](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods). 
-- In this scaffolding, the only endpoint that takes a parameter is `/welcome/:name`. Here, `name` is a _path parameter_, since it's part of the endpoint's path. However, you might also want to have a look at _query parameters_ and _request body parameters_.
-- whenever you change something, make sure to recompile the TypeScript code (`npm run tsc`) and restart the express application (`node build/server.js`). Check out the last section of this README for tips on how to easily streamline this process.
 
 ## Adding a New Endpoint or Controller
 To add a new endpoint that logically belongs to an existing controller, you simply have to add a new route to that controller's Router.
@@ -88,6 +85,9 @@ If you need to define a new controller, there are a few things you need to do:
 1. create a new file `<mycontroller>.controller.ts` in the `controllers` folder. Check out our example controllers to see what to do within that file.
 2. Import your new controller in `server.ts`
 3. in `server.ts`, mount the new controller analogous to the ones that are already in there (using `app.use(...)`)
+
+## Write tests for endpoints in Controllers
+[Mocha](https://mochajs.org/) is used for the testing in the backend.
 
 ## Streamline Your Development
 So far, you need to recompile your TypeScript code and restart your express application after every change. This can get annoying really quickly, but can streamline this process by doing two things:
