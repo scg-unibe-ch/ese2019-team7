@@ -1,6 +1,7 @@
 
 var authenticationController = require('../build/controllers/authentication.controller');
 var offersController = require('../build/controllers/offers.controller');
+var testData = require('./testData');
 var assert = require('assert');
 var tests = require('./Tests.js');
 var Db;
@@ -8,54 +9,7 @@ var hans;
 var ueli;
 var admin;
 
-const users = [{
-  name: 'hans',
-  password: '123',
-  eMail: 'example@example.com',
-  address: 'Viktoriaplatz 12, 3013 Bern',
-  phone: '0313333333'
-}, {
-  name: 'ueli',
-  password: 'ThisIsVerySecret',
-  eMail: 'ueli.mueller@schwyz.ch',
-  address: 'Schwyzerstrasse 12, 6543 Schwyz',
-  phone: '0788888888'
-}];
 
-// All offers belong to hans, id 1
-const offers = [{
-  title: "Best Italian Food",
-  description: "I am the best italian cook",
-  price: "10000",
-  public: true,
-  category: "catering",
-  dateFrom: undefined,
-  dateTo: undefined
-}, {
-  title: "Best Swiss Food",
-  description: "I am the best swiss cook",
-  price: "100",
-  public: true,
-  category: "catering",
-  dateFrom: undefined,
-  dateTo: undefined
-}, {
-  title: 'Awful swiss house',
-  description: 'The cheapest swiss house you can find in bern.',
-  price: '5',
-  public: true,
-  category: 'location',
-  dateFrom: undefined,
-  dateTo: undefined
-}, {
-  title: 'A cool catering offer',
-  description: 'This is a new cool catering offer',
-  price: '20',
-  public: false,
-  category: 'catering',
-  dateFrom: undefined,
-  dateTo: undefined
-}];
 
 const defValidBody = {
   title: "Big beautiful house",
@@ -72,7 +26,7 @@ describe('offers.controller', offersTests);
 
 function offersTests() {
   beforeEach(async () => {
-    Db = (await tests.setupMemoryDatabase(users, offers));
+    Db = (await tests.setupMemoryDatabase(testData.users, testData.offers));
     hans = await Db.User.findOne({where: {name : 'hans' }});
     ueli = await Db.User.findOne({where: {name : 'ueli' }});
     admin = await Db.User.findOne({where: {name : 'admin' }});
