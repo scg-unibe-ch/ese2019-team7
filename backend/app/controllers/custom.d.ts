@@ -14,9 +14,9 @@ declare global {
     interface Response {
       sendSuccess: () => void;
       sendCreated: () => void;
-      sendBadRequest: (message: string) => void;
+      sendBadRequest: (message?: string) => void;
       sendForbidden: () => void;
-      sendError: (message: string) => void;
+      sendError: (message?: string) => void;
     }
   }
 }

@@ -47,7 +47,7 @@ async function setupTestDatabase(users: UserAttributes[], offers: any, db: DbInt
   await Promise.all(users.map(
     async (user) => { user.password = bcrypt.hashSync(user.password, 10); await db.User.create(user); })
   );
-  if(offers) {
+  if (offers) {
     const firstuser = await db.User.findOne({where: {id: 1}});
     await Promise.all(offers.map(
       async (offer: OfferAttributes) => {
@@ -58,24 +58,11 @@ async function setupTestDatabase(users: UserAttributes[], offers: any, db: DbInt
           await dboffer.save();
         } catch (e) {
           throw e;
-          // throw new assert.AssertionError({actual: 'Failed to create offer', expected: 'create offer', message: e.message});
         }
       })
     );
   }
-  var admin = await db.Admin.create();
-  //await db.User.findOne({where: {id: 2}});
-  try {
-    let dbadmin;
-    dbadmin = await db.User.findOne({where: {id: 2}});;
-    if (dbadmin != null) await admin.setUser(dbadmin);
-    // @ts-ignore
-    //await admin.save();
-  } catch (e) {
-    throw e;
-    // throw new assert.AssertionError({actual: 'Failed to create offer', expected: 'create offer', message: e.message});
-  }
-
+  await createAdmin(db);
   await db.sequelize.sync();
   return db;
 }
@@ -87,20 +74,13 @@ async function initTestDatabase(db: DbInterface) {
     eMail: 'example@example.com',
     phone: '+41313333333',
     address: 'Viktoriaplatz 12, 3013 Bern'
-  },
-    {
-      name: 'admin',
-      password: 'admin',
-      eMail: 'example@example.com',
-      phone: '+41313333333',
-      address: 'Viktoriaplatz 12, 3013 Bern'
-    }
+  }
   ];
 
   const offers = [{
     title: 'Best Italian Food',
     description: 'I am the best italian cook',
-    price: '10000',
+    price: 'Price after arrangement, but min. 10000.- per meal',
     public: true,
     status: 'approved',
     approved: true,
@@ -110,7 +90,7 @@ async function initTestDatabase(db: DbInterface) {
   }, {
     title: 'Best Swiss Food',
     description: 'I am the best swiss cook',
-    price: '100',
+    price: '100CHF',
     public: true,
     status: 'approved',
     approved: true,
@@ -119,15 +99,46 @@ async function initTestDatabase(db: DbInterface) {
     dateTo: undefined
   }, {
     title: 'Big beautiful house',
-    description: 'The most expensive house you can find in bern.',
-    price: '100000',
+    description: 'The most expensive house you can find in bern.\nYou are rich and you do not know what to do with your money? Rent this house for one night.',
+    price: '100000CHF per night',
     public: true,
     status: 'approved',
     approved: true,
     category: 'location',
     dateFrom: undefined,
     dateTo: undefined
-  }];
+  }, {
+    title: 'Ok Italian Singer',
+    description: 'I know one song: Tanti auguri a te',
+    price: '25CHF',
+    public: true,
+    status: 'approved',
+    approved: true,
+    category: 'entertainment',
+    dateFrom: '2019/12/10',
+    dateTo: '2019/12/30'
+  }, {
+    title: 'Pizza Chef',
+    description: 'Cheap pizzas for your party!!\nPizza Margaritha\nPizza Napoli\nPizza alle quattro stagioni\nAny Pizza you want!',
+    price: '5CHF per pizza',
+    public: true,
+    status: 'approved',
+    approved: true,
+    category: 'catering',
+    dateFrom: '2019/12/10',
+    dateTo: '2019/12/30'
+  }, {
+    title: 'sommelier',
+    description: 'During the winter holidays, i offer my services as a sommelier.',
+    price: '200€',
+    public: true,
+    status: 'approved',
+    approved: true,
+    category: 'catering',
+    dateFrom: '2019/12/20',
+    dateTo: '2020/1/15'
+  },
+  ];
   return await setupTestDatabase(users, offers, db);
 }
 

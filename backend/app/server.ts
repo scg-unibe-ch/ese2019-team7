@@ -3,8 +3,7 @@ import {Request, Response} from 'express';
 
 import {getDatabase} from './database';
 import {initDatabase} from './database';
-// @ts-ignore
-import * as setupFunctions from '../app/setupFunctions.js';
+import * as setupFunctions from './setupFunctions';
 
 // Controllers
 import {LoginController} from './controllers/login.controller';
