@@ -1,6 +1,5 @@
 import {Router, Request, Response} from 'express';
 import {AuthenticationController} from './authentication.controller';
-import {getDatabase} from '../database';
 
 
 const router: Router = Router();
@@ -16,9 +15,9 @@ function genUserValues(obj: any) {
   };
   return userValues;
 }
-router.get('/', AuthenticationController, loadUser, async (req: Request, res: Response) => {
+router.get('/', AuthenticationController, async (req: Request, res: Response) => {
 
-  const provider = req.session.user
+  const provider = req.session.user;
     res.status(200).send({
       name: provider.name,
       email: provider.eMail,
@@ -33,21 +32,16 @@ router.get('/', AuthenticationController, loadUser, async (req: Request, res: Re
  * Possible Http codes:
  * - **500:** something terrible happend
  * - **200:**Ok
- * @param rawReq
- * @param rawRes
  *
  */
-router.put('/edit', AuthenticationController, loadUser, updateUser);
+router.put('/edit', AuthenticationController, updateUser);
 /**
- * delete a User
+ * delete the logged in User
  * Possible Http codes:
  * - **500:** something terrible happend
  * - **200:**Ok
- * @param rawReq
- * @param rawRes
- * @param offer Offer table of the database
  */
-router.delete('/', AuthenticationController , loadUser, deleteUser, logout);
+router.delete('/', AuthenticationController, deleteUser);
 
 
 /**
@@ -58,11 +52,8 @@ router.delete('/', AuthenticationController , loadUser, deleteUser, logout);
  * - **500:** something terrible happend
  * -**401:** wrong password
  * - **200:**Ok
- * @param rawReq
- * @param rawRes
- * @param offer Offer table of the database
  */
-router.put('/changePassword', AuthenticationController, loadUser, changePassword);
+router.put('/changePassword', AuthenticationController, changePassword);
 
 export async function changePassword(req: Request, res: Response) {
   const user = req.session.user;
@@ -80,10 +71,10 @@ res.sendSuccess();
 export async function updateUser(req: Request, res: Response) {
 
   const user = req.session.user;
-  if(user.id !== undefined){
-  await getDatabase().Offer.update(
-    {public: false, status: 'validation in progress'},
-    {where: {providerId: user.id}});
+  if (user.id !== undefined) {
+    await req.db.Offer.update(
+      {public: false, status: 'validation in progress'},
+      {where: {providerId: user.id}});
   }
   user.set(genUserValues(req.body));
 
@@ -96,32 +87,11 @@ export async function updateUser(req: Request, res: Response) {
   res.status(201).send({message: 'Edited'});
 }
 
-export async function deleteUser(req: Request, res: Response, next: Function) {
-  if (req.session.user.id === null && req.session.admin === null) {
-    res.sendForbidden();
-    return;
-  }
-  await req.session.user.destroy().catch((err: any) => res.status(500).send({message: 'Error while deleting user'}));
-  next();
-}
-
-async function logout(rawReq: any, res: Response) {
+export async function deleteUser(rawReq: any, res: Response) {
   const req: Request & {session: any} = rawReq;
+  await req.session.user.destroy().catch((err: any) => res.status(500).send({message: 'Error while deleting user'}));
   req.session.user = undefined;
   res.sendSuccess();
 }
 
-export async function loadUser(req: Request, res: Response, next: Function) {
-  if (typeof (req.session.user.id) !== 'number') {
-    res.status(400).send({message: 'Bad request'});
-    return;
-  }
-  const userToLoad = await req.db.User.findOne({where: {id: req.session.user.id}});
-  if (userToLoad === null) {
-    res.sendBadRequest('Bad request: User Id nonexistent');
-    return;
-  }
-  req.session.user = userToLoad;
-  next();
-}
 export const UserController: Router = router;
