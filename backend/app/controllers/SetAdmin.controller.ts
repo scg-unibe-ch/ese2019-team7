@@ -18,7 +18,7 @@ router.get('/', async (req: Request, res: Response) => {
  * @param Admin Admin table of the database
  */
 export async function setAdmin(req: Request, res: Response) {
-  if (req.session.admin == null  || req.session.admin.createAdmins === false) {
+  if (req.session.admin == null  ) {
     res.sendForbidden();
     return;
   }
@@ -28,15 +28,9 @@ export async function setAdmin(req: Request, res: Response) {
     return;
   }
 
-  const adminRights = {
-    setPublic: req.body.setPublic,
-    deleteOffers: req.body.deleteOffers,
-    deleteUsers: req.body.deleteUser,
-    createAdmins: req.body.createAdmin,
-  };
   let admin;
   try {
-    admin = await req.db.Admin.build(adminRights);
+    admin = await req.db.Admin.build();
   } catch (err) {
     res.status(400).send({message: '.'});
     return;

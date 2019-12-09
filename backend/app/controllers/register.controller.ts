@@ -23,7 +23,6 @@ router.post('/', register)
  * - **201:** Created: registration successful
  * @param rawReq
  * @param rawRes
- * @param User User table of the database
  */
 export async function register(rawReq: Request, res: Response) {
   const req: Request & {session: any} = rawReq;

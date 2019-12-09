@@ -51,7 +51,7 @@ export const OfferFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequeliz
       allowNull: false
     },
     price:  {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
   },
   status: {
       type: DataTypes.TEXT,

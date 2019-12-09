@@ -26,44 +26,22 @@ router.get('/', AuthenticationController, loadUser, async (req: Request, res: Re
       address: provider.address
     });
 });
-/**
- * change User data
- * no password change
- * the offers of the user are set to unvalidated state
- * Possible Http codes:
- * - **500:** something terrible happend
- * - **200:**Ok
- * @param rawReq
- * @param rawRes
- *
- */
+
 router.put('/edit', AuthenticationController, loadUser, updateUser);
-/**
- * delete a User
- * Possible Http codes:
- * - **500:** something terrible happend
- * - **200:**Ok
- * @param rawReq
- * @param rawRes
- * @param offer Offer table of the database
- */
+
 router.delete('/', AuthenticationController , loadUser, deleteUser, logout);
 
 
-/**
- * change  password
- * requires the old Password and The new one
- * and valid user credentials
- * Possible Http codes:
- * - **500:** something terrible happend
- * -**401:** wrong password
- * - **200:**Ok
- * @param rawReq
- * @param rawRes
- * @param offer Offer table of the database
- */
 router.put('/changePassword', AuthenticationController, loadUser, changePassword);
 
+/**
+ * change  password of logged in User
+ * requires the old Password and The new one
+ * Possible Http codes:
+ * - **500:** something terrible happened
+ * -**401:** wrong password
+ * - **200:**Ok
+ */
 export async function changePassword(req: Request, res: Response) {
   const user = req.session.user;
   const pword = req.body.password
@@ -76,7 +54,15 @@ export async function changePassword(req: Request, res: Response) {
 res.sendSuccess();
 
 }
-
+/**
+ * change User data
+ * no password change
+ * the offers of the user are set to unvalidated state
+ * Possible Http codes:
+ * - **500:** something terrible happened
+ * -**400:**Bad request
+ * - **200:**Ok
+ */
 export async function updateUser(req: Request, res: Response) {
 
   const user = req.session.user;
@@ -95,12 +81,13 @@ export async function updateUser(req: Request, res: Response) {
   }
   res.status(201).send({message: 'Edited'});
 }
-
+/**
+ * delete logged in User
+ * Possible Http codes:
+ * - **500:** something terrible happened
+ * - **200:**Ok
+ */
 export async function deleteUser(req: Request, res: Response, next: Function) {
-  if (req.session.user.id === null && req.session.admin === null) {
-    res.sendForbidden();
-    return;
-  }
   await req.session.user.destroy().catch((err: any) => res.status(500).send({message: 'Error while deleting user'}));
   next();
 }
@@ -111,6 +98,11 @@ async function logout(rawReq: any, res: Response) {
   res.sendSuccess();
 }
 
+/**
+ *loads user instance into req.session.user
+ * Possible Http codes:
+ * - **400:** Bad request Id non existent / id not anumber
+ */
 export async function loadUser(req: Request, res: Response, next: Function) {
   if (typeof (req.session.user.id) !== 'number') {
     res.status(400).send({message: 'Bad request'});

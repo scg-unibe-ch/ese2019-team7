@@ -132,6 +132,7 @@ router.post('/create', AuthenticationController, create);
  * needs admin credentials
  * Possible Http codes:
  * - **200:** OK
+ * **403:** forbidden not an admin
  * -**500:** Database could not load the Offers
  */
 export async function getNotApproved(req: Request, res: Response) {
@@ -159,15 +160,15 @@ router.get('/notApproved', AuthenticationController, getNotApproved);
  * Format of the body should be as follow:
  * > { id: Offer ID, approve: true|false message: message}
  * message is only set if approve is false
- * needs admin credentials
  * Possible Http codes:
  * - **400:** Bad request format. Look above to see the correct format
  * - **200:** OK
+ * **403:** forbidden not an admin
  * -**500:** Database Error
  */
 
 export async function patchNotApproved(req: Request, res: Response) {
-  if (req.session.admin == null  || req.session.admin.setPublic === false) {
+  if (req.session.admin == null) {
     res.sendForbidden();
     return;
   }const offerToApprove = await req.db.Offer.findOne({where: {id: req.body.id}});
@@ -202,7 +203,11 @@ export async function patchNotApproved(req: Request, res: Response) {
 }
 router.patch('/notApproved', AuthenticationController, patchNotApproved);
 
-
+/**
+ *loads offer instance into req.session.offer
+ * Possible Http codes:
+ * - **400:** Bad request Id non existent / id not anumber
+ */
 export async function loadOffer(req: Request, res: Response, next: Function) {
   if (typeof (req.body.id) !== 'number') {
     res.status(400).send({message: 'Bad request'});
@@ -234,6 +239,7 @@ router.get('/edit', AuthenticationController, loadOffer, async (req: Request, re
  * Possible Http codes:
  * - **400:** Bad request format. Look above to see the correct format
  * - **201:** Edited
+ * - **403:** forbidden req.session.user.id !== req.body.offer.providerId
  */
 export async function updateOffer(req: Request, res: Response) {
   if (req.session.user.id !== req.body.offer.providerId) {
@@ -257,11 +263,12 @@ router.put('/edit', AuthenticationController, loadOffer, updateOffer);
 /**
  * delete a Offer
  * Possible Http codes:
- * - **400:** Bad request format. Look above to see the correct format
+ * - **400:** Bad request format.
  * - **201:** Deleted
+ * -**403:** forbidden session.user.id !== offer.providerId  and not an admin
  */
 export async function deleteOffer(req: Request, res: Response) {
-  if (req.session.user.id !== req.body.offer.providerId && (req.session.admin == null || req.session.admin.deleteOffers === false)) {
+  if (req.session.user.id !== req.body.offer.providerId && (req.session.admin == null )) {
     res.sendForbidden();
     return;
   }
