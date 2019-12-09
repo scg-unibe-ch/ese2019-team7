@@ -13,7 +13,7 @@ export async function checkAuthentication(req: Request, res: Response, next: Fun
       else throw 'err';
     }
     catch (e) {
-      res.status(500).send('Internal Server Error: failed to find authenticated user');
+      res.sendError('Failed to find authenticated user');
     }
     const admin: AdminInstance | null = await req.db.Admin.findOne({where: { userId: req.session.user.id}});
     req.session.admin = admin;

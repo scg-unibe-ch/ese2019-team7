@@ -21,9 +21,7 @@ router.post('/', register)
  * - **409:** Conflict Username already taken
  *
  * - **201:** Created: registration successful
- * @param rawReq
- * @param rawRes
- * @param User User table of the database
+ * - **200:** Registration successful and user automatically logged in
  */
 export async function register(rawReq: Request, res: Response) {
   const req: Request & {session: any} = rawReq;
@@ -35,7 +33,7 @@ export async function register(rawReq: Request, res: Response) {
     password: bcrypt.hashSync(req.body.password, 10),
     eMail: req.body.email
   };
-  var user;
+  let user;
 
   try {
    user = await req.db.User.create(userValues);

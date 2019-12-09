@@ -92,10 +92,6 @@ export async  function performSearch(searchKey: string, attributes: string[] = [
   return { offers };
 }
 
-router.get('/create', async (req: Request, res: Response) => {
-  res.statusCode = 200;
-});
-
 /**
  * Creation of a Offer. Format of the body should be as follow:
  * > { username: usr, password: pwd, address: adr, tel: phone, email: email }
@@ -210,7 +206,7 @@ export async function loadOffer(req: Request, res: Response, next: Function) {
   }
   const offerToLoad = await req.db.Offer.findOne({where: {id: req.body.id}});
   if (offerToLoad === null) {
-    res.sendBadRequest('Bad request: Offer Id nonexistent');
+    res.sendBadRequest('Offer Id nonexistent');
     return;
   }
   req.body.offer = offerToLoad;

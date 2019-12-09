@@ -9,7 +9,7 @@ router.get('/', logout);
 async function logout(rawReq: any, res: Response) {
   const req: Request & {session: any} = rawReq;
   req.session.user = undefined;
-  res.status(200).send({message: 'ok'}); // OK
+  res.sendSuccess();
 }
 
 export const LogoutController: Router = router;

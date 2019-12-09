@@ -2,7 +2,7 @@
 var indexModel = require('../build/models/index.model.js');
 const bcrypt = require('bcrypt');
 var assert = require('assert');
-const setupFunctions = require('../app/setupFunctions.js');
+const setupFunctions = require('../build/setupFunctions');
 
 /*
   Execute the tests with 'npm test'

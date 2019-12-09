@@ -5,10 +5,6 @@ import {Router, Request, Response} from 'express';
 const bcrypt = require('bcrypt');
 
 const router: Router = Router();
-router.get('/', async (req: Request, res: Response) => {
-    res.statusCode = 200;
-    res.send('Welcome to Express');
-});
 
 
 router.put('/', login);
@@ -22,17 +18,12 @@ router.put('/', login);
  * - **401:** Unauthorized: wrong username password combination
  * - **409:** Conflict: user already logged in
  * - **200:** OK: login successful. Session cookie is updated. User information is returned.
- * @param rawReq
- * @param rawRes
- * @param User User table of the database
  */
-export async function login(rawReq: any, rawRes: any) {
-  const req: Request & {session: any} = rawReq;
-  const res: Response = rawRes;
+export async function login(req: Request, res: Response) {
   const name = req.body.username;
   const pword = req.body.password;
   if (!name || !pword) {
-    res.sendStatus(400); // Bad Request
+    res.sendBadRequest();
     return;
   }
   if (req.session.user != null) {
@@ -53,17 +44,5 @@ export async function login(rawReq: any, rawRes: any) {
   res.status(200).send(user);
 }
 
-/*
-async function login(req: Request, res: Response) {
-  const name = req.body.name;
-  const pword = req.body.pword;
-  if (!name || !pword) res.sendStatus(400); // Bad Request
-  const user: SimpleUser = users.login(name, pword);
-  if (!user) res.sendStatus(401); // Unauthorized
-  req.session.user = user;
-  res.status(200).send(user);
-}
-
-*/
 export const LoginController: Router = router;
 

@@ -6,8 +6,7 @@ const router: Router = Router();
 router.use(notFound);
 
 
-async function notFound(rawReq: any, res: Response) {
-  const req: Request & {session: any} = rawReq;
+async function notFound(req: Request, res: Response) {
   res.status(404).send({ message: 'Not Found'});
 }
 
