@@ -14,3 +14,4 @@ General thoughts:
 - a user changing his data also resets all his denied offers to validation. This is because the reason for denial may lie with his user data - but if it didn't this could cause a mass request for validation of already denied offers. It is unknown how large this issue is.
 - at the moment we use a SQlite database because of the ease of use (save as a file direct in project) if an more capable database is needed
  thanks to Sequalize not much has to be changed as long as Sequalize supports the database
+- admins can delete public offers, as allegations of fraud or other illicit activities may only surface once an offer is already public.
