@@ -7,5 +7,10 @@ General thoughts:
 - the admin account is named admin. At the moment there is no simple way of adding another admin.
 - when changing offer data, the offer needs to be reevaluuated. This is to prevent a user from adding inappropriate content to a accepted offer. The same happens for user data, which sends all validated offers for reevaluation.
 - automatic validation of email and telephone number are spotty, but as they are only relevant if an offer is created, the admin can review them manually.
-- There are some consideration which have not been implemented, as it is unknown how much of an issue the current state poses. For example, there is no way to ban a user flooding the queue with nonsense offers, something which might pose a problem in the future. There is also no search function for own offers and no mass deletion; it is not known if these will be needed. Also, instructions for the user are minimal, as it is not known, how the platform would be used at a large scale, as the usability test only covered a basic use case. This in particular pretains to the use of fields like price and avaliability.
+- There are some consideration which have not been implemented, as it is unknown how much of an issue the current state poses. For example, there is no way to ban a user flooding the queue with nonsense offers, something which might pose a problem in the future.
+  There is also no search function for own offers and no mass deletion; it is not known if these will be needed.
+  Also, instructions for the user are minimal, as it is not known, how the platform would be used at a large scale, as the usability test only covered a basic use case.
+  This in particular pretains to the use of fields like price and avaliability.
 - a user changing his data also resets all his denied offers to validation. This is because the reason for denial may lie with his user data - but if it didn't this could cause a mass request for validation of already denied offers. It is unknown how large this issue is.
+- at the moment we use a SQlite database because of the ease of use (save as a file direct in project) if an more capable database is needed
+ thanks to Sequalize not much has to be changed as long as Sequalize supports the database

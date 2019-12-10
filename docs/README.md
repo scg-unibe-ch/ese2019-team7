@@ -2,7 +2,7 @@
 - You should have [Node.js](https://nodejs.org/en/) and NPM installed (NPM is installed automatically with latest versions of Node.js) which are needed by both [frontend](https://github.com/JoelNiklaus/ESE-2019-Scaffolding/tree/master/frontend) and [backend](https://github.com/JoelNiklaus/ESE-2019-Scaffolding/tree/master/backend) projects. You can verify whether you have both by running `node -v` and `npm -v` in terminal or command prompt.
 - You should have [Angular CLI](https://cli.angular.io/) globally installed on your machine (`npm install -g @angular/cli`).
 - You should have [Ionic](https://ionicframework.com/) globally installed on your machine (`npm install -g ionic`).
-- Get your WebStorm student license [from here](https://www.jetbrains.com/shop/eform/students) 
+
 
 ## Getting started
 - Clone this repo on your machine and immediately delete `.git` folder.
