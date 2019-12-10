@@ -108,7 +108,7 @@ export async function create(req: Request, res: Response) {
   try {
     offer = await req.db.Offer.build(offerValues);
   } catch (err) {
-    res.status(400).send({message: '.'});
+    res.status(400).send({message: 'Bad request'});
     return;
   }
   try {
@@ -202,7 +202,7 @@ router.patch('/notApproved', AuthenticationController, patchNotApproved);
 /**
  *loads offer instance into req.session.offer
  * Possible Http codes:
- * - **400:** Bad request Id non existent / id not anumber
+ * - **400:** Bad request Id non existent / id not a number
  */
 export async function loadOffer(req: Request, res: Response, next: Function) {
   if (typeof (req.body.id) !== 'number') {

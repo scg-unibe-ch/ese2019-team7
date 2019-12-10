@@ -19,7 +19,6 @@ router.post('/', register)
  * Possible Http codes:
  * - **400:** Bad request format. Look above to see the correct format
  * - **409:** Conflict Username already taken
- *
  * - **201:** Created: registration successful
  * - **200:** Registration successful and user automatically logged in
  */
@@ -34,11 +33,16 @@ export async function register(rawReq: Request, res: Response) {
     eMail: req.body.email
   };
   let user;
+  if((await req.db.User.findOne({where: {name : req.body.username}})) !== null ) {
+    res.status(409).send({message: ' Username already exist.'});
+    return;
+  }
+
 
   try {
    user = await req.db.User.create(userValues);
   } catch (err) {
-    res.status(409).send({message: ' Username already exist.'});
+    res.status(500).send({message: 'Cannot creat user.'});
     return;
   }
   if(req.session.user != null) {
