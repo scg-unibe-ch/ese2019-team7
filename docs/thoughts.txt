@@ -15,3 +15,4 @@ General thoughts:
 - at the moment we use a SQlite database because of the ease of use (save as a file direct in project) if an more capable database is needed
  thanks to Sequalize not much has to be changed as long as Sequalize supports the database
 - admins can delete public offers, as allegations of fraud or other illicit activities may only surface once an offer is already public.
+-we have the srs doc in pdf and odt format because almost everyone can read a pdf file, but its easier to edit the odt file if needed
